@@ -64,6 +64,7 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 
 - La vista de grabación tomará como referencia las capturas de Granola aportadas por la persona: un espacio central amplio para escribir notas, con título y datos de la sesión, y controles discretos en la zona inferior para la grabación y las preguntas. La transcripción en directo se podrá consultar en un panel desplegable, como en la segunda captura. La disposición y el comportamiento concretos se terminarán de definir.
 - El desplegable de la zona inferior izquierda mostrará en tiempo real la transcripción de lo que se captura. La barra de chat permitirá formular preguntas durante la grabación. Los adjuntos quedan fuera de la definición actual.
+- Al pulsar la barra de chat se abrirá un panel compacto sobre la vista de la sesión, con las preguntas y respuestas. Al pulsar fuera, el panel se ocultará y quedará visible la barra para volver a abrirlo. La captura aportada es la referencia para esta interacción.
 - Al pulsar el botón persistente «Nueva nota», se abrirá un panel breve previo a la grabación. Desde ahí se podrá elegir el idioma de esa sesión y si se guardan sus perfiles de voz para reconocer a esos interlocutores en reuniones futuras; «Empezar» iniciará la captura.
 - En ese panel, «Guardar perfiles de voz» estará seleccionado por defecto. La persona podrá desmarcarlo para una sesión concreta.
 - El idioma seguirá las opciones acordadas: español, inglés o detección automática entre ambos, con español seleccionado por defecto.

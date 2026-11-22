@@ -98,6 +98,8 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 **Última precisión:** el desplegable inferior izquierdo muestra la transcripción en directo y la barra de chat permite hacer preguntas. Al detener la grabación y terminar el procesamiento, aparecerá un botón para generar el resumen, que se mostrará en el espacio central. Los adjuntos quedan fuera de la definición actual por decisión de la persona usuaria.
 
+**Panel de chat:** al pulsar la barra se abre un mini chat sobre la vista de la sesión con preguntas y respuestas. Al pulsar fuera, el panel se oculta y queda visible la barra para abrirlo de nuevo.
+
 **Referencia más reciente:** la persona aportó capturas de un resumen organizado por temas, un selector con plantillas y opciones para buscarlas o crearlas, y una vista separada de notas propias. Quiere incorporar estas ideas; queda por concretar cómo funcionan. También aparecen controles de fecha, participantes, carpetas y compartir, pendientes de comentar sin dar por decidido su comportamiento.
 
 **Plantillas:** se acordó incluir plantillas preparadas y permitir crear y editar plantillas propias. Las cuatro iniciales serán resumen general, reunión de trabajo, reunión individual y reflexión personal. Quedan por decidir su configuración y cómo se aplican a una sesión.

@@ -33,7 +33,8 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 ## Lista de decisiones por tratar: prioridad alta
 
-- [ ] **Vista de grabación:** concretar las interacciones de la pantalla durante la captura.
+- [ ] **Vista de grabación:** concretar las restantes interacciones de la pantalla durante la captura.
+  - [x] **Panel de chat:** al pulsar la barra se abre un mini chat con preguntas y respuestas; al pulsar fuera se oculta y queda visible la barra.
 - [ ] **Parada y procesamiento:** concretar los estados y mensajes que se muestran hasta poder generar el resumen.
 - [ ] **Revisión de la sesión:** concretar el recorrido para revisar sus contenidos después de procesarla.
 - [ ] **Atribuciones:** concretar cómo se muestran y corrigen los interlocutores en la transcripción.
