@@ -26,10 +26,11 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 | AC6 | **OAuth:** Comprobar compatibilidad del flujo de terceros antes de prometerlo; si está disponible permitir conectar y desconectar en Ajustes. | Registrar evidencia de autorización y ejecutar conexión y revocación con cuenta de prueba si procede. | pendiente |
 | AC7 | **Contexto:** No imponer control o límite propio de contexto; utilizar toda la transcripción, con una o varias llamadas según corresponda. | Proveedor simulado registra solicitudes; verificar cobertura completa y comportamiento ante rechazo. | pendiente |
 | AC8 | **Sin proveedor:** permitir usar las funciones locales sin proveedor configurado y ofrecer configurarlo al intentar hacer preguntas o generar resultados que lo requieran. | Sin proveedor, probar funciones locales y solicitar una pregunta y un resumen; comprobar la oferta de configuración. | pendiente |
+| AC9 | **Modelo para síntesis:** usar el modelo configurado para resúmenes o el principal si no se configuró uno específico. | Con proveedor simulado, generar síntesis con y sin modelo de resúmenes y comprobar el modelo solicitado. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Resolver modelo para síntesis e identificación de nombres, protocolos y comportamiento ante rechazo por contexto. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Resolver modelo para identificación de nombres, protocolos y comportamiento ante rechazo por contexto. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 
 ## Fuera de alcance
 

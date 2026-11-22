@@ -25,10 +25,11 @@ La persona escribe notas durante o después de la sesión y puede generar una s�
 | AC5 | **Separación:** Regenerar resumen principal no modifica notas; eliminar síntesis tras confirmación conserva notas, transcripción y resumen. | Realizar ambas operaciones y verificar contenidos restantes. | pendiente |
 | AC6 | **Resumen necesario:** si no existe el resumen principal, indicar que debe generarse antes de crear la síntesis. | Abrir una sesión sin resumen, solicitar la síntesis y comprobar el mensaje y que no se genera. | pendiente |
 | AC7 | **Edición de síntesis:** permitir editar la síntesis; al actualizarla, la nueva sustituye a la anterior, incluidas sus ediciones manuales. | Editar una síntesis, actualizarla con un proveedor simulado y comprobar la sustitución. | pendiente |
+| AC8 | **Modelo de síntesis:** usar el modelo asignado a resúmenes o, si no existe uno específico, el modelo principal. | Generar una síntesis con y sin modelo específico para resúmenes y verificar el modelo recibido por el proveedor simulado. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Decidir qué modelo se emplea para la síntesis; coordinar con 0006. Las notas se guardan en `notas.md` y la síntesis en `sintesis.md` dentro de la carpeta de sesión, según 0003.
+- Las notas se guardan en `notas.md` y la síntesis en `sintesis.md` dentro de la carpeta de sesión, según 0003. Coordinar la selección de modelo con 0006.
 
 ## Fuera de alcance
 

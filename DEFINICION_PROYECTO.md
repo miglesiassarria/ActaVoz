@@ -133,6 +133,8 @@ Las notas propias se podrán escribir y editar durante la sesión y después de 
 
 Un botón «Generar síntesis» permitirá crear esa segunda síntesis. Si después cambian las notas o el resumen principal, se mostrará un aviso de que puede actualizarse; al pulsar «Actualizar síntesis», la nueva sustituirá a la anterior.
 
+Para generar la síntesis se usará el modelo asignado a resúmenes y, si no hay uno específico, el modelo principal.
+
 Si se intenta generar la síntesis antes de que exista el resumen principal, ActaVoz indicará que primero hay que generar dicho resumen.
 
 La síntesis se podrá editar directamente. Al actualizarla, la nueva sustituirá a la anterior, incluidas las ediciones manuales.

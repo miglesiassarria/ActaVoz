@@ -46,6 +46,8 @@ Las cuatro plantillas predefinidas se conservarán sin modificar y se podrán du
 
 La síntesis se podrá editar; al actualizarla, la nueva sustituirá a la anterior, incluidas sus ediciones manuales.
 
+Para la síntesis se usará el modelo de resúmenes o, si no hay uno específico, el modelo principal.
+
 Las preguntas enviadas mientras se genera una respuesta quedarán en espera y se enviarán al terminar la anterior, manteniendo el orden.
 
 «Nueva nota» siempre abre el flujo de grabación; no se contempla crear una nota exclusivamente de texto mediante ese botón.
