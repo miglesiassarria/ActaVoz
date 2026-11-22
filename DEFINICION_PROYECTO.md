@@ -111,13 +111,15 @@ El flujo acordado para iniciar una grabación es pulsar «Nueva nota», revisar 
 
 ### Al finalizar
 
-La persona detiene la captura y, cuando termine el procesamiento, podrá pulsar un botón para generar el resumen. Este y la información de la reunión aparecerán en el espacio central. Para generar los resultados finales, ActaVoz enviará al LLM la transcripción completa de la sesión. También podrá solicitar resultados específicos, como:
+La persona detiene la captura y, cuando termine el procesamiento, podrá pulsar un botón para generar el resumen. Este y la información de la reunión aparecerán en el espacio central. Para generar los resultados finales, ActaVoz enviará al LLM la transcripción completa de la sesión. Mediante plantillas o preguntas en el chat podrá obtener información como:
 
 - Transcripción, con intervenciones atribuidas a interlocutores.
 - Análisis de la reunión o de la reflexión.
 - Tareas y compromisos que hayan surgido.
 - Puntos importantes y temas de interés.
 - Reflexiones y otras síntesis útiles.
+
+Los análisis y listas de tareas se obtendrán mediante plantillas o el chat; se conservará el resumen de la sesión como resultado principal, sin generar archivos independientes para esos análisis.
 
 Tras detener la captura, ActaVoz mostrará «Procesando la reunión» con un indicador de progreso. Cuando termine el procesamiento, aparecerá el botón «Generar resumen».
 
@@ -201,7 +203,7 @@ Se podrán borrar por separado, tras confirmación, el resumen generado y la sí
 - Cada sesión tendrá una carpeta propia, nombrada con fecha, hora e identificador único corto, por ejemplo `2026-11-20_15-42-09_7K4M2P/`. El título visible se guardará en sus metadatos y podrá cambiar sin depender del nombre de la carpeta.
 - El título visible inicial será la fecha y hora de inicio de la nota o reunión. La persona podrá editarlo libremente, por ejemplo añadiendo una descripción al principio.
 - La fecha y los participantes de la sesión se mostrarán bajo el título; la persona podrá revisar y corregir los nombres de los participantes.
-- Dentro de la carpeta de sesión se guardarán `sesion.json` (metadatos), `transcripcion.json` (texto con marcas de tiempo e interlocutores), `resumen.md` y, si se conserva, `audio.m4a`. El análisis u otros resultados se añadirán cuando se generen.
+- Dentro de la carpeta de sesión se guardarán `sesion.json` (metadatos), `transcripcion.json` (texto con marcas de tiempo e interlocutores), `resumen.md` y, si se conserva, `audio.m4a`.
 - La carpeta también incluirá `notas.md` para las notas personales, `sintesis.md` para la síntesis de notas y reunión, y `chat.json` para el historial de preguntas y respuestas.
 
 ## Usuarios y contextos

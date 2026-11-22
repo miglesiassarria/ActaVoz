@@ -22,6 +22,8 @@ La biblioteca permitirá buscar sesiones por título y por el texto de la transc
 
 La transcripción, el resumen y las notas se podrán exportar como Markdown o texto plano.
 
+Los análisis y listas de tareas se obtendrán mediante plantillas o el chat, sin archivos independientes de análisis; el resumen es el resultado principal.
+
 La transcripción exportada incluirá el nombre o etiqueta del interlocutor y la marca de tiempo de cada intervención.
 
 Al exportar «Mis notas», si existe síntesis, se podrá elegir si incluirla claramente diferenciada o exportar solo las notas.

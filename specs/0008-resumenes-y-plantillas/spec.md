@@ -29,10 +29,11 @@ La persona genera un resumen desde la transcripción y puede cambiar de plantill
 | AC9 | **Fallo de regeneración:** conservar intacto el resumen anterior si falla la regeneración, mostrar el error y ofrecer reintentar; sustituirlo solo al finalizar correctamente. | Simular fallo del proveedor tras iniciar regeneración y comprobar que el resumen anterior persiste; reintentar con éxito y verificar la sustitución. | pendiente |
 | AC10 | **Eliminar plantilla propia:** permitir eliminarla desde Ajustes tras confirmación; cancelar conserva la plantilla. | Crear una plantilla de prueba, cancelar su eliminación y después confirmarla; comprobar que solo desaparece tras confirmar. | pendiente |
 | AC11 | **Plantillas predefinidas:** conservar las cuatro originales sin modificar y permitir duplicarlas como plantillas propias editables. | Duplicar una plantilla predefinida, editar la copia y comprobar que la original permanece intacta. | pendiente |
+| AC12 | **Análisis y tareas:** obtenerlos mediante plantillas o el chat, sin generar archivos independientes de análisis; conservar el resumen como resultado principal. | Solicitar análisis mediante una plantilla y mediante el chat con proveedor simulado; comprobar el resumen y el historial, y que no se cree un archivo de análisis independiente. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Aclarar si análisis y otros resultados existen como archivos independientes o mediante plantillas y chat.
+- No quedan decisiones de producto identificadas para esta spec; comprobar dependencias y viabilidad antes de solicitar su aprobación.
 
 ## Fuera de alcance
 

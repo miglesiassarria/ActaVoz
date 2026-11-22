@@ -92,7 +92,7 @@ Estas casillas se han añadido sin marcar porque la auditoría detectó decision
 - [x] **Archivos de sesión:** guardar notas en `notas.md`, síntesis en `sintesis.md` e historial de chat en `chat.json`, dentro de la carpeta de cada sesión. (0003, 0007, 0009)
 - [ ] **Audio y perfiles tardíos:** decidir cómo se conserva el audio separado o mezclado y qué datos de voz permanecen si se borra el audio antes de confirmar un nombre. (0004, 0005)
 - [ ] **Corrección de voces:** decidir si habrá identificación del usuario local, fusión de interlocutores o reasignación de una intervención individual. (0005)
-- [ ] **Resultados adicionales:** aclarar si análisis y otros resultados existen como archivos independientes o mediante plantillas y chat. (0008)
+- [x] **Resultados adicionales:** obtener análisis y tareas mediante plantillas o el chat, conservando el resumen como resultado principal sin archivos independientes de análisis. (0008)
 - [x] **Biblioteca:** «Nueva nota» siempre abre el flujo de grabación; no se contempla crear una nota exclusivamente de texto mediante ese botón. (0003)
   - [x] **Notas sin organizar:** acceso mediante una opción fija «Sin organizar» en la barra lateral.
   - [x] **Búsqueda de sesiones:** buscar por título y por texto de la transcripción, las notas o el resumen.
