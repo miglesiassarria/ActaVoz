@@ -1,6 +1,6 @@
 # ActaVoz — ejemplos de las plantillas iniciales
 
-Estos ejemplos ficticios muestran el formato previsto. Son propuestas para revisar; el contenido real dependerá de cada sesión.
+Estos ejemplos ficticios acordados muestran el formato previsto; el contenido real dependerá de cada sesión.
 
 ## Resumen general
 

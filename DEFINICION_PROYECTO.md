@@ -29,7 +29,9 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 - Antes de la primera grabación, ActaVoz explicará brevemente que necesita acceso al micrófono y al audio del sistema, y después mostrará las solicitudes de permisos correspondientes de macOS.
 - Se conservarán ambas fuentes separadas y sincronizadas durante el procesamiento, en vez de mezclarlas al capturarlas. Esto puede ayudar a distinguir la voz local de las voces remotas y reducir atribuciones erróneas.
 - El micrófono y el audio del sistema estarán activados por defecto. Antes de cada grabación se podrá elegir el micrófono y desactivar cualquiera de las fuentes para esa sesión.
+- Si una fuente de audio no está disponible antes de iniciar, ActaVoz mostrará cuál falta y permitirá comenzar con la otra siempre que haya al menos una fuente disponible.
 - Si una fuente deja de estar disponible durante la grabación, ActaVoz mostrará un aviso claro y continuará con la fuente disponible. Si la fuente interrumpida vuelve, reanudará su captura.
+- Si ambas fuentes dejan de estar disponibles durante la grabación, la captura se pausará automáticamente, se mostrará un aviso y se permitirá reanudar cuando vuelva alguna fuente.
 - La captura de audio es una función del sistema operativo. La transcripción y la diarización son tareas distintas, realizadas localmente en el Mac con modelos de reconocimiento de voz y de identificación de turnos de habla.
 - **SpeechAnalyzer** es la primera opción a evaluar para transcripción en directo en Swift. **FluidAudio/Core ML** es una candidata para diarización en el dispositivo. La calidad, latencia e idiomas admitidos deberán validarse con reuniones reales antes de cerrar estas dependencias.
 - La primera versión tendrá español e inglés como idiomas de transcripción. Cada sesión permitirá elegir español, inglés o detección automática entre ambos; el español estará seleccionado por defecto.
@@ -90,7 +92,9 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - El idioma seguirá las opciones acordadas: español, inglés o detección automática entre ambos, con español seleccionado por defecto.
 - La persona inicia una sesión para grabar una reunión o una reflexión en solitario.
 - ActaVoz captura y procesa el audio de forma continua, mostrando el avance de la sesión.
+- Durante la grabación, la zona inferior mostrará un indicador visible de grabación, el tiempo transcurrido y los controles de pausa y parada.
 - La grabación se podrá pausar y reanudar dentro de la misma sesión. Durante la pausa no se capturará audio.
+- El contador se detendrá durante la pausa y se reanudará al continuar, mostrando el tiempo de audio capturado.
 - Si la grabación se interrumpe inesperadamente, ActaVoz conservará lo capturado y transcrito hasta ese momento. Al abrir de nuevo la aplicación, mostrará la sesión interrumpida y ofrecerá reanudarla o darla por terminada.
 - El sistema intentará distinguir las voces y asignar intervenciones a cada interlocutor. Si encuentra indicios claros de un nombre, lo propondrá para que la persona lo confirme o corrija. Mientras no se confirme, usará etiquetas neutrales como «Interlocutor 1» e «Interlocutor 2».
 - La transcripción mostrará el nombre o etiqueta de cada interlocutor junto a sus intervenciones. Al pulsarlo, la persona podrá corregirlo y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
@@ -136,7 +140,7 @@ La plantilla de reunión individual incluirá temas tratados y puntos importante
 
 La plantilla de reflexión personal incluirá ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 
-Hay [ejemplos ficticios propuestos](EJEMPLOS_PLANTILLAS.md) para las cuatro plantillas, pendientes de revisión.
+Los [ejemplos ficticios acordados](EJEMPLOS_PLANTILLAS.md) muestran el formato de las cuatro plantillas iniciales.
 
 En Ajustes se podrá elegir una plantilla predeterminada para generar los resúmenes. Una vez generado el resumen de una sesión, se podrá elegir otra plantilla y regenerarlo con ella, usando los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior; no se guardará un historial de versiones por plantilla.
 

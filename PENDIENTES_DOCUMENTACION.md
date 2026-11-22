@@ -35,6 +35,8 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 - [ ] **Vista de grabación:** concretar las restantes interacciones de la pantalla durante la captura.
   - [x] **Panel de chat:** al pulsar la barra se abre un mini chat con preguntas y respuestas; al pulsar fuera se oculta y queda visible la barra.
+  - [x] **Indicador de grabación:** mostrar abajo el estado de grabación, el tiempo transcurrido y los controles de pausa y parada.
+  - [x] **Contador durante la pausa:** detenerlo al pausar y reanudarlo al continuar, para mostrar el tiempo de audio capturado.
 - [x] **Parada y procesamiento:** mostrar «Procesando la reunión» con un indicador de progreso tras detener la captura; cuando termine, mostrar «Generar resumen».
 - [x] **Revisión de la sesión:** tomar como referencia las capturas: lista de sesiones agrupadas por fecha y apertura de una sesión en una vista amplia con título y contenido, junto con las vistas de notas, resumen y chat ya acordadas. Los próximos eventos y la integración de calendario quedan fuera del alcance actual.
 - [x] **Atribuciones:** mostrar el nombre o etiqueta junto a cada intervención; al pulsarlo se podrá corregir y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
@@ -50,7 +52,7 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
   - [x] **Reunión individual:** incluir temas y puntos importantes, acuerdos y compromisos de cada persona cuando se mencionen, y cuestiones pendientes y seguimiento.
   - [x] **Reflexión personal:** incluir ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 - [x] **Búsqueda de plantillas:** elegirlas en un menú desplegable con buscador por nombre.
-- [ ] **Ejemplos de resultados:** revisar y acordar los [ejemplos propuestos](EJEMPLOS_PLANTILLAS.md) para las cuatro plantillas iniciales.
+- [x] **Ejemplos de resultados:** acordados los [ejemplos ficticios](EJEMPLOS_PLANTILLAS.md) para las cuatro plantillas iniciales.
   - [x] **Formato base:** encabezados, puntos y subpuntos, con títulos y apartados adaptados a cada plantilla.
 - [x] **Fecha y participantes:** mostrar la fecha y los participantes bajo el título; permitir revisar y corregir sus nombres.
 - [x] **Compartir:** permitir exportar la transcripción, el resumen o las notas como archivos y copiar su texto para pegarlo en otra aplicación.
@@ -68,7 +70,9 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 - [x] **Permisos de audio:** antes de la primera grabación, explicar la necesidad de acceso al micrófono y al audio del sistema y mostrar las solicitudes correspondientes de macOS.
 - [ ] **Fuentes de audio:** concretar disponibilidad y limitaciones del micrófono y del audio del sistema.
   - [x] **Selección de fuentes:** ambas activadas por defecto; antes de grabar se podrá elegir el micrófono y desactivar cualquiera para la sesión.
+  - [x] **Fuente no disponible al iniciar:** mostrar cuál falta y permitir empezar con la otra si hay al menos una fuente disponible.
 - [x] **Interrupciones de audio:** avisar y continuar grabando con la fuente disponible; reanudar la captura de la fuente interrumpida cuando vuelva.
+  - [x] **Pérdida de ambas fuentes:** pausar automáticamente, mostrar un aviso y permitir reanudar cuando vuelva alguna fuente.
 - [x] **Uso sin conexión:** permitir grabar, transcribir, identificar interlocutores y consultar sesiones guardadas; preguntas y resúmenes estarán disponibles si hay un modelo local configurado y accesible.
 - [x] **Costes y límites:** dejar el control y las estimaciones de costes para una fase posterior. No se controlarán costes ni límites propios de contexto en la fase actual.
 - [x] **Prevención del exceso de contexto:** no implementar control ni avisos preventivos de contexto; utilizar toda la transcripción mediante una o varias llamadas según corresponda.

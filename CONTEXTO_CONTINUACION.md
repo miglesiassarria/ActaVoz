@@ -18,7 +18,9 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - Aplicación de macOS en **Swift**, con **SwiftUI** para la interfaz.
 - Capturar el audio del sistema y el micrófono, manteniendo ambas fuentes separadas y sincronizadas.
 - Ambas fuentes estarán activadas por defecto; antes de grabar se podrá elegir el micrófono y desactivar cualquiera para esa sesión.
+- Si una fuente no está disponible antes de iniciar, se mostrará cuál falta y se permitirá empezar con la otra si hay al menos una disponible.
 - Si una fuente deja de estar disponible durante la grabación, se avisará y se continuará con la fuente disponible; al volver la fuente interrumpida, se reanudará su captura.
+- Si se pierden ambas fuentes, la captura se pausará automáticamente, se mostrará un aviso y se podrá reanudar cuando vuelva alguna.
 - La captura se hará con frameworks de Apple; es independiente de los modelos de transcripción y diarización.
 - Antes de la primera grabación, ActaVoz explicará que necesita acceso al micrófono y al audio del sistema y mostrará las solicitudes de permisos correspondientes de macOS.
 - Todo el procesamiento de audio, la transcripción y la diarización se harán localmente en el Mac; el audio no se enviará a proveedores LLM.
@@ -41,6 +43,8 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - Los perfiles confirmados se guardarán al terminar el procesamiento; si se confirma otro nombre más tarde, se guardará también su perfil cuando esté disponible. ActaVoz intentará proponer nombres automáticamente a partir de indicios claros de la conversación para su confirmación o corrección.
 - Los perfiles de voz guardados se podrán consultar, renombrar y eliminar desde una sección de Ajustes.
 - La grabación se podrá pausar y reanudar dentro de la misma sesión; durante la pausa no se capturará audio.
+- El contador se detendrá durante las pausas y se reanudará al continuar, mostrando el tiempo de audio capturado.
+- Durante la grabación, la zona inferior mostrará un indicador de grabación, el tiempo transcurrido y los controles de pausa y parada.
 - Ante una interrupción inesperada se conservará lo capturado y transcrito hasta entonces. Al reabrir la aplicación, se mostrará la sesión y se podrá reanudar o dar por terminada.
 
 ### Biblioteca de sesiones
@@ -143,7 +147,7 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 **Contenido de reflexión personal:** ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 
-**Formato de resultados:** encabezados, puntos y subpuntos como base, con títulos y apartados adaptados a cada plantilla. Se prepararon ejemplos ficticios en `EJEMPLOS_PLANTILLAS.md`; falta que la persona los revise y acuerde.
+**Formato de resultados:** encabezados, puntos y subpuntos como base, con títulos y apartados adaptados a cada plantilla. La persona revisó y aceptó los ejemplos ficticios de las cuatro plantillas en `EJEMPLOS_PLANTILLAS.md`.
 
 **Edición del resumen:** se podrá editar directamente. Al regenerarlo con otra plantilla, el nuevo resumen sustituirá al anterior, incluidos los cambios manuales.
 
