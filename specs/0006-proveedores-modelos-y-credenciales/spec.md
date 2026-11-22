@@ -1,0 +1,52 @@
+# 0006 · Proveedores, modelos y credenciales
+
+- **Estado:** spec
+- **Creada:** 2026-11-22
+- **Aprobación:** pendiente
+- **Aprobada por:** —
+- **Fecha de aprobación:** —
+
+## Problema
+
+Permitir elegir y cambiar modelos locales o remotos sin vincular el producto a un proveedor.
+
+## Comportamiento esperado
+
+La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+
+## Criterios de aceptación
+
+| # | Criterio observable | Verificación reproducible | Resultado final |
+| --- | --- | --- | --- |
+| AC1 | **Catálogo:** Ofrecer OpenAI por clave y OAuth sujeto a compatibilidad, Claude, OpenCode Go, Ollama y proveedor genérico con URL, token y modelo. | Recorrer opciones con servicios simulados; contrastar OAuth con documentación y prueba autorizada. | pendiente |
+| AC2 | **Múltiples conexiones:** Configurar varias conexiones y seleccionar una activa sin introducir de nuevo datos. | Guardar dos conexiones ficticias, alternarlas y reabrir Ajustes. | pendiente |
+| AC3 | **Credenciales:** Guardar claves y credenciales OAuth en Llavero local, reutilizarlas y solicitar corrección cuando dejen de funcionar. | Configurar clave de prueba, reiniciar y simular rechazo sin registrar secretos. | pendiente |
+| AC4 | **Selección de modelo:** Elegir modelo principal y permitir asignar opcionalmente modelos específicos para preguntas y resúmenes. | Configurar opciones y verificar modelo recibido por proveedor simulado. | pendiente |
+| AC5 | **Conexión:** Permitir comprobar la conexión y mostrar errores comprensibles sin exponer credenciales. | Simular éxito, credencial inválida y servicio inaccesible. | pendiente |
+| AC6 | **OAuth:** Comprobar compatibilidad del flujo de terceros antes de prometerlo; si está disponible permitir conectar y desconectar en Ajustes. | Registrar evidencia de autorización y ejecutar conexión y revocación con cuenta de prueba si procede. | pendiente |
+| AC7 | **Contexto:** No imponer control o límite propio de contexto; utilizar toda la transcripción, con una o varias llamadas según corresponda. | Proveedor simulado registra solicitudes; verificar cobertura completa y comportamiento ante rechazo. | pendiente |
+
+## Fuera de alcance
+
+- API REST de fase 2, adjuntos en chat, calendario y control de costes.
+- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+
+## Supuestos y dependencias
+
+- **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
+- **Desconocido:** OAuth de ChatGPT y compatibilidad de endpoints no están verificados; decidir en diseño qué hacer ante rechazo por contexto sin perder contenido. Costes fuera de alcance.
+- Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
+
+## Riesgos
+
+- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
+
+## Invariantes aplicables
+
+- `AGENTS.md`, `docs/sdd.md`, `docs/verification.md` y `DEFINICION_PROYECTO.md`; no iniciar design sin aprobación explícita.
+- No transmitir audio a proveedores de modelos de lenguaje; credenciales en el Llavero; sin proveedor activo por defecto.
+
+## Aprendizajes durante la implementación
+
+- Ninguno todavía.

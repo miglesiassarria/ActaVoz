@@ -127,6 +127,10 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 **Panel de chat:** al pulsar la barra se abre un mini chat sobre la vista de la sesión con preguntas y respuestas. Al pulsar fuera, el panel se oculta y queda visible la barra para abrirlo de nuevo.
 
+**Panel de transcripción:** se cierra al pulsar de nuevo su control o hacer clic fuera.
+
+**Fase actual:** la persona ha pedido redactar las especificaciones de toda la primera versión. Se prepararon las unidades de producto 0002–0011 en `spec`, pendientes de revisión y aprobación explícita. El índice de `specs/README.md` describe sus dependencias. No iniciar diseño hasta aprobar cada spec; los desconocidos materiales requieren resolución o discovery.
+
 **Revisión de sesiones:** las capturas aportadas muestran una lista agrupada por fecha y una sesión abierta en una vista amplia con título y contenido. Son la referencia para la biblioteca y la revisión. La persona decidió dejar fuera del alcance actual los próximos eventos y la integración de calendario que aparecen en una captura.
 
 **Referencia más reciente:** la persona aportó capturas de un resumen organizado por temas, un selector con plantillas y opciones para buscarlas o crearlas, y una vista separada de notas propias. Quiere incorporar estas ideas; queda por concretar cómo funcionan. También aparecen controles de fecha, participantes, carpetas y compartir, pendientes de comentar sin dar por decidido su comportamiento.

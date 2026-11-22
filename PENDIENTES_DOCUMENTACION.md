@@ -33,7 +33,7 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 ## Lista de decisiones por tratar: prioridad alta
 
-- [ ] **Vista de grabación:** concretar las restantes interacciones de la pantalla durante la captura.
+- [ ] **Vista de grabación:** concretar las restantes interacciones de la pantalla durante la captura. Acordado: el panel de transcripción se cierra pulsando de nuevo su control o haciendo clic fuera.
   - [x] **Panel de chat:** al pulsar la barra se abre un mini chat con preguntas y respuestas; al pulsar fuera se oculta y queda visible la barra.
   - [x] **Indicador de grabación:** mostrar abajo el estado de grabación, el tiempo transcurrido y los controles de pausa y parada.
   - [x] **Contador durante la pausa:** detenerlo al pausar y reanudarlo al continuar, para mostrar el tiempo de audio capturado.

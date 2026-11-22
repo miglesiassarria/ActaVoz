@@ -10,7 +10,7 @@ El repositorio está en fase de definición. A fecha de esta instalación no con
 | --- | --- | --- |
 | Aplicación | macOS con Swift y SwiftUI | Confirmada para fase 1 |
 | Captura | ScreenCaptureKit para audio del sistema y APIs de audio de Apple para micrófono | Dirección confirmada; integración pendiente |
-| Persistencia de sesiones | `~/.ActaVoz`, con directorios del usuario en `Directorios/` | Confirmada; estructura interna pendiente |
+| Persistencia de sesiones | `~/.ActaVoz`, con directorios del usuario en `Directorios/` y nuevas notas en `Notas/` | Confirmada; detalles de implementación pendientes |
 | Configuración y secretos | Library, Caches y Llavero de macOS según el tipo de dato | Confirmada |
 | Distribución | DMG directo, firmado y notarizado, fuera del Mac App Store y sin App Sandbox | Dirección prevista; entrega pendiente |
 | API REST | Producto separado de fase 2 | Fuera del alcance actual |
