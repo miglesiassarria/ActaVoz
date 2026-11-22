@@ -87,6 +87,8 @@ La persona detiene la captura y, cuando termine el procesamiento, podrá pulsar 
 - Puntos importantes y temas de interés.
 - Reflexiones y otras síntesis útiles.
 
+Tras detener la captura, ActaVoz mostrará «Procesando la reunión» con un indicador de progreso. Cuando termine el procesamiento, aparecerá el botón «Generar resumen».
+
 Las capturas aportadas sirven de referencia para presentar el resultado como un documento central con título, encabezados por tema y puntos agrupados. También muestran un selector de plantillas para distintos tipos de reunión, opciones para buscar y crear plantillas, y una vista de notas propias diferenciada del contenido generado. Se quieren incorporar estas posibilidades; queda por concretar su funcionamiento y alcance. Las capturas incluyen además controles para fecha, participantes, organización en carpetas y compartir, cuyo comportamiento aún no se ha acordado.
 
 Cada sesión tendrá dos vistas separadas: «Mis notas», donde la persona podrá escribir y editar sus propias notas, y «Resumen», con el contenido generado. Regenerar el resumen al cambiar de plantilla no modificará las notas propias.
@@ -116,6 +118,8 @@ Las notas, transcripciones, resúmenes y demás resultados se conservarán hasta
 
 ### Biblioteca de sesiones
 
+- Las capturas aportadas sirven de referencia para mostrar una lista de sesiones agrupadas por fecha y abrir una sesión en una vista amplia con su título y contenido. En esa vista se mantendrán las opciones acordadas para notas, resumen y chat.
+- El apartado de próximos eventos y la integración de calendario que aparecen en la captura quedan fuera del alcance actual.
 - La ventana principal tendrá una barra lateral izquierda donde se mostrarán los directorios creados por la persona.
 - Al seleccionar un directorio, el panel central mostrará su contenido.
 - El contenido podrá incluir elementos de las sesiones, como audios, resúmenes, transcripciones y análisis.

@@ -35,8 +35,8 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 - [ ] **Vista de grabación:** concretar las restantes interacciones de la pantalla durante la captura.
   - [x] **Panel de chat:** al pulsar la barra se abre un mini chat con preguntas y respuestas; al pulsar fuera se oculta y queda visible la barra.
-- [ ] **Parada y procesamiento:** concretar los estados y mensajes que se muestran hasta poder generar el resumen.
-- [ ] **Revisión de la sesión:** concretar el recorrido para revisar sus contenidos después de procesarla.
+- [x] **Parada y procesamiento:** mostrar «Procesando la reunión» con un indicador de progreso tras detener la captura; cuando termine, mostrar «Generar resumen».
+- [x] **Revisión de la sesión:** tomar como referencia las capturas: lista de sesiones agrupadas por fecha y apertura de una sesión en una vista amplia con título y contenido, junto con las vistas de notas, resumen y chat ya acordadas. Los próximos eventos y la integración de calendario quedan fuera del alcance actual.
 - [ ] **Atribuciones:** concretar cómo se muestran y corrigen los interlocutores en la transcripción.
 - [ ] **Perfiles de voz guardados:** decidir qué perfiles de una sesión se guardan y en qué momento.
 - [ ] **Gestión de perfiles de voz:** definir cómo consultar, corregir y eliminar perfiles guardados.
