@@ -143,7 +143,7 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 **Contenido de reflexión personal:** ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 
-**Formato de resultados:** encabezados, puntos y subpuntos como base, con títulos y apartados adaptados a cada plantilla. Quedan por acordar ejemplos concretos de las plantillas iniciales.
+**Formato de resultados:** encabezados, puntos y subpuntos como base, con títulos y apartados adaptados a cada plantilla. Se prepararon ejemplos ficticios en `EJEMPLOS_PLANTILLAS.md`; falta que la persona los revise y acuerde.
 
 **Edición del resumen:** se podrá editar directamente. Al regenerarlo con otra plantilla, el nuevo resumen sustituirá al anterior, incluidos los cambios manuales.
 

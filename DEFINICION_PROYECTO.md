@@ -136,6 +136,8 @@ La plantilla de reunión individual incluirá temas tratados y puntos importante
 
 La plantilla de reflexión personal incluirá ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 
+Hay [ejemplos ficticios propuestos](EJEMPLOS_PLANTILLAS.md) para las cuatro plantillas, pendientes de revisión.
+
 En Ajustes se podrá elegir una plantilla predeterminada para generar los resúmenes. Una vez generado el resumen de una sesión, se podrá elegir otra plantilla y regenerarlo con ella, usando los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior; no se guardará un historial de versiones por plantilla.
 
 Al crear una plantilla propia se podrá indicar su nombre, las instrucciones para generar el resumen y los apartados que se quieran incluir.

@@ -50,7 +50,7 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
   - [x] **Reunión individual:** incluir temas y puntos importantes, acuerdos y compromisos de cada persona cuando se mencionen, y cuestiones pendientes y seguimiento.
   - [x] **Reflexión personal:** incluir ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 - [x] **Búsqueda de plantillas:** elegirlas en un menú desplegable con buscador por nombre.
-- [ ] **Ejemplos de resultados:** acordar ejemplos concretos para las plantillas iniciales.
+- [ ] **Ejemplos de resultados:** revisar y acordar los [ejemplos propuestos](EJEMPLOS_PLANTILLAS.md) para las cuatro plantillas iniciales.
   - [x] **Formato base:** encabezados, puntos y subpuntos, con títulos y apartados adaptados a cada plantilla.
 - [x] **Fecha y participantes:** mostrar la fecha y los participantes bajo el título; permitir revisar y corregir sus nombres.
 - [x] **Compartir:** permitir exportar la transcripción, el resumen o las notas como archivos y copiar su texto para pegarlo en otra aplicación.
