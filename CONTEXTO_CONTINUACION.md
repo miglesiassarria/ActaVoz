@@ -26,7 +26,11 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - En cada pregunta en directo se enviará la transcripción completa acumulada hasta ese momento; para los resultados finales, se enviará la transcripción completa de la sesión.
 - ActaVoz debe evitar que la sesión supere el límite del modelo. Si aun así una solicitud excede el contexto, no se truncará en silencio: mostrará el máximo aceptado, el tamaño requerido y cuánto se excede. Es un caso que se espera que sea excepcional.
 - La diarización usará etiquetas neutrales mientras no se confirme un nombre. ActaVoz solo sugerirá nombres con indicios claros y la persona podrá confirmarlos o corregirlos.
+- La transcripción mostrará el nombre o etiqueta junto a cada intervención. Al pulsarlo se podrá corregir y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
 - Al pulsar el botón persistente «Nueva nota», se abrirá un panel breve antes de grabar. Permitirá elegir el idioma de la sesión y si guardar los perfiles de voz de esa sesión; «Guardar perfiles de voz» estará seleccionado por defecto y se podrá desactivar para una sesión concreta. «Empezar» inicia la captura.
+- Si se guardan perfiles, solo se conservarán los de interlocutores con nombre confirmado por la persona.
+- Los perfiles confirmados se guardarán al terminar el procesamiento; si se confirma otro nombre más tarde, se guardará también su perfil cuando esté disponible. ActaVoz intentará proponer nombres automáticamente a partir de indicios claros de la conversación para su confirmación o corrección.
+- Los perfiles de voz guardados se podrán consultar, renombrar y eliminar desde una sección de Ajustes.
 - La grabación se podrá pausar y reanudar dentro de la misma sesión; durante la pausa no se capturará audio.
 - Ante una interrupción inesperada se conservará lo capturado y transcrito hasta entonces. Al reabrir la aplicación, se mostrará la sesión y se podrá reanudar o dar por terminada.
 
@@ -125,6 +129,8 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 ## Forma de avanzar
 
 Al abordar cada nuevo punto de documentación, presentar opciones concretas y una recomendación, y permitir que la persona elija varias, haga preguntas o proponga otra alternativa.
+
+Tras documentar y marcar una decisión, presentar directamente el siguiente punto pendiente con opciones y recomendación, sin esperar a que la persona diga «siguiente». Mantener esta dinámica hasta que indique lo contrario.
 
 Mantener `PENDIENTES_DOCUMENTACION.md` como lista previa de decisiones: preparar casillas sin marcar para los puntos por tratar y, al acordar y documentar cada uno, marcar la casilla existente en su lugar. No añadir casillas ya marcadas para aparentar avance. Si surge un tema nuevo, añadirlo como pendiente sin marcar y comunicarlo; conservar los acuerdos históricos y evitar reordenar la lista sin motivo.
 

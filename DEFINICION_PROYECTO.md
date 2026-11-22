@@ -67,12 +67,16 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - Al pulsar la barra de chat se abrirá un panel compacto sobre la vista de la sesión, con las preguntas y respuestas. Al pulsar fuera, el panel se ocultará y quedará visible la barra para volver a abrirlo. La captura aportada es la referencia para esta interacción.
 - Al pulsar el botón persistente «Nueva nota», se abrirá un panel breve previo a la grabación. Desde ahí se podrá elegir el idioma de esa sesión y si se guardan sus perfiles de voz para reconocer a esos interlocutores en reuniones futuras; «Empezar» iniciará la captura.
 - En ese panel, «Guardar perfiles de voz» estará seleccionado por defecto. La persona podrá desmarcarlo para una sesión concreta.
+- Cuando esté activado guardar perfiles, solo se guardarán los de interlocutores cuyo nombre haya sido confirmado por la persona, para facilitar su reconocimiento en futuras reuniones.
+- Los perfiles con nombre confirmado se guardarán al terminar el procesamiento de la reunión. Si se confirma otro nombre después, también se guardará su perfil cuando esté disponible. ActaVoz intentará deducir y proponer nombres automáticamente a partir de indicios claros de la conversación; la persona deberá confirmarlos o corregirlos.
+- En Ajustes habrá una sección para consultar los perfiles de voz guardados, cambiarles el nombre y eliminarlos.
 - El idioma seguirá las opciones acordadas: español, inglés o detección automática entre ambos, con español seleccionado por defecto.
 - La persona inicia una sesión para grabar una reunión o una reflexión en solitario.
 - ActaVoz captura y procesa el audio de forma continua, mostrando el avance de la sesión.
 - La grabación se podrá pausar y reanudar dentro de la misma sesión. Durante la pausa no se capturará audio.
 - Si la grabación se interrumpe inesperadamente, ActaVoz conservará lo capturado y transcrito hasta ese momento. Al abrir de nuevo la aplicación, mostrará la sesión interrumpida y ofrecerá reanudarla o darla por terminada.
 - El sistema intentará distinguir las voces y asignar intervenciones a cada interlocutor. Si encuentra indicios claros de un nombre, lo propondrá para que la persona lo confirme o corrija. Mientras no se confirme, usará etiquetas neutrales como «Interlocutor 1» e «Interlocutor 2».
+- La transcripción mostrará el nombre o etiqueta de cada interlocutor junto a sus intervenciones. Al pulsarlo, la persona podrá corregirlo y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
 - Mientras la captura continúa, la persona puede escribir preguntas en un cuadro de texto. Para cada pregunta, ActaVoz enviará al LLM toda la transcripción acumulada hasta ese momento y responderá sin interrumpir la grabación.
 
 El flujo acordado para iniciar una grabación es pulsar «Nueva nota», revisar las opciones en el panel breve y pulsar «Empezar».
