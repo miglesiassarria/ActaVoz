@@ -29,10 +29,11 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 | AC9 | **Modelo para síntesis:** usar el modelo configurado para resúmenes o el principal si no se configuró uno específico. | Con proveedor simulado, generar síntesis con y sin modelo de resúmenes y comprobar el modelo solicitado. | pendiente |
 | AC10 | **Modelo para nombres:** cuando un LLM ayude a proponer nombres, usar el modelo principal configurado. | Con proveedor simulado y modelos distintos configurados, solicitar ayuda para nombres y comprobar que se usa el principal. | pendiente |
 | AC11 | **Rechazo de solicitud:** mostrar un error comprensible y permitir reintentar o cambiar de modelo, conservando la transcripción y los contenidos guardados. | Simular un rechazo del proveedor, comprobar el aviso y ambas opciones y verificar que los contenidos de la sesión permanecen. | pendiente |
+| AC12 | **Rechazo por longitud:** intentar procesar toda la transcripción mediante varias llamadas; si no se completa, mostrar error y ofrecer reintentar o cambiar de modelo, sin eliminar texto. | Con un proveedor simulado que rechace una solicitud larga, verificar cobertura íntegra en las llamadas posteriores; simular otro fallo y comprobar el error y conservación de datos. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Resolver protocolos y comportamiento ante rechazo por contexto. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Resolver protocolos y validar la estrategia de varias llamadas ante rechazo por longitud en la investigación 0013, incluyendo sus efectos sobre el contexto.
 
 ## Fuera de alcance
 

@@ -36,6 +36,8 @@ Se podrá omitir la configuración inicial del proveedor y usar las funciones lo
 
 Si un proveedor rechaza una solicitud, ActaVoz mostrará un error comprensible y permitirá reintentar o cambiar de modelo; se conservarán la transcripción y los contenidos guardados.
 
+Si el rechazo se debe a la longitud, ActaVoz intentará procesar toda la transcripción mediante varias llamadas; si no se completa, mostrará el error y ofrecerá reintentar o cambiar de modelo. La estrategia y sus efectos sobre el contexto deben validarse en 0013.
+
 La barra lateral tendrá una opción fija «Sin organizar» para acceder a las notas sin directorio asignado.
 
 La biblioteca permitirá buscar sesiones por título y por el texto de la transcripción, las notas o el resumen.

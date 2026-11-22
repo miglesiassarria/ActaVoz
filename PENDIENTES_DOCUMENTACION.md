@@ -90,7 +90,7 @@ Estas casillas se han añadido sin marcar porque la auditoría detectó decision
 - [x] **Chat: persistencia y contexto:** las preguntas enviadas mientras hay una respuesta en curso quedan en espera y se envían cuando termina la anterior, manteniendo el orden. (0007)
   - [x] **Historial y contexto:** guardar las preguntas y respuestas con la sesión; cada consulta utiliza la transcripción completa disponible y los turnos previos del chat.
 - [x] **Sin proveedor:** se podrá omitir la configuración inicial y usar funciones locales, incluidas grabación, transcripción y notas. Al intentar usar una función que requiera proveedor, ActaVoz ofrecerá configurarlo. (0002, 0006)
-- [ ] **Contexto del modelo:** decidir el comportamiento ante rechazo por longitud y la estrategia para una o varias llamadas sin eliminar texto ni imponer límites propios. (0006, 0013)
+- [x] **Contexto del modelo:** ante un rechazo por longitud, intentar procesar toda la transcripción mediante varias llamadas; si no se completa, mostrar error y ofrecer reintentar o cambiar de modelo. La estrategia concreta se validará en 0013, sin límites propios ni eliminación de texto. (0006, 0013)
   - [x] **Rechazo de solicitud:** mostrar un error comprensible, permitir reintentar o cambiar de modelo y conservar la transcripción y los contenidos guardados.
 - [x] **Archivos de sesión:** guardar notas en `notas.md`, síntesis en `sintesis.md` e historial de chat en `chat.json`, dentro de la carpeta de cada sesión. (0003, 0007, 0009)
 - [x] **Audio y perfiles tardíos:** con guardar perfiles activado, conservar los datos de voz temporales de cada interlocutor hasta confirmar su nombre o eliminar la sesión. (0004, 0005)

@@ -43,6 +43,7 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 - El audio se procesará, transcribirá y diarizará localmente. No se enviará audio al LLM. Para preguntas, resúmenes y análisis se enviará la transcripción —con el contexto necesario— al modelo seleccionado.
 - Sin conexión a internet se podrá grabar, transcribir, identificar interlocutores y consultar sesiones guardadas. Las preguntas y los resúmenes también estarán disponibles sin internet si hay un modelo local configurado y accesible.
 - ActaVoz no impondrá ni controlará límites propios de contexto. Usará la transcripción completa para las consultas y resultados, mediante una o varias llamadas al proveedor según corresponda.
+- Si el proveedor rechaza una solicitud por longitud, ActaVoz intentará procesar toda la transcripción mediante varias llamadas. Si no consigue completar la operación, mostrará el error y ofrecerá reintentar o cambiar de modelo, conservando los contenidos guardados. El tratamiento por partes puede producir resultados distintos a una única llamada; su estrategia concreta se validará en la investigación técnica.
 
 ### Modelos de lenguaje y proveedores
 
