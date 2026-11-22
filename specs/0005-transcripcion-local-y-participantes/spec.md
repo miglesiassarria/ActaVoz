@@ -31,15 +31,16 @@ La transcripción local distingue turnos, propone nombres con indicios claros y 
 | AC11 | **Retención temporal de voz:** conservar los datos temporales de cada interlocutor hasta confirmar su nombre o eliminar la sesión. | Con dos interlocutores de prueba, confirmar uno y verificar el tratamiento de sus datos; borrar la sesión y comprobar que se eliminan los temporales restantes. | pendiente |
 | AC12 | **Reasignación individual:** permitir asignar una intervención concreta a otro interlocutor sin modificar las demás. | Reasignar una intervención de prueba y comprobar que solo cambia su atribución; reabrir la sesión y verificar la corrección. | pendiente |
 | AC13 | **Fusión de interlocutores:** permitir fusionar dos interlocutores para agrupar sus intervenciones bajo un mismo nombre. | Fusionar dos interlocutores de prueba, comprobar sus intervenciones y reabrir la sesión para verificar el resultado. | pendiente |
+| AC14 | **Identidad del usuario:** permitir configurar en Ajustes la identificación del usuario y, por defecto, etiquetar como «Yo» las intervenciones captadas por el micrófono; permitir corregir la atribución. | Con ajustes iniciales, capturar una intervención de prueba por micrófono, verificar «Yo» y corregirla. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Decidir identidad del usuario local. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Concretar las demás opciones del ajuste de identificación del usuario local. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 - Decidir si la deducción de nombres utiliza un LLM y, en ese caso, qué modelo se asigna; coordinar con 0006 y la investigación 0012.
 
 ## Fuera de alcance
 
-- La identificación del usuario local queda pendiente de decisión.
+- Las opciones adicionales de identificación del usuario local quedan pendientes de decisión.
 - La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias

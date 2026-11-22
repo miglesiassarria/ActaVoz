@@ -22,6 +22,8 @@ Se podrá reasignar una intervención concreta a otro interlocutor sin modificar
 
 Se podrán fusionar dos interlocutores que correspondan a la misma persona para agrupar sus intervenciones bajo un mismo nombre.
 
+La identificación del usuario local se podrá configurar en Ajustes. Por defecto, las intervenciones captadas por el micrófono se etiquetarán como «Yo», con posibilidad de corregir atribuciones; faltan por concretar las demás opciones.
+
 Se podrá omitir la configuración inicial del proveedor y usar las funciones locales. Al intentar utilizar una función que lo requiera, se ofrecerá configurar un proveedor.
 
 La barra lateral tendrá una opción fija «Sin organizar» para acceder a las notas sin directorio asignado.
