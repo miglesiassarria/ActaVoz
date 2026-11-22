@@ -22,6 +22,9 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - **FluidAudio/Core ML** es candidata para diarización local.
 - Estas librerías/modelos aún deben validarse por precisión, latencia e idiomas con audio real.
 - Idiomas de transcripción: español e inglés. Cada sesión permitirá elegir español, inglés o detección automática entre ambos; español será el predeterminado.
+- La transcripción se evaluará comparándola con lo dicho en grabaciones de reuniones reales o preparadas en español e inglés. El nivel mínimo de calidad se acordará tras revisar los resultados.
+- La separación de interlocutores se evaluará con las mismas grabaciones, comprobando atribuciones y problemas cuando se solapen voces. Queda pendiente acordar el nivel mínimo.
+- Se medirán los tiempos de transcripción, respuesta del chat y generación del resumen, y se revisará que el resumen recoja decisiones y tareas correctamente y sin inventarlas. Quedan pendientes los umbrales concretos.
 - El LLM (local o remoto, según configuración) recibirá texto de la transcripción para preguntas, resúmenes y análisis semánticos.
 - En cada pregunta en directo se enviará la transcripción completa acumulada hasta ese momento; para los resultados finales, se enviará la transcripción completa de la sesión.
 - ActaVoz debe evitar que la sesión supere el límite del modelo. Si aun así una solicitud excede el contexto, no se truncará en silencio: mostrará el máximo aceptado, el tamaño requerido y cuánto se excede. Es un caso que se espera que sea excepcional.
@@ -44,14 +47,19 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - Las notas nuevas sin directorio se guardan bajo `~/.ActaVoz/Notas/` y se pueden mover después a `Directorios/<nombre>/`.
 - Cada sesión tiene su carpeta, nombrada con fecha, hora e identificador único corto, por ejemplo `2026-11-20_15-42-09_7K4M2P/`. Su título visible se guarda en metadatos, así puede cambiar sin cambiar la identidad de la carpeta.
 - El título visible inicial es la fecha y hora de inicio de la nota o reunión; se puede editar libremente, por ejemplo añadiendo una descripción al principio.
+- La fecha y los participantes se mostrarán bajo el título, con posibilidad de revisar y corregir los nombres.
 - Contenido previsto: `sesion.json` (metadatos), `transcripcion.json` (texto, tiempos e interlocutores), `resumen.md` y `audio.m4a` si se conserva. Otros análisis se añaden al generarse.
 - En la primera versión se podrán crear, renombrar y borrar directorios, sin anidarlos. Borrar un directorio borra también sus sesiones y archivos, tras un aviso claro y confirmación.
 - Las sesiones se podrán abrir para revisar resultados, reproducir el audio si se conservó, renombrar, mover, exportar y borrar definitivamente tras confirmación; se eliminará la carpeta de sesión completa y todos sus archivos.
+- Se podrá exportar la transcripción, el resumen o las notas como archivos y copiar su texto para pegarlo en otra aplicación.
 - El formato de resultados adicionales y algunas interacciones de biblioteca aún se pueden precisar.
 
 ### Proveedores de LLM
 
 - No habrá proveedor activo por defecto. En el primer inicio se preguntará cuál configurar.
+- En el primer inicio se mostrará una pantalla para elegir proveedor, introducir sus datos y seleccionar el modelo, con opción de comprobar la conexión antes de continuar.
+- Se podrán mantener varios proveedores configurados y elegir el activo desde Ajustes sin volver a introducir sus datos.
+- Se elegirá un modelo principal para todas las funciones, con posibilidad de asignar opcionalmente modelos específicos a funciones como preguntas o resúmenes.
 - Catálogo previsto: OpenAI/ChatGPT por API key u OAuth, Anthropic/Claude por API key, OpenCode Go por API key, Ollama y un proveedor genérico con endpoint, token e identificador de modelo.
 - Las API keys se introducirán una vez, se guardarán localmente en el Llavero de macOS y se reutilizarán sin pedirlas en cada uso. ChatGPT ofrece API key u OAuth; los demás proveedores con credenciales usan API key. Se pedirán de nuevo si caducan, se revocan o dejan de funcionar.
 - La suscripción de ChatGPT y la API de OpenAI tienen configuración y facturación distintas.
@@ -66,6 +74,7 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - Falta definir la estructura interna de carpetas/archivos y la retención y borrado de notas/resultados.
 - Política de audio decidida: en Ajustes habrá tres opciones: preguntar en cada sesión, guardar siempre o borrar siempre; por defecto será guardar siempre. Solo el modo de pregunta mostrará un aviso al terminar el procesamiento. Las notas, transcripción y análisis quedan como contenido de la sesión.
 - Las notas, transcripciones, resúmenes y demás resultados se conservarán hasta que la persona los elimine manualmente; esto es independiente de la política del audio.
+- El resumen generado y la síntesis de «Mis notas» se podrán borrar por separado tras confirmación, conservando la transcripción y las notas propias.
 
 ### API REST
 
@@ -115,6 +124,12 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 **Aplicación de plantillas:** se podrá elegir una plantilla predeterminada en Ajustes para generar los resúmenes. Después se podrá seleccionar otra plantilla y regenerar el resumen a partir de los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior sin guardar historial de versiones por plantilla, aunque el audio se haya borrado.
 
 **Configuración de plantillas propias:** se podrá indicar un nombre, las instrucciones para generar el resumen y los apartados que se quieran incluir.
+
+**Selección de plantillas:** menú desplegable con las plantillas disponibles y buscador por nombre.
+
+**Contenido de reunión de trabajo:** temas y puntos importantes, decisiones y acuerdos, tareas y compromisos con responsable y fecha cuando se mencionen, y cuestiones pendientes o de seguimiento. Falta concretar el contenido de las demás plantillas y resultados.
+
+**Formato de resultados:** encabezados, puntos y subpuntos como base, con títulos y apartados adaptados a cada plantilla. Quedan por acordar ejemplos concretos de las plantillas iniciales.
 
 **Edición del resumen:** se podrá editar directamente. Al regenerarlo con otra plantilla, el nuevo resumen sustituirá al anterior, incluidos los cambios manuales.
 

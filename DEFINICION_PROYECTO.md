@@ -30,6 +30,9 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 - La captura de audio es una función del sistema operativo. La transcripción y la diarización son tareas distintas, realizadas localmente en el Mac con modelos de reconocimiento de voz y de identificación de turnos de habla.
 - **SpeechAnalyzer** es la primera opción a evaluar para transcripción en directo en Swift. **FluidAudio/Core ML** es una candidata para diarización en el dispositivo. La calidad, latencia e idiomas admitidos deberán validarse con reuniones reales antes de cerrar estas dependencias.
 - La primera versión tendrá español e inglés como idiomas de transcripción. Cada sesión permitirá elegir español, inglés o detección automática entre ambos; el español estará seleccionado por defecto.
+- Para evaluar la transcripción se usarán grabaciones de reuniones reales o preparadas, en español e inglés, comparando el resultado con lo dicho. El nivel mínimo de calidad se acordará tras revisar los resultados.
+- Para evaluar la separación de interlocutores se usarán esas mismas grabaciones, comprobando cuántas intervenciones se atribuyen a la persona correcta y detectando problemas cuando se solapen voces. El nivel mínimo queda pendiente de acordar.
+- Para evaluar rapidez y utilidad se medirá cuánto tarda en aparecer la transcripción, responder el chat y generarse el resumen. Se revisará si el resumen recoge correctamente decisiones y tareas sin inventarlas; los umbrales concretos quedan pendientes.
 - El audio se procesará, transcribirá y diarizará localmente. No se enviará audio al LLM. Para preguntas, resúmenes y análisis se enviará la transcripción —con el contexto necesario— al modelo seleccionado.
 - ActaVoz debe evitar que una transcripción supere el límite del modelo. No recortará contenido en silencio. Si el límite se supera, bloqueará esa solicitud y mostrará un mensaje con el máximo aceptado por el modelo, el tamaño de la solicitud y cuánto se excede.
 
@@ -45,7 +48,13 @@ La arquitectura permitirá añadir proveedores mediante adaptadores. En el prime
 - **Ollama**, para modelos locales.
 - **Proveedor genérico**, para introducir la URL del endpoint, token de acceso e identificador del modelo.
 
+En el primer inicio se mostrará una pantalla para elegir el proveedor, introducir los datos necesarios y seleccionar el modelo. Incluirá una opción para comprobar la conexión antes de continuar.
+
 Desde Ajustes se podrán añadir y gestionar conexiones, cambiar el modelo activo y editar la configuración del proveedor genérico. Su compatibilidad dependerá del formato de API que admita el endpoint.
+
+Se podrán mantener varios proveedores configurados y elegir cuál está activo desde Ajustes, sin tener que volver a introducir los datos al cambiar entre ellos.
+
+Se podrá elegir un modelo principal para todas las funciones y, opcionalmente, asignar modelos específicos a funciones concretas, como preguntas o resúmenes.
 
 Las API keys se introducirán una vez y se guardarán localmente en el Llavero de macOS para reutilizarlas sin volver a pedirlas en cada uso. ChatGPT ofrecerá API key u OAuth; los demás proveedores con credenciales usarán API key. La app solicitará renovar o corregir la credencial si caduca, se revoca o deja de funcionar. Las credenciales OAuth también se conservarán en el Llavero para mantener la sesión. La compatibilidad con servicios distintos no se dará por supuesta: cada proveedor puede tener formatos de API y capacidades diferentes. El usuario confirma que OpenCode Go permite usar API keys y que ya lo utiliza desde otras aplicaciones; por tanto, se contempla como proveedor configurable de ActaVoz. El acceso a la API de OpenAI requiere configurarla y facturarla por separado de una suscripción de ChatGPT.
 
@@ -95,6 +104,8 @@ Tras detener la captura, ActaVoz mostrará «Procesando la reunión» con un ind
 
 Las capturas aportadas sirven de referencia para presentar el resultado como un documento central con título, encabezados por tema y puntos agrupados. También muestran un selector de plantillas para distintos tipos de reunión, opciones para buscar y crear plantillas, y una vista de notas propias diferenciada del contenido generado. Se quieren incorporar estas posibilidades; queda por concretar su funcionamiento y alcance. Las capturas incluyen además controles para fecha, participantes, organización en carpetas y compartir, cuyo comportamiento aún no se ha acordado.
 
+El formato base de los resúmenes utilizará encabezados, puntos y subpuntos, adaptando títulos y apartados a la plantilla elegida.
+
 Cada sesión tendrá dos vistas separadas: «Mis notas», donde la persona podrá escribir y editar sus propias notas, y «Resumen», con el contenido generado. Regenerar el resumen al cambiar de plantilla no modificará las notas propias.
 
 Las notas propias se podrán escribir y editar durante la sesión y después de terminar la transcripción. El resumen principal se generará inicialmente sin tener en cuenta esas notas. En «Mis notas» se podrá generar un segundo resumen que combine el acta o resumen de la reunión con las notas escritas; aparecerá al final de esa vista, claramente identificado como contenido generado por inteligencia artificial. Las notas personales, este segundo resumen y el resumen principal conservarán espacios diferenciados.
@@ -108,9 +119,13 @@ ActaVoz incluirá plantillas de resumen preparadas y permitirá crear y editar p
 - **Reunión individual:** temas tratados, acuerdos y seguimiento.
 - **Reflexión personal:** ideas, conclusiones y posibles acciones.
 
+La plantilla de reunión de trabajo incluirá temas y puntos importantes, decisiones y acuerdos, tareas y compromisos con responsable y fecha cuando se hayan mencionado, y cuestiones pendientes o de seguimiento.
+
 En Ajustes se podrá elegir una plantilla predeterminada para generar los resúmenes. Una vez generado el resumen de una sesión, se podrá elegir otra plantilla y regenerarlo con ella, usando los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior; no se guardará un historial de versiones por plantilla.
 
 Al crear una plantilla propia se podrá indicar su nombre, las instrucciones para generar el resumen y los apartados que se quieran incluir.
+
+Para seleccionar una plantilla habrá un menú desplegable con las plantillas disponibles y un buscador por nombre.
 
 La persona podrá editar directamente el resumen generado. Si después lo regenera con otra plantilla, el nuevo resumen sustituirá al anterior, incluidos sus cambios manuales.
 
@@ -119,6 +134,8 @@ Los cambios en «Mis notas» y en el resumen editable se guardarán automáticam
 En Ajustes se podrá elegir cómo tratar el audio original al terminar el procesamiento: preguntar en cada sesión, guardarlo siempre o borrarlo siempre. El valor inicial será guardarlo siempre. Si se elige preguntar, ActaVoz mostrará un aviso al terminar el procesamiento. La política solo afecta al archivo de audio; las notas, transcripción y análisis siguen siendo el contenido de la sesión.
 
 Las notas, transcripciones, resúmenes y demás resultados se conservarán hasta que la persona los elimine manualmente. Esta política es independiente de la decisión de guardar o borrar el audio original.
+
+Se podrán borrar por separado, tras confirmación, el resumen generado y la síntesis de «Mis notas». Al hacerlo se conservarán la transcripción y las notas propias de la sesión.
 
 ### Biblioteca de sesiones
 
@@ -132,11 +149,13 @@ Las notas, transcripciones, resúmenes y demás resultados se conservarán hasta
 - Los directorios creados por la persona serán carpetas reales, agrupadas dentro de `~/.ActaVoz/Directorios` para mantener ordenada la raíz.
 - En la primera versión, los directorios se podrán crear, renombrar y borrar; no habrá directorios anidados.
 - Las sesiones se podrán abrir para revisar sus resultados, reproducir el audio si se conservó, renombrar, mover a otro directorio, exportar y borrar definitivamente tras confirmación.
+- Se podrá exportar la transcripción, el resumen o las notas como archivos, y copiar su texto para pegarlo en otra aplicación.
 - Borrar una sesión eliminará toda su carpeta y contenido: audio si se conservó, transcripción, resumen y análisis.
 - Borrar un directorio borrará también las sesiones y archivos que contiene. Antes, la app mostrará un aviso claro y pedirá confirmación.
 - Las sesiones nuevas sin directorio se guardarán bajo `~/.ActaVoz/Notas/`. Si se organizan después, su carpeta completa se moverá bajo `~/.ActaVoz/Directorios/<nombre-del-directorio>/`.
 - Cada sesión tendrá una carpeta propia, nombrada con fecha, hora e identificador único corto, por ejemplo `2026-11-20_15-42-09_7K4M2P/`. El título visible se guardará en sus metadatos y podrá cambiar sin depender del nombre de la carpeta.
 - El título visible inicial será la fecha y hora de inicio de la nota o reunión. La persona podrá editarlo libremente, por ejemplo añadiendo una descripción al principio.
+- La fecha y los participantes de la sesión se mostrarán bajo el título; la persona podrá revisar y corregir los nombres de los participantes.
 - Dentro de la carpeta de sesión se guardarán `sesion.json` (metadatos), `transcripcion.json` (texto con marcas de tiempo e interlocutores), `resumen.md` y, si se conserva, `audio.m4a`. El análisis u otros resultados se añadirán cuando se generen.
 
 ## Usuarios y contextos

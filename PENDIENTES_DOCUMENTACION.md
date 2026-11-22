@@ -41,18 +41,23 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 - [x] **Perfiles de voz guardados:** cuando esté activada la opción, guardar únicamente los perfiles de interlocutores cuyo nombre haya confirmado la persona.
   - [x] Guardar los perfiles con nombre confirmado al terminar el procesamiento; si se confirma otro nombre después, guardar también su perfil cuando esté disponible. Intentar proponer nombres automáticamente a partir de indicios claros, sujetos a confirmación o corrección.
 - [x] **Gestión de perfiles de voz:** en Ajustes se podrán consultar los perfiles guardados, cambiarles el nombre y eliminarlos.
-- [ ] **Configuración inicial de proveedores:** detallar cómo se elige y conecta un proveedor al primer inicio.
-- [ ] **Varios proveedores:** decidir si se pueden mantener varias conexiones configuradas.
-- [ ] **Modelos por función:** decidir si se pueden elegir modelos distintos para preguntas, resúmenes y otras funciones.
-- [ ] **Contenido de resultados:** concretar el contenido esperado de resúmenes, tareas, decisiones y compromisos.
-- [ ] **Búsqueda de plantillas:** concretar cómo se encuentran y seleccionan las plantillas disponibles.
-- [ ] **Ejemplos de resultados:** acordar ejemplos del formato esperado para las plantillas iniciales.
-- [ ] **Fecha y participantes:** concretar los controles y datos que se muestran en la sesión.
-- [ ] **Compartir:** decidir qué opciones de compartir o exportar se ofrecerán y cómo funcionarán.
-- [ ] **Calidad de transcripción:** acordar cómo medir y qué nivel de precisión se espera.
-- [ ] **Calidad de diarización:** acordar cómo medir y qué nivel de separación de interlocutores se espera.
-- [ ] **Latencia y resúmenes:** acordar cómo evaluar el tiempo de respuesta y la utilidad de los resúmenes.
-- [ ] **Borrado de resultados individuales:** decidir si se pueden borrar por separado y cómo se comporta la aplicación.
+- [x] **Configuración inicial de proveedores:** pantalla para elegir proveedor, introducir sus datos y seleccionar modelo, con opción de comprobar la conexión antes de continuar.
+- [x] **Varios proveedores:** mantener varias conexiones configuradas y elegir la activa desde Ajustes, sin volver a introducir los datos al cambiar.
+- [x] **Modelos por función:** elegir un modelo principal para todas las funciones y permitir asignar opcionalmente modelos específicos a funciones como preguntas o resúmenes.
+- [ ] **Contenido de resultados:** concretar el contenido esperado de las demás plantillas y resultados.
+  - [x] **Reunión de trabajo:** incluir temas y puntos importantes, decisiones y acuerdos, tareas y compromisos con responsable y fecha cuando se mencionen, y cuestiones pendientes o de seguimiento.
+- [x] **Búsqueda de plantillas:** elegirlas en un menú desplegable con buscador por nombre.
+- [ ] **Ejemplos de resultados:** acordar ejemplos concretos para las plantillas iniciales.
+  - [x] **Formato base:** encabezados, puntos y subpuntos, con títulos y apartados adaptados a cada plantilla.
+- [x] **Fecha y participantes:** mostrar la fecha y los participantes bajo el título; permitir revisar y corregir sus nombres.
+- [x] **Compartir:** permitir exportar la transcripción, el resumen o las notas como archivos y copiar su texto para pegarlo en otra aplicación.
+- [ ] **Calidad de transcripción:** acordar el nivel mínimo después de revisar los resultados.
+  - [x] **Método de evaluación:** comparar la transcripción con lo dicho en grabaciones de reuniones reales o preparadas en español e inglés.
+- [ ] **Calidad de diarización:** acordar el nivel mínimo de separación de interlocutores.
+  - [x] **Método de evaluación:** comprobar en las mismas grabaciones cuántas intervenciones se atribuyen a la persona correcta y detectar problemas con voces solapadas.
+- [ ] **Latencia y resúmenes:** acordar umbrales concretos de rapidez y utilidad.
+  - [x] **Método de evaluación:** medir los tiempos de transcripción, respuesta del chat y generación del resumen; revisar que este recoja decisiones y tareas correctamente y sin inventarlas.
+- [x] **Borrado de resultados individuales:** permitir borrar el resumen generado y la síntesis de «Mis notas» por separado, tras confirmación, conservando la transcripción y las notas propias.
 
 ## Lista de decisiones por tratar: prioridad media
 
