@@ -26,7 +26,10 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 
 - La aplicación de escritorio se desarrollará para macOS en **Swift**, con **SwiftUI** para la interfaz.
 - La captura será nativa: **ScreenCaptureKit** para el audio del sistema y las herramientas de audio de Apple para el micrófono.
+- Antes de la primera grabación, ActaVoz explicará brevemente que necesita acceso al micrófono y al audio del sistema, y después mostrará las solicitudes de permisos correspondientes de macOS.
 - Se conservarán ambas fuentes separadas y sincronizadas durante el procesamiento, en vez de mezclarlas al capturarlas. Esto puede ayudar a distinguir la voz local de las voces remotas y reducir atribuciones erróneas.
+- El micrófono y el audio del sistema estarán activados por defecto. Antes de cada grabación se podrá elegir el micrófono y desactivar cualquiera de las fuentes para esa sesión.
+- Si una fuente deja de estar disponible durante la grabación, ActaVoz mostrará un aviso claro y continuará con la fuente disponible. Si la fuente interrumpida vuelve, reanudará su captura.
 - La captura de audio es una función del sistema operativo. La transcripción y la diarización son tareas distintas, realizadas localmente en el Mac con modelos de reconocimiento de voz y de identificación de turnos de habla.
 - **SpeechAnalyzer** es la primera opción a evaluar para transcripción en directo en Swift. **FluidAudio/Core ML** es una candidata para diarización en el dispositivo. La calidad, latencia e idiomas admitidos deberán validarse con reuniones reales antes de cerrar estas dependencias.
 - La primera versión tendrá español e inglés como idiomas de transcripción. Cada sesión permitirá elegir español, inglés o detección automática entre ambos; el español estará seleccionado por defecto.
@@ -34,7 +37,8 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 - Para evaluar la separación de interlocutores se usarán esas mismas grabaciones, comprobando cuántas intervenciones se atribuyen a la persona correcta y detectando problemas cuando se solapen voces. El nivel mínimo queda pendiente de acordar.
 - Para evaluar rapidez y utilidad se medirá cuánto tarda en aparecer la transcripción, responder el chat y generarse el resumen. Se revisará si el resumen recoge correctamente decisiones y tareas sin inventarlas; los umbrales concretos quedan pendientes.
 - El audio se procesará, transcribirá y diarizará localmente. No se enviará audio al LLM. Para preguntas, resúmenes y análisis se enviará la transcripción —con el contexto necesario— al modelo seleccionado.
-- ActaVoz debe evitar que una transcripción supere el límite del modelo. No recortará contenido en silencio. Si el límite se supera, bloqueará esa solicitud y mostrará un mensaje con el máximo aceptado por el modelo, el tamaño de la solicitud y cuánto se excede.
+- Sin conexión a internet se podrá grabar, transcribir, identificar interlocutores y consultar sesiones guardadas. Las preguntas y los resúmenes también estarán disponibles sin internet si hay un modelo local configurado y accesible.
+- ActaVoz no impondrá ni controlará límites propios de contexto. Usará la transcripción completa para las consultas y resultados, mediante una o varias llamadas al proveedor según corresponda.
 
 ### Modelos de lenguaje y proveedores
 
@@ -50,11 +54,15 @@ La arquitectura permitirá añadir proveedores mediante adaptadores. En el prime
 
 En el primer inicio se mostrará una pantalla para elegir el proveedor, introducir los datos necesarios y seleccionar el modelo. Incluirá una opción para comprobar la conexión antes de continuar.
 
+La compatibilidad de la conexión de ChatGPT mediante OAuth se comprobará durante el desarrollo. Si está disponible, la persona podrá conectar y desconectar su cuenta desde Ajustes.
+
 Desde Ajustes se podrán añadir y gestionar conexiones, cambiar el modelo activo y editar la configuración del proveedor genérico. Su compatibilidad dependerá del formato de API que admita el endpoint.
 
 Se podrán mantener varios proveedores configurados y elegir cuál está activo desde Ajustes, sin tener que volver a introducir los datos al cambiar entre ellos.
 
 Se podrá elegir un modelo principal para todas las funciones y, opcionalmente, asignar modelos específicos a funciones concretas, como preguntas o resúmenes.
+
+El control y las estimaciones de costes de los proveedores quedan fuera de la fase actual y se podrán considerar en una fase posterior.
 
 Las API keys se introducirán una vez y se guardarán localmente en el Llavero de macOS para reutilizarlas sin volver a pedirlas en cada uso. ChatGPT ofrecerá API key u OAuth; los demás proveedores con credenciales usarán API key. La app solicitará renovar o corregir la credencial si caduca, se revoca o deja de funcionar. Las credenciales OAuth también se conservarán en el Llavero para mantener la sesión. La compatibilidad con servicios distintos no se dará por supuesta: cada proveedor puede tener formatos de API y capacidades diferentes. El usuario confirma que OpenCode Go permite usar API keys y que ya lo utiliza desde otras aplicaciones; por tanto, se contempla como proveedor configurable de ActaVoz. El acceso a la API de OpenAI requiere configurarla y facturarla por separado de una suscripción de ChatGPT.
 
@@ -86,6 +94,7 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - Si la grabación se interrumpe inesperadamente, ActaVoz conservará lo capturado y transcrito hasta ese momento. Al abrir de nuevo la aplicación, mostrará la sesión interrumpida y ofrecerá reanudarla o darla por terminada.
 - El sistema intentará distinguir las voces y asignar intervenciones a cada interlocutor. Si encuentra indicios claros de un nombre, lo propondrá para que la persona lo confirme o corrija. Mientras no se confirme, usará etiquetas neutrales como «Interlocutor 1» e «Interlocutor 2».
 - La transcripción mostrará el nombre o etiqueta de cada interlocutor junto a sus intervenciones. Al pulsarlo, la persona podrá corregirlo y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
+- La corrección del nombre se guardará automáticamente con la sesión y se conservará al cerrarla y volverla a abrir.
 - Mientras la captura continúa, la persona puede escribir preguntas en un cuadro de texto. Para cada pregunta, ActaVoz enviará al LLM toda la transcripción acumulada hasta ese momento y responderá sin interrumpir la grabación.
 
 El flujo acordado para iniciar una grabación es pulsar «Nueva nota», revisar las opciones en el panel breve y pulsar «Empezar».
@@ -120,6 +129,12 @@ ActaVoz incluirá plantillas de resumen preparadas y permitirá crear y editar p
 - **Reflexión personal:** ideas, conclusiones y posibles acciones.
 
 La plantilla de reunión de trabajo incluirá temas y puntos importantes, decisiones y acuerdos, tareas y compromisos con responsable y fecha cuando se hayan mencionado, y cuestiones pendientes o de seguimiento.
+
+La plantilla de resumen general incluirá una síntesis breve, los temas tratados agrupados con sus puntos importantes y las conclusiones y próximos pasos que se mencionen.
+
+La plantilla de reunión individual incluirá temas tratados y puntos importantes, acuerdos y compromisos de cada persona cuando se mencionen, y cuestiones pendientes y seguimiento para una próxima conversación.
+
+La plantilla de reflexión personal incluirá ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 
 En Ajustes se podrá elegir una plantilla predeterminada para generar los resúmenes. Una vez generado el resumen de una sesión, se podrá elegir otra plantilla y regenerarlo con ella, usando los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior; no se guardará un historial de versiones por plantilla.
 
@@ -167,6 +182,8 @@ Se podrán borrar por separado, tras confirmación, el resumen generado y la sí
 
 Definir una primera versión de escritorio que permita iniciar una sesión, capturar audio, hacer preguntas durante la captura y obtener una transcripción y una síntesis al terminar. La API REST se contempla como una segunda fase y un producto independiente.
 
+La primera versión estable tendrá las funciones de escritorio acordadas: grabación y recuperación de sesiones, transcripción e identificación local de interlocutores, biblioteca, chat, resúmenes, notas, plantillas y proveedores configurables. Para considerarla estable se comprobará su funcionamiento con reuniones reales y se acordarán los niveles mínimos de calidad, aún pendientes.
+
 ## Decisiones tomadas
 
 - El proyecto se llama **ActaVoz**.
@@ -183,7 +200,7 @@ Definir una primera versión de escritorio que permita iniciar una sesión, capt
 - La transcripción y la diarización se tratarán como componentes de modelos independientes de la captura; SpeechAnalyzer y FluidAudio/Core ML son candidatos iniciales, pendientes de validación.
 - Los idiomas iniciales de transcripción serán español e inglés. El idioma se elegirá por sesión, con español por defecto y detección automática entre ambos como opción.
 - El audio se procesará, transcribirá e identificará localmente; a los LLM se enviará texto de la transcripción para preguntas, resúmenes y análisis, no el audio.
-- Cada pregunta en directo enviará la transcripción completa acumulada hasta ese momento. Si supera el límite del modelo, ActaVoz mostrará un error con el máximo aceptado, el tamaño requerido y el exceso, sin truncar silenciosamente. Se espera que esto sea excepcional.
+- Cada pregunta en directo utilizará la transcripción completa acumulada hasta ese momento, sin control ni límites propios de contexto por parte de ActaVoz.
 - Los modelos de lenguaje para preguntas y análisis serán configurables desde Ajustes, con una arquitectura ampliable a proveedores locales y remotos.
 - No habrá un proveedor LLM preconfigurado: el primer inicio preguntará cuál quiere conectar la persona.
 - El catálogo inicial ofrecerá OpenAI/ChatGPT por API key u OAuth, Anthropic/Claude por API key, OpenCode Go por API key, Ollama para modelos locales y un proveedor genérico configurable con URL, token e identificador de modelo.

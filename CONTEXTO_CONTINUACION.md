@@ -7,6 +7,7 @@ Este documento permite retomar el trabajo desde el punto actual aunque se cierre
 - Estamos en la **fase de definición y documentación** del proyecto.
 - Todavía no se ha empezado la implementación de la aplicación.
 - La prioridad inmediata es seguir cerrando decisiones de la aplicación de escritorio para Mac.
+- La primera versión estable incluirá las funciones de escritorio acordadas; se comprobará con reuniones reales y se acordarán los niveles mínimos de calidad pendientes.
 
 ## Proyecto acordado
 
@@ -16,8 +17,12 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 
 - Aplicación de macOS en **Swift**, con **SwiftUI** para la interfaz.
 - Capturar el audio del sistema y el micrófono, manteniendo ambas fuentes separadas y sincronizadas.
+- Ambas fuentes estarán activadas por defecto; antes de grabar se podrá elegir el micrófono y desactivar cualquiera para esa sesión.
+- Si una fuente deja de estar disponible durante la grabación, se avisará y se continuará con la fuente disponible; al volver la fuente interrumpida, se reanudará su captura.
 - La captura se hará con frameworks de Apple; es independiente de los modelos de transcripción y diarización.
+- Antes de la primera grabación, ActaVoz explicará que necesita acceso al micrófono y al audio del sistema y mostrará las solicitudes de permisos correspondientes de macOS.
 - Todo el procesamiento de audio, la transcripción y la diarización se harán localmente en el Mac; el audio no se enviará a proveedores LLM.
+- Sin internet se podrá grabar, transcribir, identificar interlocutores y consultar sesiones guardadas. Las preguntas y los resúmenes también estarán disponibles con un modelo local configurado y accesible.
 - **SpeechAnalyzer** es la primera opción a evaluar para transcripción en directo.
 - **FluidAudio/Core ML** es candidata para diarización local.
 - Estas librerías/modelos aún deben validarse por precisión, latencia e idiomas con audio real.
@@ -27,9 +32,10 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - Se medirán los tiempos de transcripción, respuesta del chat y generación del resumen, y se revisará que el resumen recoja decisiones y tareas correctamente y sin inventarlas. Quedan pendientes los umbrales concretos.
 - El LLM (local o remoto, según configuración) recibirá texto de la transcripción para preguntas, resúmenes y análisis semánticos.
 - En cada pregunta en directo se enviará la transcripción completa acumulada hasta ese momento; para los resultados finales, se enviará la transcripción completa de la sesión.
-- ActaVoz debe evitar que la sesión supere el límite del modelo. Si aun así una solicitud excede el contexto, no se truncará en silencio: mostrará el máximo aceptado, el tamaño requerido y cuánto se excede. Es un caso que se espera que sea excepcional.
+- ActaVoz no impondrá ni controlará límites propios de contexto ni mostrará avisos preventivos; utilizará toda la transcripción mediante una o varias llamadas según corresponda.
 - La diarización usará etiquetas neutrales mientras no se confirme un nombre. ActaVoz solo sugerirá nombres con indicios claros y la persona podrá confirmarlos o corregirlos.
 - La transcripción mostrará el nombre o etiqueta junto a cada intervención. Al pulsarlo se podrá corregir y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
+- Las correcciones de nombres se guardarán automáticamente con la sesión y se conservarán al volver a abrirla.
 - Al pulsar el botón persistente «Nueva nota», se abrirá un panel breve antes de grabar. Permitirá elegir el idioma de la sesión y si guardar los perfiles de voz de esa sesión; «Guardar perfiles de voz» estará seleccionado por defecto y se podrá desactivar para una sesión concreta. «Empezar» inicia la captura.
 - Si se guardan perfiles, solo se conservarán los de interlocutores con nombre confirmado por la persona.
 - Los perfiles confirmados se guardarán al terminar el procesamiento; si se confirma otro nombre más tarde, se guardará también su perfil cuando esté disponible. ActaVoz intentará proponer nombres automáticamente a partir de indicios claros de la conversación para su confirmación o corrección.
@@ -59,7 +65,9 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - No habrá proveedor activo por defecto. En el primer inicio se preguntará cuál configurar.
 - En el primer inicio se mostrará una pantalla para elegir proveedor, introducir sus datos y seleccionar el modelo, con opción de comprobar la conexión antes de continuar.
 - Se podrán mantener varios proveedores configurados y elegir el activo desde Ajustes sin volver a introducir sus datos.
+- La compatibilidad de OAuth para ChatGPT se comprobará durante el desarrollo; si está disponible, la cuenta se podrá conectar y desconectar desde Ajustes.
 - Se elegirá un modelo principal para todas las funciones, con posibilidad de asignar opcionalmente modelos específicos a funciones como preguntas o resúmenes.
+- El control y las estimaciones de costes quedan fuera de la fase actual; podrán considerarse más adelante. Tampoco se hará control propio de límites de contexto.
 - Catálogo previsto: OpenAI/ChatGPT por API key u OAuth, Anthropic/Claude por API key, OpenCode Go por API key, Ollama y un proveedor genérico con endpoint, token e identificador de modelo.
 - Las API keys se introducirán una vez, se guardarán localmente en el Llavero de macOS y se reutilizarán sin pedirlas en cada uso. ChatGPT ofrece API key u OAuth; los demás proveedores con credenciales usan API key. Se pedirán de nuevo si caducan, se revocan o dejan de funcionar.
 - La suscripción de ChatGPT y la API de OpenAI tienen configuración y facturación distintas.
@@ -105,7 +113,7 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 ## Siguiente paso recomendado
 
-**Punto de parada actual:** se decidió que audio, transcripción y diarización se procesan localmente, y que cada pregunta en directo envía al LLM la transcripción completa acumulada hasta ese momento; los resultados finales también usan la transcripción completa. Si se supera el límite del modelo, la app mostrará el máximo aceptado, el tamaño requerido y el exceso, sin truncar en silencio; se espera que sea excepcional. Las notas y resultados se conservan hasta su eliminación manual. Las sesiones se borran definitivamente tras confirmación, junto con todo su contenido. También se decidió que los nombres de interlocutores se sugieren cuando hay indicios claros y se confirman o corrigen manualmente.
+**Punto de parada actual:** se decidió que audio, transcripción y diarización se procesan localmente, y que cada pregunta en directo envía al LLM la transcripción completa acumulada hasta ese momento; los resultados finales también usan la transcripción completa. No se hará control propio de límites de contexto ni avisos preventivos. Las notas y resultados se conservan hasta su eliminación manual. Las sesiones se borran definitivamente tras confirmación, junto con todo su contenido. También se decidió que los nombres de interlocutores se sugieren cuando hay indicios claros y se confirman o corrigen manualmente.
 
 **Decisión recién cerrada:** el botón «Nueva nota» abre un panel breve antes de grabar para elegir idioma y si guardar perfiles de voz; guardar perfiles queda activado por defecto y puede desactivarse para una sesión. Para la vista durante la grabación, la persona aportó capturas de Granola: espacio central para notas, controles inferiores y transcripción consultable en un panel desplegable. Falta concretar cómo se abre y se muestra ese panel.
 
@@ -128,6 +136,12 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 **Selección de plantillas:** menú desplegable con las plantillas disponibles y buscador por nombre.
 
 **Contenido de reunión de trabajo:** temas y puntos importantes, decisiones y acuerdos, tareas y compromisos con responsable y fecha cuando se mencionen, y cuestiones pendientes o de seguimiento. Falta concretar el contenido de las demás plantillas y resultados.
+
+**Contenido de resumen general:** síntesis breve, temas tratados con puntos importantes y conclusiones y próximos pasos mencionados.
+
+**Contenido de reunión individual:** temas y puntos importantes, acuerdos y compromisos de cada persona cuando se mencionen, y cuestiones pendientes y seguimiento.
+
+**Contenido de reflexión personal:** ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 
 **Formato de resultados:** encabezados, puntos y subpuntos como base, con títulos y apartados adaptados a cada plantilla. Quedan por acordar ejemplos concretos de las plantillas iniciales.
 

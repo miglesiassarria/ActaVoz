@@ -19,7 +19,7 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 - [x] **Pausa de grabación:** se podrá pausar y reanudar dentro de la misma sesión; durante la pausa no se capturará audio.
 - [x] **Interrupción inesperada:** conservar lo capturado y transcrito hasta la interrupción; al reabrir ActaVoz, mostrar la sesión y ofrecer reanudarla o darla por terminada.
 - [x] **Idiomas e interlocutores:** español e inglés, con español por defecto y detección automática como opción. Se sugieren nombres cuando hay indicios claros y se confirman o corrigen manualmente.
-- [x] **Procesamiento y consultas:** audio, transcripción y diarización en local; cada pregunta envía al LLM la transcripción completa acumulada y los resultados finales usan la transcripción completa. Si se supera el contexto se informa del límite, tamaño y exceso, sin truncar.
+- [x] **Procesamiento y consultas:** audio, transcripción y diarización en local; cada pregunta envía al LLM la transcripción completa acumulada y los resultados finales usan la transcripción completa. Sin control ni límites propios de contexto.
 - [x] **Vista de sesión:** referencia visual de Granola, con notas centrales, transcripción en directo desplegable abajo a la izquierda y chat para preguntas. Tras detener y procesar la grabación, un botón genera el resumen en el centro. Los adjuntos quedan fuera de la definición actual.
 - [x] **Plantillas:** incluir resumen general, reunión de trabajo, reunión individual y reflexión personal; permitir crear y editar plantillas propias.
 - [x] **Aplicación de plantillas:** elegir la predeterminada en Ajustes y permitir cambiarla tras generar el resumen. Al regenerar se usan los datos conservados, incluida la transcripción completa, y el resultado sustituye al anterior sin historial.
@@ -44,8 +44,11 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 - [x] **Configuración inicial de proveedores:** pantalla para elegir proveedor, introducir sus datos y seleccionar modelo, con opción de comprobar la conexión antes de continuar.
 - [x] **Varios proveedores:** mantener varias conexiones configuradas y elegir la activa desde Ajustes, sin volver a introducir los datos al cambiar.
 - [x] **Modelos por función:** elegir un modelo principal para todas las funciones y permitir asignar opcionalmente modelos específicos a funciones como preguntas o resúmenes.
-- [ ] **Contenido de resultados:** concretar el contenido esperado de las demás plantillas y resultados.
+- [x] **Contenido de resultados:** concretados los apartados de las cuatro plantillas iniciales.
   - [x] **Reunión de trabajo:** incluir temas y puntos importantes, decisiones y acuerdos, tareas y compromisos con responsable y fecha cuando se mencionen, y cuestiones pendientes o de seguimiento.
+  - [x] **Resumen general:** incluir síntesis breve, temas tratados con puntos importantes y conclusiones y próximos pasos mencionados.
+  - [x] **Reunión individual:** incluir temas y puntos importantes, acuerdos y compromisos de cada persona cuando se mencionen, y cuestiones pendientes y seguimiento.
+  - [x] **Reflexión personal:** incluir ideas y temas principales, reflexiones y conclusiones, preguntas abiertas y posibles acciones mencionadas.
 - [x] **Búsqueda de plantillas:** elegirlas en un menú desplegable con buscador por nombre.
 - [ ] **Ejemplos de resultados:** acordar ejemplos concretos para las plantillas iniciales.
   - [x] **Formato base:** encabezados, puntos y subpuntos, con títulos y apartados adaptados a cada plantilla.
@@ -61,15 +64,16 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 ## Lista de decisiones por tratar: prioridad media
 
-- [ ] **Primera versión estable:** acordar las funciones imprescindibles para considerarla terminada.
-- [ ] **Permisos de audio:** documentar los permisos de macOS y el flujo para concederlos.
-- [ ] **Fuentes de audio:** concretar selección, disponibilidad y limitaciones del micrófono y del audio del sistema.
-- [ ] **Interrupciones de audio:** concretar qué ocurre si una fuente deja de estar disponible durante una sesión.
-- [ ] **Uso sin conexión:** definir qué funciones están disponibles sin conexión.
-- [ ] **Costes y límites:** decidir cómo informar de costes y límites de los proveedores.
-- [ ] **Prevención del exceso de contexto:** definir cómo evitar que sesiones habituales excedan el límite del modelo.
-- [ ] **OAuth de ChatGPT:** comprobar su viabilidad y definir el flujo de conexión, gestión y revocación.
-- [ ] **Correcciones de identidad:** definir cómo se conserva una corrección de nombre dentro de la sesión.
+- [x] **Primera versión estable:** incluir las funciones de escritorio acordadas: grabación y recuperación, transcripción e identificación local, biblioteca, chat, resúmenes, notas, plantillas y proveedores configurables. Comprobar el funcionamiento con reuniones reales y acordar los niveles mínimos de calidad pendientes.
+- [x] **Permisos de audio:** antes de la primera grabación, explicar la necesidad de acceso al micrófono y al audio del sistema y mostrar las solicitudes correspondientes de macOS.
+- [ ] **Fuentes de audio:** concretar disponibilidad y limitaciones del micrófono y del audio del sistema.
+  - [x] **Selección de fuentes:** ambas activadas por defecto; antes de grabar se podrá elegir el micrófono y desactivar cualquiera para la sesión.
+- [x] **Interrupciones de audio:** avisar y continuar grabando con la fuente disponible; reanudar la captura de la fuente interrumpida cuando vuelva.
+- [x] **Uso sin conexión:** permitir grabar, transcribir, identificar interlocutores y consultar sesiones guardadas; preguntas y resúmenes estarán disponibles si hay un modelo local configurado y accesible.
+- [x] **Costes y límites:** dejar el control y las estimaciones de costes para una fase posterior. No se controlarán costes ni límites propios de contexto en la fase actual.
+- [x] **Prevención del exceso de contexto:** no implementar control ni avisos preventivos de contexto; utilizar toda la transcripción mediante una o varias llamadas según corresponda.
+- [x] **OAuth de ChatGPT:** comprobar su compatibilidad durante el desarrollo y, si está disponible, permitir conectar y desconectar la cuenta desde Ajustes.
+- [x] **Correcciones de identidad:** guardar automáticamente la corrección del nombre con la sesión para conservarla al cerrarla y volverla a abrir.
 
 ## Decisiones para la documentación
 
