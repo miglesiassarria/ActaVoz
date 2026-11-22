@@ -6,23 +6,36 @@ Estamos definiendo y documentando el producto. Esta lista registra decisiones y 
 
 Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad según avance la conversación. La fase de implementación tendrá su propia lista de seguimiento cuando empecemos a construir el producto.
 
-## Prioridad alta
+## Decisiones acordadas y documentadas
 
-- [ ] **Privacidad y datos:** las notas, transcripciones, resúmenes y resultados se conservarán hasta que la persona los elimine manualmente. El audio tendrá una política independiente en Ajustes —preguntar en cada sesión, guardar siempre o borrar siempre—, con «guardar siempre» como valor inicial. El audio se procesa y transcribe localmente; a los LLM se les envía texto de la transcripción completa, tanto para cada pregunta como para los resultados finales. Falta definir el comportamiento al borrar sesiones/resultados. Los archivos de sesión irán por defecto en `~/.ActaVoz`; configuración en Library, credenciales en el Llavero y cachés regenerables en Caches.
-- [x] **Biblioteca y estructura de sesiones:** se acordaron directorios reales bajo `~/.ActaVoz/Directorios`, barra lateral izquierda, panel central, botón persistente para crear/grabar notas, notas nuevas bajo `~/.ActaVoz/Notas/` hasta organizarlas, y carpetas de sesión con fecha/hora/ID, metadatos, transcripción estructurada, resumen y audio opcional. En la primera versión se podrán crear, renombrar y borrar directorios (sin anidar); borrar un directorio eliminará sus sesiones y archivos tras confirmación. Las sesiones se podrán revisar, reproducir si conservan audio, renombrar, mover, exportar y borrar definitivamente tras confirmación, incluyendo todo el contenido de cada sesión.
-- [ ] **Flujo principal de escritorio:** acordado que «Nueva nota» abre un panel breve previo a la grabación para elegir idioma y si se guardan perfiles de voz; «Empezar» inicia la captura. Para la vista durante la grabación se tomarán como referencia las capturas de Granola aportadas: notas en el centro y controles inferiores, con transcripción consultable en un panel desplegable. Falta concretar esa interacción y documentar el flujo completo: captura, preguntas, parada, procesamiento, política de audio y revisión posterior.
-- [ ] **Transcripción y diarización:** español e inglés serán los idiomas iniciales; por sesión se podrá elegir español, inglés o detección automática entre ambos, con español por defecto. ActaVoz sugerirá nombres solo con indicios claros y pedirá confirmación o corrección. Antes de grabar se podrá elegir si guardar perfiles de voz de esa sesión para reconocer interlocutores en reuniones futuras; la opción estará activada por defecto. Falta acordar qué perfiles se guardan y cómo se gestionan o eliminan; también definir el nivel de precisión esperado y los detalles para mostrar/corregir atribuciones.
-- [ ] **Proveedores de IA:** especificar el flujo inicial y los ajustes para ChatGPT por API key u OAuth, Claude, OpenCode Go, Ollama y el endpoint genérico; decidir si se pueden configurar varios y elegir modelos distintos por función. Las API keys se introducirán una vez, se guardarán localmente en el Llavero y se reutilizarán sin pedirlas en cada uso.
-- [ ] **Resultados de una sesión:** usar las capturas aportadas como referencia para el resumen central por temas y puntos. Habrá plantillas preparadas y se podrán crear y editar plantillas propias. Las cuatro iniciales acordadas son resumen general, reunión de trabajo, reunión individual y reflexión personal. Concretar sus opciones y aplicación, el contenido, las notas propias diferenciadas del resultado generado y la búsqueda de plantillas. Revisar las opciones visibles de fecha, participantes, carpetas y compartir antes de cerrar su comportamiento; incluir ejemplos del formato deseado.
-- [ ] **Criterios de éxito:** acordar cómo juzgaremos la calidad de transcripción, separación de interlocutores, latencia de respuestas y utilidad de los resúmenes.
+- [x] **Datos y almacenamiento:** crear `~/.ActaVoz` al primer arranque; configuración en Library y credenciales en el Llavero.
+- [x] **Conservación:** mantener notas, transcripciones y resultados hasta su eliminación manual. Para el audio, ofrecer guardar siempre, borrar siempre o preguntar; guardar siempre será la opción inicial.
+- [x] **Borrado y biblioteca:** directorios reales sin anidar bajo `~/.ActaVoz/Directorios` y sesiones nuevas en `~/.ActaVoz/Notas/`; al borrar un directorio o sesión se eliminan sus contenidos tras confirmación. Se podrán renombrar, mover, revisar y exportar sesiones y reproducir el audio conservado.
+- [x] **Estructura de sesión:** carpeta con fecha, hora e identificador, metadatos, transcripción, resumen y audio opcional.
+- [x] **Inicio de grabación:** «Nueva nota» abre un panel donde elegir idioma y conservación de perfiles; «Empezar» inicia la captura. Guardar perfiles estará activado por defecto.
+- [x] **Idiomas e interlocutores:** español e inglés, con español por defecto y detección automática como opción. Se sugieren nombres cuando hay indicios claros y se confirman o corrigen manualmente.
+- [x] **Procesamiento y consultas:** audio, transcripción y diarización en local; cada pregunta envía al LLM la transcripción completa acumulada y los resultados finales usan la transcripción completa. Si se supera el contexto se informa del límite, tamaño y exceso, sin truncar.
+- [x] **Vista de sesión:** referencia visual de Granola, con notas centrales, transcripción en directo desplegable abajo a la izquierda y chat para preguntas. Tras detener y procesar la grabación, un botón genera el resumen en el centro. Los adjuntos quedan fuera de la definición actual.
+- [x] **Plantillas:** incluir resumen general, reunión de trabajo, reunión individual y reflexión personal; permitir crear y editar plantillas propias.
+- [x] **Aplicación de plantillas:** elegir la predeterminada en Ajustes y permitir cambiarla tras generar el resumen. Al regenerar se usan los datos conservados, incluida la transcripción completa, y el resultado sustituye al anterior sin historial.
+- [x] **Proveedores y credenciales:** ofrecer OpenAI/ChatGPT, Claude, OpenCode Go, Ollama y un proveedor genérico; sin proveedor activo por defecto. Guardar las credenciales localmente en el Llavero; ChatGPT tendrá opciones de API key y OAuth.
 
-## Prioridad media
+## Pendientes de prioridad alta
 
-- [ ] **Alcance de la primera versión estable:** cerrar qué funciones son imprescindibles para considerar la aplicación de escritorio estable y funcional.
-- [ ] **Requisitos de audio y permisos:** documentar las fuentes disponibles, los permisos de macOS, el tratamiento de interrupciones y las limitaciones conocidas.
-- [ ] **Modelo de uso local y remoto:** el procesamiento de audio, transcripción y diarización serán locales; el LLM podrá ser local o remoto y recibirá texto de la transcripción. Si se supera el límite de contexto, ActaVoz mostrará el límite del modelo, el tamaño de la solicitud y el exceso, sin truncar. Falta definir qué funciones quedan disponibles sin conexión, cómo se informa de costes/límites y cómo prevenir que las sesiones habituales excedan el contexto.
-- [ ] **Configuración OAuth de ChatGPT:** describir el flujo esperado, la gestión de sesión y la forma de revocar la conexión.
-- [ ] **Identidad y correcciones:** especificar cómo se editan nombres de interlocutores y cómo se conserva una corrección para la sesión.
+- [ ] **Flujo de escritorio:** concretar el recorrido completo de captura, preguntas, parada, procesamiento, política de audio y revisión, incluidas las interacciones de la vista.
+- [ ] **Transcripción y diarización:** definir precisión esperada, presentación y corrección de atribuciones, qué perfiles se guardan y cómo se gestionan o eliminan.
+- [ ] **Proveedores de IA:** detallar el flujo inicial y Ajustes; decidir si se pueden configurar varios y elegir modelos distintos por función.
+- [ ] **Resultados y plantillas:** concretar contenido, configuración y búsqueda de plantillas, notas propias frente al resultado generado y ejemplos de formato. Revisar los controles de fecha, participantes, carpetas y compartir que aparecen en las capturas.
+- [ ] **Criterios de éxito:** acordar cómo juzgar la calidad de transcripción, separación de interlocutores, latencia y resúmenes.
+- [ ] **Borrado de resultados:** concretar si se podrán borrar resultados individuales y su comportamiento; el borrado completo de sesiones y directorios ya está acordado.
+
+## Pendientes de prioridad media
+
+- [ ] **Alcance de la primera versión estable:** cerrar las funciones imprescindibles.
+- [ ] **Audio y permisos:** detallar permisos de macOS, interrupciones y limitaciones de las fuentes.
+- [ ] **Uso local y remoto:** definir funciones disponibles sin conexión, información sobre costes y límites, y cómo prevenir que las sesiones habituales excedan el contexto.
+- [ ] **OAuth de ChatGPT:** describir el flujo esperado, gestión y revocación de la conexión, y comprobar su viabilidad.
+- [ ] **Identidad y correcciones:** especificar cómo editar nombres y conservar correcciones para una sesión.
 
 ## Decisiones para la documentación
 

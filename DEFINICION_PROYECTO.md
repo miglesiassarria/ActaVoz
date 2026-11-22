@@ -93,7 +93,7 @@ ActaVoz incluirá plantillas de resumen preparadas y permitirá crear y editar p
 - **Reunión individual:** temas tratados, acuerdos y seguimiento.
 - **Reflexión personal:** ideas, conclusiones y posibles acciones.
 
-Quedan por concretar sus opciones de configuración y cómo se aplican a una sesión.
+En Ajustes se podrá elegir una plantilla predeterminada para generar los resúmenes. Una vez generado el resumen de una sesión, se podrá elegir otra plantilla y regenerarlo con ella, usando los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior; no se guardará un historial de versiones por plantilla. Quedan por concretar las opciones de configuración de las plantillas.
 
 En Ajustes se podrá elegir cómo tratar el audio original al terminar el procesamiento: preguntar en cada sesión, guardarlo siempre o borrarlo siempre. El valor inicial será guardarlo siempre. Si se elige preguntar, ActaVoz mostrará un aviso al terminar el procesamiento. La política solo afecta al archivo de audio; las notas, transcripción y análisis siguen siendo el contenido de la sesión.
 

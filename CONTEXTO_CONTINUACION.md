@@ -99,6 +99,8 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 **Plantillas:** se acordó incluir plantillas preparadas y permitir crear y editar plantillas propias. Las cuatro iniciales serán resumen general, reunión de trabajo, reunión individual y reflexión personal. Quedan por decidir su configuración y cómo se aplican a una sesión.
 
+**Aplicación de plantillas:** se podrá elegir una plantilla predeterminada en Ajustes para generar los resúmenes. Después se podrá seleccionar otra plantilla y regenerar el resumen a partir de los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior sin guardar historial de versiones por plantilla, aunque el audio se haya borrado.
+
 **Siguiente punto:** continuar cerrando el flujo principal de escritorio. Presentar opciones concretas y una recomendación para el paso siguiente, manteniendo abierta la gestión de perfiles de voz.
 
 ## Forma de avanzar
