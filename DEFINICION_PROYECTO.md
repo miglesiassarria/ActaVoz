@@ -75,7 +75,7 @@ Las API keys se introducirán una vez y se guardarán localmente en el Llavero d
 - La configuración de ActaVoz se guardará en las ubicaciones de **Library** recomendadas por macOS. Las credenciales se guardarán en el Llavero y las cachés regenerables en **Caches**.
 - Las exportaciones se guardarán en la ubicación que elija la persona.
 - Esta carpeta de sesiones es una preferencia explícita del proyecto. La distribución prevista es una app de Mac descargable en DMG y arrastrable a Aplicaciones. Para crear `~/.ActaVoz` automáticamente sin pedir al usuario que elija la carpeta, la dirección propuesta es distribuirla fuera del Mac App Store y sin App Sandbox, con firma y notarización de Apple.
-- También queda por definir cuánto tiempo se conservan las notas y los resultados, cómo se borran y qué ocurre si la persona cierra la app sin responder al aviso del audio.
+- Queda por definir qué ocurre si la persona cierra la app sin responder al aviso del audio. La retención y el borrado acordados se describen en «Al finalizar» y «Biblioteca de sesiones».
 
 Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tiempos, separar fuentes, detectar actividad de voz, transcribir y organizar interlocutores son tareas que se procesarán localmente con frameworks y modelos especializados. Un LLM aporta valor cuando hay que interpretar la transcripción, responder preguntas con contexto, resumir o redactar conclusiones.
 
@@ -116,7 +116,7 @@ La persona detiene la captura y, cuando termine el procesamiento, podrá pulsar 
 
 Tras detener la captura, ActaVoz mostrará «Procesando la reunión» con un indicador de progreso. Cuando termine el procesamiento, aparecerá el botón «Generar resumen».
 
-Las capturas aportadas sirven de referencia para presentar el resultado como un documento central con título, encabezados por tema y puntos agrupados. También muestran un selector de plantillas para distintos tipos de reunión, opciones para buscar y crear plantillas, y una vista de notas propias diferenciada del contenido generado. Se quieren incorporar estas posibilidades; queda por concretar su funcionamiento y alcance. Las capturas incluyen además controles para fecha, participantes, organización en carpetas y compartir, cuyo comportamiento aún no se ha acordado.
+Las capturas aportadas sirven de referencia para un documento central con título, encabezados y puntos agrupados, un selector de plantillas y vistas separadas de notas propias y resumen. El funcionamiento ya acordado se detalla a continuación; los detalles aún abiertos figuran en la lista de pendientes.
 
 El formato base de los resúmenes utilizará encabezados, puntos y subpuntos, adaptando títulos y apartados a la plantilla elegida.
 
@@ -164,8 +164,8 @@ Se podrán borrar por separado, tras confirmación, el resumen generado y la sí
 - Las capturas aportadas sirven de referencia para mostrar una lista de sesiones agrupadas por fecha y abrir una sesión en una vista amplia con su título y contenido. En esa vista se mantendrán las opciones acordadas para notas, resumen y chat.
 - El apartado de próximos eventos y la integración de calendario que aparecen en la captura quedan fuera del alcance actual.
 - La ventana principal tendrá una barra lateral izquierda donde se mostrarán los directorios creados por la persona.
-- Al seleccionar un directorio, el panel central mostrará su contenido.
-- El contenido podrá incluir elementos de las sesiones, como audios, resúmenes, transcripciones y análisis.
+- Al seleccionar un directorio, el panel central mostrará la lista de sesiones que contiene; al abrir una sesión se accede a sus contenidos.
+- Cada sesión puede contener audio, resumen, transcripción, notas y análisis.
 - Habrá un botón persistente en la zona inferior derecha para iniciar una grabación o crear una nota nueva.
 - Al terminar, la nota quedará sin carpeta asignada. La persona podrá moverla a un directorio o dejarla sin organizar.
 - Los directorios creados por la persona serán carpetas reales, agrupadas dentro de `~/.ActaVoz/Directorios` para mantener ordenada la raíz.
@@ -199,7 +199,7 @@ La primera versión estable tendrá las funciones de escritorio acordadas: graba
 - Cada pregunta en directo enviará al LLM la transcripción completa acumulada hasta el momento de la pregunta.
 - En Ajustes habrá tres políticas para el audio al terminar el procesamiento: preguntar en cada sesión, guardar siempre o borrar siempre. La opción inicial será guardar siempre.
 - Las notas, transcripciones, resúmenes y demás resultados se conservarán hasta que la persona los elimine manualmente; esta regla es independiente de la política del audio.
-- La biblioteca permitirá crear directorios en una barra lateral izquierda y mostrar el contenido del directorio seleccionado en el panel central, incluyendo audios y resultados de las sesiones.
+- La biblioteca permitirá crear directorios en una barra lateral izquierda y mostrar en el panel central la lista de sesiones del directorio seleccionado; al abrir una sesión se accede a sus contenidos.
 - Borrar una sesión será definitivo: tras confirmación, se eliminarán su audio guardado y todos sus resultados.
 - Un botón persistente en la zona inferior derecha iniciará una nota nueva; las notas nuevas quedarán sin carpeta hasta que la persona decida organizarlas.
 - La app de escritorio se desarrollará en Swift para macOS, con SwiftUI para la interfaz.
@@ -222,14 +222,9 @@ La primera versión estable tendrá las funciones de escritorio acordadas: graba
 - La aplicación de escritorio es la primera fase y el producto principal.
 - La API REST se definirá y desarrollará en la segunda fase.
 
-## Por definir
+## Por definir o validar
 
-- Versión mínima de macOS y selección final de frameworks/librerías de transcripción y diarización.
-- Detalles de experiencia y autorización para conectar ChatGPT mediante OAuth.
-- Qué análisis podrán ejecutarse con modelos locales y qué requisitos de hardware tendrán.
-- Política de retención y borrado de las notas y resultados.
-- Estructura interna de carpetas y archivos de sesión dentro de `~/.ActaVoz`.
-- Idiomas y condiciones de uso en entornos ruidosos o con varias voces.
-- Formato y nivel de detalle de las transcripciones y análisis.
-- Qué perfiles de voz se guardan y cómo se gestionan o eliminan.
-- Alcance concreto de la primera versión y criterios de éxito.
+- Versión mínima de macOS, hardware, captura dual y componentes locales de transcripción y diarización: [discovery de voz](specs/0012-viabilidad-captura-transcripcion-y-voz-local/discovery.md).
+- Compatibilidad de OAuth de ChatGPT, protocolos de proveedores y tratamiento de contexto largo: [discovery de proveedores](specs/0013-viabilidad-proveedores-contexto-y-oauth/discovery.md).
+- Casos de uso y decisiones concretas pendientes: [lista de documentación](PENDIENTES_DOCUMENTACION.md).
+- Niveles de calidad y latencia: acordar tras disponer de mediciones reproducibles.

@@ -12,7 +12,7 @@ Permitir elegir y cambiar modelos locales o remotos sin vincular el producto a u
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+La persona configura proveedores, credenciales y modelos; la aplicación usa la transcripción completa según la función solicitada.
 
 ## Criterios de aceptación
 
@@ -26,10 +26,14 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 | AC6 | **OAuth:** Comprobar compatibilidad del flujo de terceros antes de prometerlo; si está disponible permitir conectar y desconectar en Ajustes. | Registrar evidencia de autorización y ejecutar conexión y revocación con cuenta de prueba si procede. | pendiente |
 | AC7 | **Contexto:** No imponer control o límite propio de contexto; utilizar toda la transcripción, con una o varias llamadas según corresponda. | Proveedor simulado registra solicitudes; verificar cobertura completa y comportamiento ante rechazo. | pendiente |
 
+## Decisiones previas a aprobación
+
+- Resolver uso sin proveedor, modelo para síntesis e identificación de nombres, protocolos y comportamiento ante rechazo por contexto. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- Control de costes y límites propios de contexto excluidos; OAuth sujeto a compatibilidad.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
@@ -39,7 +43,7 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- La viabilidad y autorización de OAuth, contratos de proveedores y rechazo por contexto se investigan en 0013; el tratamiento sin proveedor y la estrategia de múltiples llamadas siguen pendientes.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

@@ -12,7 +12,7 @@ Generar y adaptar resúmenes a cada tipo de reunión.
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+La persona genera un resumen desde la transcripción y puede cambiar de plantilla, editarlo y borrar el resultado con confirmación. La regeneración acordada sustituye el resultado anterior.
 
 ## Criterios de aceptación
 
@@ -26,10 +26,14 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 | AC6 | **Edición:** Permitir editar resumen y guardar automáticamente. | Editar, cerrar y reabrir sesión y comprobar cambios. | pendiente |
 | AC7 | **Eliminar:** Permitir borrar resumen tras confirmación sin borrar transcripción ni notas. | Cancelar y confirmar borrado en sesión de prueba y comprobar archivos restantes. | pendiente |
 
+## Decisiones previas a aprobación
+
+- Decidir borrado de plantillas propias, edición de predefinidas, confirmación al sobrescribir ediciones y recuperación ante fallo de regeneración. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- Sin historial de versiones por plantilla.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
@@ -39,7 +43,7 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- Una regeneración fallida podría perder correcciones manuales; su comportamiento debe acordarse antes de aprobación. Los criterios semánticos requieren mediciones de 0011.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

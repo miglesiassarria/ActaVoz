@@ -12,7 +12,7 @@ Consultar lo hablado sin interrumpir la captura y revisar respuestas en la sesi�
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+El mini chat muestra consultas y respuestas durante la grabación y en la sesión abierta, utilizando la transcripción disponible en el momento de la pregunta.
 
 ## Criterios de aceptación
 
@@ -25,10 +25,14 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 | AC5 | **Errores:** Mostrar error comprensible si falla el proveedor, sin detener la captura ni fingir respuesta. | Simular fallo durante grabación y verificar aviso y continuidad. | pendiente |
 | AC6 | **Sin adjuntos:** No ofrecer adjuntar archivos en la fase actual. | Inspeccionar controles del chat. | pendiente |
 
+## Decisiones previas a aprobación
+
+- Decidir persistencia del historial, inclusión de turnos anteriores y tratamiento de preguntas simultáneas. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- Los adjuntos quedan fuera.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
@@ -38,7 +42,7 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- Una respuesta puede fallar sin detener la grabación; el proveedor puede rechazar contexto largo y debe definirse cómo informar sin perder contenido.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

@@ -12,7 +12,7 @@ Transcribir en tiempo real y distinguir interlocutores sin enviar audio a provee
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+La transcripción local distingue turnos, propone nombres con indicios claros y permite corregirlos. Los perfiles confirmados pueden ayudar a reconocer voces en sesiones posteriores.
 
 ## Criterios de aceptación
 
@@ -25,11 +25,17 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 | AC5 | **Perfiles:** Con guardar perfiles activado, guardar solo voces con nombre confirmado al finalizar procesamiento o tras una confirmación posterior si el perfil está disponible. | Probar voces confirmadas y sin confirmar antes y después de finalizar y revisar perfiles. | pendiente |
 | AC6 | **Gestión de perfiles:** En Ajustes consultar, renombrar y eliminar perfiles. | Crear perfiles ficticios y ejecutar las tres operaciones. | pendiente |
 | AC7 | **Privacidad local:** Audio y procesamiento de voz permanecen en el Mac; solo texto puede llegar al LLM. | Inspeccionar tráfico de red en prueba controlada y verificar ausencia de audio. | pendiente |
+| AC8 | **Reconocimiento posterior:** un perfil guardado se utiliza para proponer el mismo interlocutor en una reunión posterior cuando haya evidencia suficiente; las coincidencias inciertas no se dan por confirmadas. | Crear perfil con audio controlado, procesar otra sesión con la misma voz y otra distinta, comprobar propuesta y tratamiento de incertidumbre. | pendiente |
+| AC9 | **Procesamiento sin internet:** transcribir y distinguir interlocutores sin conexión con los recursos locales previamente disponibles. | Preparar los recursos, desconectar internet y procesar grabaciones de prueba en los idiomas admitidos. | pendiente |
+
+## Decisiones previas a aprobación
+
+- Decidir identidad del usuario local, fusión de interlocutores, reasignación individual y perfiles tardíos tras borrar audio. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- No incluye funciones aún no aprobadas de identificación del usuario, fusión o reasignación.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
@@ -39,7 +45,7 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- Idiomas, disponibilidad local, modelos descargados, solapamientos y reconocimiento entre sesiones requieren pruebas de 0012. El perfil tardío tras borrar audio sigue sin decidir.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

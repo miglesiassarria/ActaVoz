@@ -1,4 +1,4 @@
-# 0002 · Aplicación, instalación y configuración inicial
+# 0002 · Base de aplicación y configuración inicial
 
 - **Estado:** spec
 - **Creada:** 2026-11-22
@@ -8,36 +8,41 @@
 
 ## Problema
 
-Una persona necesita instalar y abrir ActaVoz y preparar su entorno local.
+Una persona necesita abrir ActaVoz y preparar su entorno local.
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+La aplicación abre una ventana en macOS, prepara sus carpetas sin sobrescribir datos e informa de la configuración inicial. La conexión real de proveedores pertenece a 0006; el comportamiento si se omite sigue pendiente.
 
 ## Criterios de aceptación
 
 | # | Criterio observable | Verificación reproducible | Resultado final |
 | --- | --- | --- | --- |
-| AC1 | **Distribución:** La primera versión es una app macOS Swift/SwiftUI distribuida en DMG para arrastrar a Aplicaciones, firmada y notarizada. | En un Mac de prueba instalar el DMG, abrir la app y comprobar firma y notarización. | pendiente |
+| AC1 | **Base de aplicación:** app macOS Swift/SwiftUI ejecutable localmente y capaz de abrir su ventana principal. | Compilar el proyecto real y abrirlo en un Mac de prueba. | pendiente |
 | AC2 | **Primer arranque:** Crear si faltan ~/.ActaVoz y las subcarpetas necesarias, incluidas Notas y Directorios; no destruir datos existentes. | Con un usuario de prueba abrir dos veces, verificar carpetas y conservar un archivo centinela. | pendiente |
-| AC3 | **Ubicación:** Configuración en Library, secretos en Llavero y cachés regenerables en Caches. | Modificar configuración con credencial ficticia e inspeccionar ubicaciones sin imprimir el secreto. | pendiente |
-| AC4 | **Configuración inicial:** Sin proveedor activo, mostrar selección de proveedor, datos y modelo y opción para comprobar conexión. | Con perfil limpio completar el flujo usando un servicio simulado y verificar conexión y selección. | pendiente |
-| AC5 | **Sin conexión:** Permitir grabar, transcribir, identificar interlocutores y revisar sesiones locales sin internet; preguntas y resúmenes requieren modelo local accesible. | Desconectar la red y ejecutar el recorrido local con modelos ya disponibles. | pendiente |
+| AC3 | **Ubicación:** la configuración básica se guarda en Library y las cachés regenerables en Caches. | Modificar configuración, reiniciar e inspeccionar ubicaciones con datos de prueba. | pendiente |
+| AC4 | **Primer inicio:** identificar que no hay proveedor activo y ofrecer acceso a su configuración. La selección, credenciales y prueba de conexión pertenecen a 0006. | Con perfil limpio comprobar que se informa de la ausencia y se ofrece el acceso a configuración sin depender de integraciones reales. | pendiente |
+
+
+## Decisiones previas a aprobación
+
+- Resolver si se puede omitir la configuración inicial del proveedor y utilizar funciones locales; consultar la lista de pendientes.
+- Completar la investigación 0012 sobre versión mínima y acceso a la carpeta del usuario antes de fijar el objetivo de plataforma.
 
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- Instalación en DMG, firma y notarización se verifican en 0011; grabación y capacidades sin conexión se verifican en sus unidades y en la prueba integral.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
 - **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
-- **Desconocido:** Versión mínima de macOS y requisitos de hardware pendientes de validar; disponibilidad de modelos locales antes de trabajar sin red.
+- **Desconocido:** Versión mínima de macOS y acceso al directorio del usuario pendientes de validar en 0012.
 - Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- La versión mínima de macOS y el acceso a la carpeta del usuario deben validarse en 0012; el arranque no debe borrar datos existentes.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

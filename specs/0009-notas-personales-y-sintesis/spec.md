@@ -12,7 +12,7 @@ Conservar notas editables y generar una síntesis independiente que combine nota
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+La persona escribe notas durante o después de la sesión y puede generar una síntesis separada del resumen principal; los cambios posteriores permiten actualizarla.
 
 ## Criterios de aceptación
 
@@ -24,10 +24,14 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 | AC4 | **Actualización:** Al cambiar notas o resumen indicar que síntesis puede actualizarse; acción Actualizar síntesis reemplaza anterior. | Generar, modificar cada fuente por separado y comprobar aviso y sustitución. | pendiente |
 | AC5 | **Separación:** Regenerar resumen principal no modifica notas; eliminar síntesis tras confirmación conserva notas, transcripción y resumen. | Realizar ambas operaciones y verificar contenidos restantes. | pendiente |
 
+## Decisiones previas a aprobación
+
+- Decidir qué ocurre si no existe resumen principal y si la síntesis generada es editable. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- La síntesis no sustituye las notas ni el resumen principal.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
@@ -37,7 +41,7 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- La persistencia y los fallos de generación deben evitar pérdidas; se requiere acordar qué hacer sin resumen principal.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

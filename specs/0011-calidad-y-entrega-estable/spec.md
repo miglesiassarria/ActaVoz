@@ -12,7 +12,7 @@ Comprobar las capacidades acordadas antes de considerar estable la primera versi
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+La versión estable solo se declara después de verificar sus capacidades de extremo a extremo, medir calidad con grabaciones y comprobar el artefacto final instalado.
 
 ## Criterios de aceptación
 
@@ -24,11 +24,12 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 | AC4 | **Latencia y resumen:** Medir tiempos de transcripción, respuesta y resumen; revisar decisiones y tareas frente a la fuente y detectar invenciones. | Registrar tiempos y revisión de ejemplos con referencia conocida. | pendiente |
 | AC5 | **Umbrales:** Acordar niveles mínimos tras revisar evidencia; no declarar estabilidad sin criterios aprobados y alcanzados. | Registrar umbrales acordados y comparación con mediciones. | pendiente |
 | AC6 | **Entrega:** Verificar instalación, firma, notarización y ejecución del DMG en entorno seguro. | Instalar artefacto real firmado y notarizado en Mac de prueba y registrar resultados. | pendiente |
+| AC7 | **Sin conexión:** con modelos locales previamente disponibles, grabar, transcribir, identificar y consultar sesiones; con un modelo local accesible, hacer preguntas y generar resúmenes. | Desconectar internet en un Mac de prueba, ejecutar el recorrido completo y registrar evidencia. | pendiente |
 
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- No fija por adelantado umbrales numéricos ni sustituye las verificaciones individuales de cada capacidad.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
@@ -38,7 +39,7 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- Sin corpus, medidas y umbrales aprobados no se puede afirmar estabilidad. La prueba integral offline requiere modelos previamente disponibles y proveedor local accesible.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

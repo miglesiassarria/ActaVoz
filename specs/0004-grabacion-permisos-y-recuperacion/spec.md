@@ -12,7 +12,7 @@ Capturar reuniones y reflexiones sin perder el progreso ante interrupciones.
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+La persona prepara las fuentes, concede permisos, graba y puede pausar o recuperar una sesión. Tras detener, se procesa el contenido y se aplica la política de audio acordada.
 
 ## Criterios de aceptación
 
@@ -27,11 +27,16 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 | AC7 | **Recuperación:** Tras cierre inesperado conservar lo capturado y transcrito disponible; al reabrir ofrecer reanudar o terminar sesión. | Interrumpir proceso de prueba tras grabar, reabrir y probar ambas opciones en copias. | pendiente |
 | AC8 | **Finalización:** Tras detener mostrar Procesando la reunión con progreso; al terminar mostrar Generar resumen. | Finalizar grabación y observar secuencia hasta disponibilidad del botón. | pendiente |
 | AC9 | **Audio:** Aplicar tras procesar política guardar siempre por defecto, borrar siempre o preguntar cada sesión; el aviso solo aparece en preguntar y no borra textos. | Repetir con cada política en datos temporales; inspeccionar audio y textos. | pendiente |
+| AC10 | **Captura sin internet:** grabar y conservar audio local sin conexión a internet. | Preparar el entorno, desconectar internet y grabar señales controladas; comprobar los archivos locales. | pendiente |
+
+## Decisiones previas a aprobación
+
+- Cerrar voluntariamente durante captura o sin responder al aviso de audio; tratamiento de permisos denegados y acceso a Ajustes del Sistema. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- La transcripción y diarización pertenecen a 0005; distribución y firma a 0011.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
@@ -41,7 +46,7 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- La captura del sistema, permisos, cambios de dispositivo y apagados requieren evidencia en 0012; quedan por decidir cierre voluntario, denegación de permisos y cierre del aviso de audio.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

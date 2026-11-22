@@ -12,7 +12,7 @@ Permitir consultar el audio conservado y extraer contenidos de una sesión.
 
 ## Comportamiento esperado
 
-La capacidad debe cumplir los criterios observables siguientes. La definición de producto y los acuerdos de la conversación son la fuente de alcance; las decisiones no acordadas se registran como riesgos, no como hechos. Las pruebas usan datos controlados y no registran secretos ni reuniones personales.
+La persona accede al audio conservado y puede exportar o copiar transcripción, resumen y notas.
 
 ## Criterios de aceptación
 
@@ -22,10 +22,14 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 | AC2 | **Exportar:** Exportar transcripción, resumen y notas como archivos a una ubicación elegida. | Exportar cada contenido con datos ficticios y comparar archivo con pantalla. | pendiente |
 | AC3 | **Copiar:** Copiar el texto de transcripción, resumen o notas para pegarlo en otra aplicación. | Copiar cada contenido y pegarlo en un destino de prueba. | pendiente |
 
+## Decisiones previas a aprobación
+
+- Acordar formatos, marcas temporales e interlocutores, inclusión de síntesis en notas y controles mínimos de reproducción. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+
 ## Fuera de alcance
 
-- API REST de fase 2, adjuntos en chat, calendario y control de costes.
-- Código de producción, diseño y tareas de implementación durante la fase de especificación.
+- La exportación no implica compartir mediante enlaces.
+- La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
@@ -35,7 +39,7 @@ La capacidad debe cumplir los criterios observables siguientes. La definición d
 
 ## Riesgos
 
-- Los componentes propuestos y comportamientos de proveedores requieren validación antes de garantizar el resultado.
+- Los formatos y la fidelidad de los archivos exportados deben definirse antes de aprobación; no dar por supuesta una exportación específica.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

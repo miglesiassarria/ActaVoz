@@ -33,7 +33,7 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 ## Lista de decisiones por tratar: prioridad alta
 
-- [ ] **Vista de grabación:** concretar las restantes interacciones de la pantalla durante la captura. Acordado: el panel de transcripción se cierra pulsando de nuevo su control o haciendo clic fuera.
+- [ ] **Vista de grabación:** revisar los casos de cierre, permisos denegados e interrupciones recogidos en las casillas de auditoría; lo ya acordado incluye cerrar el panel de transcripción con su control o al pulsar fuera.
   - [x] **Panel de chat:** al pulsar la barra se abre un mini chat con preguntas y respuestas; al pulsar fuera se oculta y queda visible la barra.
   - [x] **Indicador de grabación:** mostrar abajo el estado de grabación, el tiempo transcurrido y los controles de pausa y parada.
   - [x] **Contador durante la pausa:** detenerlo al pausar y reanudarlo al continuar, para mostrar el tiempo de audio capturado.
@@ -78,6 +78,25 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 - [x] **Prevención del exceso de contexto:** no implementar control ni avisos preventivos de contexto; utilizar toda la transcripción mediante una o varias llamadas según corresponda.
 - [x] **OAuth de ChatGPT:** comprobar su compatibilidad durante el desarrollo y, si está disponible, permitir conectar y desconectar la cuenta desde Ajustes.
 - [x] **Correcciones de identidad:** guardar automáticamente la corrección del nombre con la sesión para conservarla al cerrarla y volverla a abrir.
+
+## Decisiones nuevas identificadas por la auditoría
+
+Estas casillas se han añadido sin marcar porque la auditoría detectó decisiones que aún no constaban en la lista. Se resolverán antes de aprobar las specs afectadas.
+
+- [ ] **Modelo por función adicional:** decidir qué modelo usa la síntesis de notas y cómo se asigna el de deducción de nombres, si se utiliza un LLM. (0005, 0006, 0009)
+- [ ] **Confirmación de sobrescritura:** decidir si se confirma antes de regenerar un resumen editado manualmente; la sustitución tras regeneración correcta ya está acordada. (0008)
+- [ ] **Chat: persistencia y contexto:** decidir si se conserva el historial, si se incluyen turnos previos en nuevas preguntas y qué ocurre con consultas simultáneas. (0007)
+- [ ] **Sin proveedor:** decidir si se puede omitir la configuración inicial y usar las funciones locales. (0002, 0006)
+- [ ] **Contexto del modelo:** decidir el comportamiento ante rechazo por longitud y la estrategia para una o varias llamadas sin eliminar texto ni imponer límites propios. (0006, 0013)
+- [ ] **Archivos de sesión:** concretar dónde se guardan notas, síntesis y, si procede, historial del chat. (0003, 0007, 0009)
+- [ ] **Audio y perfiles tardíos:** decidir cómo se conserva el audio separado o mezclado y qué datos de voz permanecen si se borra el audio antes de confirmar un nombre. (0004, 0005)
+- [ ] **Corrección de voces:** decidir si habrá identificación del usuario local, fusión de interlocutores o reasignación de una intervención individual. (0005)
+- [ ] **Resultados adicionales:** aclarar si análisis y otros resultados existen como archivos independientes o mediante plantillas y chat. (0008)
+- [ ] **Biblioteca:** decidir cómo acceder a las notas sin organizar, si existe búsqueda y si se pueden crear notas solo de texto. (0003)
+- [ ] **Cierre y permisos:** decidir comportamiento al cerrar durante la grabación, al cerrar sin responder sobre el audio y ante permisos denegados. (0004)
+- [ ] **Plantillas y fallo de regeneración:** decidir borrado de plantillas propias, edición de las predefinidas y protección del resumen anterior ante fallo. La sustitución al regenerar correctamente ya está acordada. (0008)
+- [ ] **Síntesis de notas:** decidir qué ocurre sin resumen principal y si la síntesis es editable. (0009)
+- [ ] **Exportación y reproducción:** acordar formatos, marcas temporales, inclusión de síntesis y controles de reproducción. (0010)
 
 ## Decisiones para la documentación
 

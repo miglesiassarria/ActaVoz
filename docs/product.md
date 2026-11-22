@@ -24,3 +24,5 @@ ActaVoz será una aplicación de escritorio para macOS que permite capturar reun
 ## Decisiones pendientes
 
 La estructura principal de sesiones, retención, idiomas y alcance funcional se han acordado en `DEFINICION_PROYECTO.md`. Siguen pendientes de validación las métricas y umbrales de calidad, versión mínima de macOS, componentes de transcripción y diarización y viabilidad de OAuth de ChatGPT. Las propuestas verificables de producto están en `specs/` y requieren aprobación individual.
+
+La investigación de plataforma y voz local está en [0012](../specs/0012-viabilidad-captura-transcripcion-y-voz-local/discovery.md), y la de proveedores, OAuth y contexto en [0013](../specs/0013-viabilidad-proveedores-contexto-y-oauth/discovery.md). Las decisiones de producto abiertas se mantienen en [la lista de pendientes](../PENDIENTES_DOCUMENTACION.md).
