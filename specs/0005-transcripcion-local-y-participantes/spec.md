@@ -31,6 +31,7 @@ La transcripción local distingue turnos, propone nombres con indicios claros y 
 ## Decisiones previas a aprobación
 
 - Decidir identidad del usuario local, fusión de interlocutores, reasignación individual y perfiles tardíos tras borrar audio. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Decidir si la deducción de nombres utiliza un LLM y, en ese caso, qué modelo se asigna; coordinar con 0006 y la investigación 0012.
 
 ## Fuera de alcance
 

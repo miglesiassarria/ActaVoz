@@ -12,7 +12,7 @@ Organizar y conservar sesiones en carpetas reales recuperables.
 
 ## Comportamiento esperado
 
-La biblioteca enumera sesiones por fecha y directorio, permite organizar carpetas reales y abrir cada sesión para consultar sus contenidos. Las notas sin organizar se guardan en Notas; su acceso visual exacto sigue por decidir.
+La biblioteca enumera sesiones por fecha y directorio, permite organizar carpetas reales y abrir cada sesión para consultar sus contenidos. Las notas sin organizar se guardan en Notas y se muestran desde la opción fija «Sin organizar» de la barra lateral.
 
 ## Criterios de aceptación
 
@@ -26,13 +26,14 @@ La biblioteca enumera sesiones por fecha y directorio, permite organizar carpeta
 | AC6 | **Mover:** Mover una sesión completa a un directorio o entre directorios preservando su contenido. | Mover sesión de prueba y verificar identidad y archivos antes y después. | pendiente |
 | AC7 | **Borrar:** Pedir confirmación antes de borrar una sesión o un directorio; el borrado confirmado elimina todos los archivos y sesiones contenidos. Cancelar no cambia datos. | Usar carpetas temporales con contenido; cancelar y confirmar por separado y comprobar disco. | pendiente |
 | AC8 | **Persistencia:** Guardar notas, transcripción y resultados hasta borrado manual; conservarlos tras reinicio. | Reabrir aplicación y comparar contenido guardado. | pendiente |
-| AC9 | **Nueva nota:** mostrar un botón persistente en la zona inferior derecha para iniciar el flujo de nueva nota. | Navegar entre la biblioteca y directorios y comprobar que el botón invoca un punto de entrada de prueba; el flujo real se verifica en 0004. | pendiente |
+| AC9 | **Nueva nota:** mostrar un botón persistente en la zona inferior derecha que inicia el flujo de grabación, sin opción de crear una nota exclusivamente de texto mediante ese botón. | Navegar entre la biblioteca y directorios y comprobar que el botón invoca un punto de entrada de prueba; el flujo real se verifica en 0004. | pendiente |
 | AC10 | **Cabecera:** al abrir una sesión, mostrar fecha y participantes debajo del título y permitir revisar y corregir sus nombres. | Abrir una sesión de prueba, corregir un nombre y reabrirla para verificar que persiste. | pendiente |
+| AC11 | **Sin organizar:** la barra lateral ofrece una opción fija que muestra las notas sin directorio asignado. | Preparar sesiones organizadas y sin organizar en disco y comprobar que la vista muestra las correspondientes sin directorio. | pendiente |
+| AC12 | **Búsqueda:** encontrar sesiones por coincidencias en título, transcripción, notas o resumen. | Crear sesiones de prueba con términos exclusivos en cada campo y comprobar que cada búsqueda devuelve la sesión correspondiente. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Cómo acceder a sesiones sin organizar y si existe búsqueda.
-- Si «Nueva nota» permite notas sin audio; dónde y cómo se conservan notas, síntesis y posible historial de chat.
+- Dónde y cómo se conservan notas, síntesis y posible historial de chat.
 - Representación del audio final y conservación de datos de voz sin audio; se coordina con 0004 y 0005.
 
 ## Fuera de alcance

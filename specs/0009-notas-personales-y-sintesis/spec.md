@@ -27,6 +27,7 @@ La persona escribe notas durante o después de la sesión y puede generar una s�
 ## Decisiones previas a aprobación
 
 - Decidir qué ocurre si no existe resumen principal y si la síntesis generada es editable. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Decidir qué modelo se emplea para la síntesis y dónde se guardan las notas y la síntesis; coordinar con 0003 y 0006.
 
 ## Fuera de alcance
 

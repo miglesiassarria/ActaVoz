@@ -29,6 +29,7 @@ La persona genera un resumen desde la transcripción y puede cambiar de plantill
 ## Decisiones previas a aprobación
 
 - Decidir borrado de plantillas propias, edición de predefinidas, confirmación al sobrescribir ediciones y recuperación ante fallo de regeneración. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Aclarar si análisis y otros resultados existen como archivos independientes o mediante plantillas y chat.
 
 ## Fuera de alcance
 

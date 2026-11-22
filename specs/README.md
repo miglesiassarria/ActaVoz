@@ -5,7 +5,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | # | Título | Estado | Siguiente paso | Notas |
 | --- | --- | --- | --- | --- |
 | [0001](0001-sistema-sdd/spec.md) | Sistema SDD independiente del modelo | `done` | Revisar mejoras del piloto al usar la primera feature | Instalación inicial verificada |
-| [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Aplicación instalación y configuración inicial | `spec` | Completar la spec y obtener aprobación explícita | |
+| [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Base de aplicación y configuración inicial | `spec` | Completar la spec y obtener aprobación explícita | |
 | [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `spec` | Completar la spec y obtener aprobación explícita | |
 | [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `spec` | Completar la spec y obtener aprobación explícita | |
 | [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `spec` | Completar la spec y obtener aprobación explícita | |

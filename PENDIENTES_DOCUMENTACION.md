@@ -85,14 +85,17 @@ Estas casillas se han añadido sin marcar porque la auditoría detectó decision
 
 - [ ] **Modelo por función adicional:** decidir qué modelo usa la síntesis de notas y cómo se asigna el de deducción de nombres, si se utiliza un LLM. (0005, 0006, 0009)
 - [ ] **Confirmación de sobrescritura:** decidir si se confirma antes de regenerar un resumen editado manualmente; la sustitución tras regeneración correcta ya está acordada. (0008)
-- [ ] **Chat: persistencia y contexto:** decidir si se conserva el historial, si se incluyen turnos previos en nuevas preguntas y qué ocurre con consultas simultáneas. (0007)
-- [ ] **Sin proveedor:** decidir si se puede omitir la configuración inicial y usar las funciones locales. (0002, 0006)
+- [x] **Chat: persistencia y contexto:** las preguntas enviadas mientras hay una respuesta en curso quedan en espera y se envían cuando termina la anterior, manteniendo el orden. (0007)
+  - [x] **Historial y contexto:** guardar las preguntas y respuestas con la sesión; cada consulta utiliza la transcripción completa disponible y los turnos previos del chat.
+- [x] **Sin proveedor:** se podrá omitir la configuración inicial y usar funciones locales, incluidas grabación, transcripción y notas. Al intentar usar una función que requiera proveedor, ActaVoz ofrecerá configurarlo. (0002, 0006)
 - [ ] **Contexto del modelo:** decidir el comportamiento ante rechazo por longitud y la estrategia para una o varias llamadas sin eliminar texto ni imponer límites propios. (0006, 0013)
 - [ ] **Archivos de sesión:** concretar dónde se guardan notas, síntesis y, si procede, historial del chat. (0003, 0007, 0009)
 - [ ] **Audio y perfiles tardíos:** decidir cómo se conserva el audio separado o mezclado y qué datos de voz permanecen si se borra el audio antes de confirmar un nombre. (0004, 0005)
 - [ ] **Corrección de voces:** decidir si habrá identificación del usuario local, fusión de interlocutores o reasignación de una intervención individual. (0005)
 - [ ] **Resultados adicionales:** aclarar si análisis y otros resultados existen como archivos independientes o mediante plantillas y chat. (0008)
-- [ ] **Biblioteca:** decidir cómo acceder a las notas sin organizar, si existe búsqueda y si se pueden crear notas solo de texto. (0003)
+- [x] **Biblioteca:** «Nueva nota» siempre abre el flujo de grabación; no se contempla crear una nota exclusivamente de texto mediante ese botón. (0003)
+  - [x] **Notas sin organizar:** acceso mediante una opción fija «Sin organizar» en la barra lateral.
+  - [x] **Búsqueda de sesiones:** buscar por título y por texto de la transcripción, las notas o el resumen.
 - [ ] **Cierre y permisos:** decidir comportamiento al cerrar durante la grabación, al cerrar sin responder sobre el audio y ante permisos denegados. (0004)
 - [ ] **Plantillas y fallo de regeneración:** decidir borrado de plantillas propias, edición de las predefinidas y protección del resumen anterior ante fallo. La sustitución al regenerar correctamente ya está acordada. (0008)
 - [ ] **Síntesis de notas:** decidir qué ocurre sin resumen principal y si la síntesis es editable. (0009)

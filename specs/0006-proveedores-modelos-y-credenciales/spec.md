@@ -25,10 +25,11 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 | AC5 | **Conexión:** Permitir comprobar la conexión y mostrar errores comprensibles sin exponer credenciales. | Simular éxito, credencial inválida y servicio inaccesible. | pendiente |
 | AC6 | **OAuth:** Comprobar compatibilidad del flujo de terceros antes de prometerlo; si está disponible permitir conectar y desconectar en Ajustes. | Registrar evidencia de autorización y ejecutar conexión y revocación con cuenta de prueba si procede. | pendiente |
 | AC7 | **Contexto:** No imponer control o límite propio de contexto; utilizar toda la transcripción, con una o varias llamadas según corresponda. | Proveedor simulado registra solicitudes; verificar cobertura completa y comportamiento ante rechazo. | pendiente |
+| AC8 | **Sin proveedor:** permitir usar las funciones locales sin proveedor configurado y ofrecer configurarlo al intentar hacer preguntas o generar resultados que lo requieran. | Sin proveedor, probar funciones locales y solicitar una pregunta y un resumen; comprobar la oferta de configuración. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Resolver uso sin proveedor, modelo para síntesis e identificación de nombres, protocolos y comportamiento ante rechazo por contexto. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Resolver modelo para síntesis e identificación de nombres, protocolos y comportamiento ante rechazo por contexto. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 
 ## Fuera de alcance
 

@@ -12,7 +12,7 @@ Una persona necesita abrir ActaVoz y preparar su entorno local.
 
 ## Comportamiento esperado
 
-La aplicación abre una ventana en macOS, prepara sus carpetas sin sobrescribir datos e informa de la configuración inicial. La conexión real de proveedores pertenece a 0006; el comportamiento si se omite sigue pendiente.
+La aplicación abre una ventana en macOS, prepara sus carpetas sin sobrescribir datos y ofrece la configuración inicial. La persona podrá omitirla y continuar con funciones locales. La conexión real de proveedores pertenece a 0006.
 
 ## Criterios de aceptación
 
@@ -21,12 +21,11 @@ La aplicación abre una ventana en macOS, prepara sus carpetas sin sobrescribir 
 | AC1 | **Base de aplicación:** app macOS Swift/SwiftUI ejecutable localmente y capaz de abrir su ventana principal. | Compilar el proyecto real y abrirlo en un Mac de prueba. | pendiente |
 | AC2 | **Primer arranque:** Crear si faltan ~/.ActaVoz y las subcarpetas necesarias, incluidas Notas y Directorios; no destruir datos existentes. | Con un usuario de prueba abrir dos veces, verificar carpetas y conservar un archivo centinela. | pendiente |
 | AC3 | **Ubicación:** la configuración básica se guarda en Library y las cachés regenerables en Caches. | Modificar configuración, reiniciar e inspeccionar ubicaciones con datos de prueba. | pendiente |
-| AC4 | **Primer inicio:** identificar que no hay proveedor activo y ofrecer acceso a su configuración. La selección, credenciales y prueba de conexión pertenecen a 0006. | Con perfil limpio comprobar que se informa de la ausencia y se ofrece el acceso a configuración sin depender de integraciones reales. | pendiente |
+| AC4 | **Primer inicio:** identificar que no hay proveedor activo, ofrecer acceso a su configuración y permitir omitirla para acceder a las funciones locales. La selección, credenciales y prueba de conexión pertenecen a 0006. | Con perfil limpio comprobar la oferta de configuración y que se puede omitir y entrar en la aplicación sin proveedor. | pendiente |
 
 
 ## Decisiones previas a aprobación
 
-- Resolver si se puede omitir la configuración inicial del proveedor y utilizar funciones locales; consultar la lista de pendientes.
 - Completar la investigación 0012 sobre versión mínima y acceso a la carpeta del usuario antes de fijar el objetivo de plataforma.
 
 ## Fuera de alcance

@@ -56,6 +56,8 @@ La arquitectura permitirá añadir proveedores mediante adaptadores. En el prime
 
 En el primer inicio se mostrará una pantalla para elegir el proveedor, introducir los datos necesarios y seleccionar el modelo. Incluirá una opción para comprobar la conexión antes de continuar.
 
+Se podrá omitir esa configuración y usar las funciones locales, incluidas grabación, transcripción y notas. Si no hay proveedor configurado y se intenta hacer una pregunta o generar un resultado que lo necesite, ActaVoz ofrecerá configurarlo.
+
 La compatibilidad de la conexión de ChatGPT mediante OAuth se comprobará durante el desarrollo. Si está disponible, la persona podrá conectar y desconectar su cuenta desde Ajustes.
 
 Desde Ajustes se podrán añadir y gestionar conexiones, cambiar el modelo activo y editar la configuración del proveedor genérico. Su compatibilidad dependerá del formato de API que admita el endpoint.
@@ -86,6 +88,7 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - El panel de transcripción se cerrará al pulsar de nuevo su control o al hacer clic fuera.
 - Al pulsar la barra de chat se abrirá un panel compacto sobre la vista de la sesión, con las preguntas y respuestas. Al pulsar fuera, el panel se ocultará y quedará visible la barra para volver a abrirlo. La captura aportada es la referencia para esta interacción.
 - Al pulsar el botón persistente «Nueva nota», se abrirá un panel breve previo a la grabación. Desde ahí se podrá elegir el idioma de esa sesión y si se guardan sus perfiles de voz para reconocer a esos interlocutores en reuniones futuras; «Empezar» iniciará la captura.
+- «Nueva nota» siempre abre el flujo de grabación; no se contempla crear una nota exclusivamente de texto mediante ese botón.
 - En ese panel, «Guardar perfiles de voz» estará seleccionado por defecto. La persona podrá desmarcarlo para una sesión concreta.
 - Cuando esté activado guardar perfiles, solo se guardarán los de interlocutores cuyo nombre haya sido confirmado por la persona, para facilitar su reconocimiento en futuras reuniones.
 - Los perfiles con nombre confirmado se guardarán al terminar el procesamiento de la reunión. Si se confirma otro nombre después, también se guardará su perfil cuando esté disponible. ActaVoz intentará deducir y proponer nombres automáticamente a partir de indicios claros de la conversación; la persona deberá confirmarlos o corregirlos.
@@ -101,6 +104,8 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - La transcripción mostrará el nombre o etiqueta de cada interlocutor junto a sus intervenciones. Al pulsarlo, la persona podrá corregirlo y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
 - La corrección del nombre se guardará automáticamente con la sesión y se conservará al cerrarla y volverla a abrir.
 - Mientras la captura continúa, la persona puede escribir preguntas en un cuadro de texto. Para cada pregunta, ActaVoz enviará al LLM toda la transcripción acumulada hasta ese momento y responderá sin interrumpir la grabación.
+- El historial de preguntas y respuestas se guardará con la sesión para poder retomarlo después. Cada consulta utilizará, además de la transcripción completa disponible en ese momento, los turnos previos del chat.
+- Mientras una respuesta esté en curso se podrá escribir y enviar otra pregunta; esta quedará en espera y se enviará cuando termine la respuesta anterior, manteniendo el orden de la conversación.
 
 El flujo acordado para iniciar una grabación es pulsar «Nueva nota», revisar las opciones en el panel breve y pulsar «Empezar».
 
@@ -164,6 +169,8 @@ Se podrán borrar por separado, tras confirmación, el resumen generado y la sí
 - Las capturas aportadas sirven de referencia para mostrar una lista de sesiones agrupadas por fecha y abrir una sesión en una vista amplia con su título y contenido. En esa vista se mantendrán las opciones acordadas para notas, resumen y chat.
 - El apartado de próximos eventos y la integración de calendario que aparecen en la captura quedan fuera del alcance actual.
 - La ventana principal tendrá una barra lateral izquierda donde se mostrarán los directorios creados por la persona.
+- La barra lateral tendrá una opción fija «Sin organizar» para mostrar las notas que todavía no están asignadas a ningún directorio.
+- La biblioteca tendrá un buscador de sesiones por título y por el texto de la transcripción, las notas o el resumen.
 - Al seleccionar un directorio, el panel central mostrará la lista de sesiones que contiene; al abrir una sesión se accede a sus contenidos.
 - Cada sesión puede contener audio, resumen, transcripción, notas y análisis.
 - Habrá un botón persistente en la zona inferior derecha para iniciar una grabación o crear una nota nueva.
