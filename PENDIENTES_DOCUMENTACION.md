@@ -103,8 +103,9 @@ Estas casillas se han añadido sin marcar porque la auditoría detectó decision
 - [x] **Biblioteca:** «Nueva nota» siempre abre el flujo de grabación; no se contempla crear una nota exclusivamente de texto mediante ese botón. (0003)
   - [x] **Notas sin organizar:** acceso mediante una opción fija «Sin organizar» en la barra lateral.
   - [x] **Búsqueda de sesiones:** buscar por título y por texto de la transcripción, las notas o el resumen.
-- [ ] **Cierre y permisos:** decidir comportamiento al cerrar sin responder sobre el audio y ante permisos denegados. (0004)
+- [ ] **Cierre y permisos:** decidir comportamiento ante permisos denegados. (0004)
   - [x] **Cerrar durante grabación:** avisar y permitir continuar grabando o detener la sesión y cerrar.
+  - [x] **Aviso de audio sin respuesta:** conservar el audio pendiente de decisión y volver a preguntar al abrir la sesión.
 - [x] **Plantillas y fallo de regeneración:** las predefinidas se conservarán sin modificar y se podrán duplicar para crear versiones propias editables. (0008)
   - [x] **Fallo de regeneración:** conservar intacto el resumen anterior, mostrar el error y permitir reintentar; sustituirlo solo al terminar correctamente.
   - [x] **Eliminar plantillas propias:** permitirlo desde Ajustes con confirmación previa.

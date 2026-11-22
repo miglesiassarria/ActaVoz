@@ -18,6 +18,8 @@ Las fuentes se mantienen separadas durante el procesamiento; si se conserva el a
 
 Al intentar cerrar ActaVoz durante una grabación, aparecerá un aviso para continuar grabando o detener la sesión y cerrar.
 
+Si se cierra sin responder al aviso de conservación de audio, el audio quedará pendiente de decisión y se volverá a preguntar al abrir la sesión.
+
 Si guardar perfiles estaba activado, se conservarán los datos de voz temporales de cada interlocutor hasta confirmar su nombre o eliminar la sesión, incluso si se borra el audio.
 
 Se podrá reasignar una intervención concreta a otro interlocutor sin modificar las demás; sigue disponible la corrección del nombre para todas las intervenciones de un interlocutor en la sesión.

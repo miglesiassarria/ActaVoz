@@ -183,6 +183,8 @@ Los cambios en «Mis notas» y en el resumen editable se guardarán automáticam
 
 En Ajustes se podrá elegir cómo tratar el audio original al terminar el procesamiento: preguntar en cada sesión, guardarlo siempre o borrarlo siempre. El valor inicial será guardarlo siempre. Si se elige preguntar, ActaVoz mostrará un aviso al terminar el procesamiento. La política solo afecta al archivo de audio; las notas, transcripción y análisis siguen siendo el contenido de la sesión.
 
+Si se cierra la aplicación sin responder al aviso de audio, se conservará el audio pendiente de decisión y se volverá a preguntar al abrir la sesión.
+
 Las notas, transcripciones, resúmenes y demás resultados se conservarán hasta que la persona los elimine manualmente. Esta política es independiente de la decisión de guardar o borrar el audio original.
 
 Se podrán borrar por separado, tras confirmación, el resumen generado y la síntesis de «Mis notas». Al hacerlo se conservarán la transcripción y las notas propias de la sesión.
