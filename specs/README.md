@@ -5,23 +5,23 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | # | Título | Estado | Siguiente paso | Notas |
 | --- | --- | --- | --- | --- |
 | [0001](0001-sistema-sdd/spec.md) | Sistema SDD independiente del modelo | `done` | Revisar mejoras del piloto al usar la primera feature | Instalación inicial verificada |
-| [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Base de aplicación y configuración inicial | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0007](0007-chat-de-sesion-y-consultas/spec.md) | Chat de sesión y consultas | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `spec` | Completar la spec y obtener aprobación explícita | |
-| [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `spec` | Completar la spec y obtener aprobación explícita | |
+| [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Base de aplicación y configuración inicial | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0007](0007-chat-de-sesion-y-consultas/spec.md) | Chat de sesión y consultas | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `spec` | Preparar diseño tras resolver dependencias aplicables | |
 | [0012](0012-viabilidad-captura-transcripcion-y-voz-local/spec.md) | Viabilidad captura transcripción y voz local | `discovery` | Cerrar decisión o crear una spec aprobable | |
 | [0013](0013-viabilidad-proveedores-contexto-y-oauth/spec.md) | Viabilidad proveedores contexto y OAuth | `discovery` | Cerrar decisión o crear una spec aprobable | |
 <!-- spec-driven-development:index-end -->
 
 ## Mapa de la primera versión
 
-Las unidades 0002–0011 son propuestas en `spec`, pendientes de aprobación explícita. Las unidades 0012 y 0013 están en `discovery`: recogen evidencia parcial e hipótesis y experimentos todavía pendientes. Los criterios de las specs incluyen métodos de verificación futuros, no resultados observados. El orden siguiente expresa dependencias de capacidades, no autoriza el diseño ni la implementación:
+Las unidades 0002–0011 están en `spec` y fueron aprobadas por la persona usuaria el 2026-11-22; el diseño debe resolver las dependencias técnicas aplicables. Las unidades 0012 y 0013 están en `discovery`: recogen evidencia parcial e hipótesis y experimentos todavía pendientes. Los criterios de las specs incluyen métodos de verificación futuros, no resultados observados. El orden siguiente expresa dependencias de capacidades, no autoriza el diseño ni la implementación:
 
 1. **0012 → 0002 → 0003:** investigar primero la versión mínima y el acceso a la carpeta del usuario; después refinar la base de aplicación y la persistencia. 0003 se verifica aisladamente con datos y puntos de entrada de prueba; las integraciones completas se comprueban en sus propias unidades. La conexión efectiva de proveedores pertenece a 0006.
 2. **0012 → 0004 y 0005:** investigar primero captura y voz local; después refinar las specs de captura, transcripción, atribuciones y perfiles con la evidencia.
@@ -30,7 +30,7 @@ Las unidades 0002–0011 son propuestas en `spec`, pendientes de aprobación exp
 5. **0010:** reproducción del audio conservado y exportación en Markdown o texto plano, con interlocutores y tiempos en la transcripción y síntesis opcional al exportar notas.
 6. **0011:** evaluación conjunta y entrega estable; los umbrales se decidirán con evidencia de grabaciones, en ambos idiomas.
 
-Antes de aprobar cada unidad deben resolverse los desconocidos materiales de su alcance, usando `discovery` cuando corresponda. La aprobación de una spec permite pasar a su diseño; después se preparan tareas y evidencias antes de construir. La API REST permanece en fase posterior.
+La persona usuaria ha aprobado las specs de producto. Sus incógnitas técnicas materiales deben resolverse mediante `discovery` al elaborar los diseños afectados; si la evidencia obliga a cambiar el comportamiento aprobado, se volverá a la spec. Después se preparan tareas y evidencias antes de construir. La API REST permanece en fase posterior.
 
 ## Referencias de documentación
 

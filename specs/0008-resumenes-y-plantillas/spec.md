@@ -2,9 +2,9 @@
 
 - **Estado:** spec
 - **Creada:** 2026-11-22
-- **Aprobación:** pendiente
-- **Aprobada por:** —
-- **Fecha de aprobación:** —
+- **Aprobación:** aprobada
+- **Aprobada por:** persona usuaria
+- **Fecha de aprobación:** 2026-11-22
 
 ## Problema
 

@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-Fase de documentación y discovery de la primera versión de escritorio. No hay aplicación implementada. Las specs 0002–0011 siguen en `spec` y con aprobación pendiente; 0012 y 0013 siguen en `discovery`. La autorización para corregir y decidir detalles no se ha interpretado como aprobación de las specs ni como permiso para saltarse el flujo SDD.
+Fase de documentación y discovery de la primera versión de escritorio. No hay aplicación implementada. Las specs 0002–0011 siguen en `spec` y fueron aprobadas explícitamente por la persona usuaria el 2026-11-22; 0012 y 0013 siguen en `discovery`. Su aprobación permite avanzar al diseño conforme a las dependencias y al flujo SDD.
 
 ## Referencias
 

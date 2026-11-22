@@ -2,7 +2,7 @@
 
 ## Pregunta o decisión
 
-Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar las specs dependientes.
+Determinar la viabilidad de la capacidad y registrar evidencia para el diseño de las specs dependientes, aprobadas por la persona usuaria.
 
 ## Hechos y fuentes
 

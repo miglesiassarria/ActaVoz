@@ -2,7 +2,7 @@
 
 ## Pregunta o decisión
 
-Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar las specs dependientes.
+Determinar la viabilidad de la capacidad y registrar evidencia para los diseños de las specs dependientes, aprobadas por la persona usuaria.
 
 ## Hechos y fuentes
 
@@ -81,4 +81,4 @@ Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar 
 
 El SDK consultado declara SpeechAnalyzer desde macOS 26; si se mantiene ese componente, macOS 26 es el candidato mínimo a comprobar. Apple Silicon es el único hardware probado en esta investigación. No se declara soporte Intel ni se fija el mínimo definitivo sin comprobar los componentes de voz y las plataformas objetivo. Esta conclusión es una inferencia para orientar los experimentos, no una matriz de compatibilidad validada.
 
-Condiciona la versión mínima y el acceso a carpetas de 0002, y la aprobación técnica de 0004 y 0005. Faltan evidencias y decisiones; no se ha elegido versión mínima ni librería definitiva.
+Condiciona la versión mínima y el acceso a carpetas de 0002, y los diseños de 0004 y 0005. Faltan evidencias y decisiones; no se ha elegido versión mínima ni librería definitiva.
