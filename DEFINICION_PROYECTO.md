@@ -69,6 +69,8 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - El idioma seguirá las opciones acordadas: español, inglés o detección automática entre ambos, con español seleccionado por defecto.
 - La persona inicia una sesión para grabar una reunión o una reflexión en solitario.
 - ActaVoz captura y procesa el audio de forma continua, mostrando el avance de la sesión.
+- La grabación se podrá pausar y reanudar dentro de la misma sesión. Durante la pausa no se capturará audio.
+- Si la grabación se interrumpe inesperadamente, ActaVoz conservará lo capturado y transcrito hasta ese momento. Al abrir de nuevo la aplicación, mostrará la sesión interrumpida y ofrecerá reanudarla o darla por terminada.
 - El sistema intentará distinguir las voces y asignar intervenciones a cada interlocutor. Si encuentra indicios claros de un nombre, lo propondrá para que la persona lo confirme o corrija. Mientras no se confirme, usará etiquetas neutrales como «Interlocutor 1» e «Interlocutor 2».
 - Mientras la captura continúa, la persona puede escribir preguntas en un cuadro de texto. Para cada pregunta, ActaVoz enviará al LLM toda la transcripción acumulada hasta ese momento y responderá sin interrumpir la grabación.
 
@@ -90,6 +92,8 @@ Cada sesión tendrá dos vistas separadas: «Mis notas», donde la persona podr�
 
 Las notas propias se podrán escribir y editar durante la sesión y después de terminar la transcripción. El resumen principal se generará inicialmente sin tener en cuenta esas notas. En «Mis notas» se podrá generar un segundo resumen que combine el acta o resumen de la reunión con las notas escritas; aparecerá al final de esa vista, claramente identificado como contenido generado por inteligencia artificial. Las notas personales, este segundo resumen y el resumen principal conservarán espacios diferenciados.
 
+Un botón «Generar síntesis» permitirá crear esa segunda síntesis. Si después cambian las notas o el resumen principal, se mostrará un aviso de que puede actualizarse; al pulsar «Actualizar síntesis», la nueva sustituirá a la anterior.
+
 ActaVoz incluirá plantillas de resumen preparadas y permitirá crear y editar plantillas propias. Las plantillas iniciales acordadas son:
 
 - **Resumen general:** temas y puntos importantes.
@@ -97,7 +101,13 @@ ActaVoz incluirá plantillas de resumen preparadas y permitirá crear y editar p
 - **Reunión individual:** temas tratados, acuerdos y seguimiento.
 - **Reflexión personal:** ideas, conclusiones y posibles acciones.
 
-En Ajustes se podrá elegir una plantilla predeterminada para generar los resúmenes. Una vez generado el resumen de una sesión, se podrá elegir otra plantilla y regenerarlo con ella, usando los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior; no se guardará un historial de versiones por plantilla. Quedan por concretar las opciones de configuración de las plantillas.
+En Ajustes se podrá elegir una plantilla predeterminada para generar los resúmenes. Una vez generado el resumen de una sesión, se podrá elegir otra plantilla y regenerarlo con ella, usando los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior; no se guardará un historial de versiones por plantilla.
+
+Al crear una plantilla propia se podrá indicar su nombre, las instrucciones para generar el resumen y los apartados que se quieran incluir.
+
+La persona podrá editar directamente el resumen generado. Si después lo regenera con otra plantilla, el nuevo resumen sustituirá al anterior, incluidos sus cambios manuales.
+
+Los cambios en «Mis notas» y en el resumen editable se guardarán automáticamente mientras la persona escribe.
 
 En Ajustes se podrá elegir cómo tratar el audio original al terminar el procesamiento: preguntar en cada sesión, guardarlo siempre o borrarlo siempre. El valor inicial será guardarlo siempre. Si se elige preguntar, ActaVoz mostrará un aviso al terminar el procesamiento. La política solo afecta al archivo de audio; las notas, transcripción y análisis siguen siendo el contenido de la sesión.
 
@@ -117,6 +127,7 @@ Las notas, transcripciones, resúmenes y demás resultados se conservarán hasta
 - Borrar un directorio borrará también las sesiones y archivos que contiene. Antes, la app mostrará un aviso claro y pedirá confirmación.
 - Las sesiones nuevas sin directorio se guardarán bajo `~/.ActaVoz/Notas/`. Si se organizan después, su carpeta completa se moverá bajo `~/.ActaVoz/Directorios/<nombre-del-directorio>/`.
 - Cada sesión tendrá una carpeta propia, nombrada con fecha, hora e identificador único corto, por ejemplo `2026-11-20_15-42-09_7K4M2P/`. El título visible se guardará en sus metadatos y podrá cambiar sin depender del nombre de la carpeta.
+- El título visible inicial será la fecha y hora de inicio de la nota o reunión. La persona podrá editarlo libremente, por ejemplo añadiendo una descripción al principio.
 - Dentro de la carpeta de sesión se guardarán `sesion.json` (metadatos), `transcripcion.json` (texto con marcas de tiempo e interlocutores), `resumen.md` y, si se conserva, `audio.m4a`. El análisis u otros resultados se añadirán cuando se generen.
 
 ## Usuarios y contextos

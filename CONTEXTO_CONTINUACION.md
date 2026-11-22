@@ -27,6 +27,8 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - ActaVoz debe evitar que la sesión supere el límite del modelo. Si aun así una solicitud excede el contexto, no se truncará en silencio: mostrará el máximo aceptado, el tamaño requerido y cuánto se excede. Es un caso que se espera que sea excepcional.
 - La diarización usará etiquetas neutrales mientras no se confirme un nombre. ActaVoz solo sugerirá nombres con indicios claros y la persona podrá confirmarlos o corregirlos.
 - Al pulsar el botón persistente «Nueva nota», se abrirá un panel breve antes de grabar. Permitirá elegir el idioma de la sesión y si guardar los perfiles de voz de esa sesión; «Guardar perfiles de voz» estará seleccionado por defecto y se podrá desactivar para una sesión concreta. «Empezar» inicia la captura.
+- La grabación se podrá pausar y reanudar dentro de la misma sesión; durante la pausa no se capturará audio.
+- Ante una interrupción inesperada se conservará lo capturado y transcrito hasta entonces. Al reabrir la aplicación, se mostrará la sesión y se podrá reanudar o dar por terminada.
 
 ### Biblioteca de sesiones
 
@@ -37,6 +39,7 @@ ActaVoz será primero una aplicación de escritorio para Mac, inspirada en aplic
 - Los directorios del usuario serán carpetas reales bajo `~/.ActaVoz/Directorios`, para mantener ordenada la raíz. El nombre **Directorios** ya está acordado.
 - Las notas nuevas sin directorio se guardan bajo `~/.ActaVoz/Notas/` y se pueden mover después a `Directorios/<nombre>/`.
 - Cada sesión tiene su carpeta, nombrada con fecha, hora e identificador único corto, por ejemplo `2026-11-20_15-42-09_7K4M2P/`. Su título visible se guarda en metadatos, así puede cambiar sin cambiar la identidad de la carpeta.
+- El título visible inicial es la fecha y hora de inicio de la nota o reunión; se puede editar libremente, por ejemplo añadiendo una descripción al principio.
 - Contenido previsto: `sesion.json` (metadatos), `transcripcion.json` (texto, tiempos e interlocutores), `resumen.md` y `audio.m4a` si se conserva. Otros análisis se añaden al generarse.
 - En la primera versión se podrán crear, renombrar y borrar directorios, sin anidarlos. Borrar un directorio borra también sus sesiones y archivos, tras un aviso claro y confirmación.
 - Las sesiones se podrán abrir para revisar resultados, reproducir el audio si se conservó, renombrar, mover, exportar y borrar definitivamente tras confirmación; se eliminará la carpeta de sesión completa y todos sus archivos.
@@ -101,9 +104,15 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 **Aplicación de plantillas:** se podrá elegir una plantilla predeterminada en Ajustes para generar los resúmenes. Después se podrá seleccionar otra plantilla y regenerar el resumen a partir de los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior sin guardar historial de versiones por plantilla, aunque el audio se haya borrado.
 
+**Configuración de plantillas propias:** se podrá indicar un nombre, las instrucciones para generar el resumen y los apartados que se quieran incluir.
+
+**Edición del resumen:** se podrá editar directamente. Al regenerarlo con otra plantilla, el nuevo resumen sustituirá al anterior, incluidos los cambios manuales.
+
+**Guardado:** los cambios en «Mis notas» y en el resumen editable se guardarán automáticamente mientras se escribe.
+
 **Notas y resumen:** cada sesión tendrá dos vistas separadas: «Mis notas», editable por la persona, y «Resumen», generado. Regenerar el resumen no modificará las notas propias.
 
-**Síntesis adicional:** las notas pueden escribirse o editarse durante la sesión y también después de la transcripción. El resumen principal se genera inicialmente sin las notas. En «Mis notas» se podrá generar una segunda síntesis que combine el acta de la reunión y las notas; aparecerá al final de esa vista, diferenciada e identificada como generada por IA. Falta concretar cómo se solicita y actualiza cuando cambian sus fuentes.
+**Síntesis adicional:** las notas pueden escribirse o editarse durante la sesión y también después de la transcripción. El resumen principal se genera inicialmente sin las notas. En «Mis notas» se podrá generar una segunda síntesis que combine el acta de la reunión y las notas; aparecerá al final de esa vista, diferenciada e identificada como generada por IA. Se creará con «Generar síntesis»; si cambian las notas o el resumen principal, un aviso ofrecerá actualizarla. La nueva síntesis sustituirá a la anterior.
 
 **Siguiente punto:** continuar cerrando el flujo principal de escritorio. Presentar opciones concretas y una recomendación para el paso siguiente, manteniendo abierta la gestión de perfiles de voz.
 
@@ -111,7 +120,7 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 Al abordar cada nuevo punto de documentación, presentar opciones concretas y una recomendación, y permitir que la persona elija varias, haga preguntas o proponga otra alternativa.
 
-Mantener `PENDIENTES_DOCUMENTACION.md` como seguimiento visible del progreso: dividir temas amplios en decisiones concretas; marcar con `[x]` cada decisión acordada y documentada en la sección de decisiones cerradas; dejar con `[ ]` solo lo que siga abierto y desglosarlo cuando se cierre una parte. Evitar registrar avances como párrafos sin casilla. Actualizar la lista al cerrar cada decisión.
+Mantener `PENDIENTES_DOCUMENTACION.md` como lista previa de decisiones: preparar casillas sin marcar para los puntos por tratar y, al acordar y documentar cada uno, marcar la casilla existente en su lugar. No añadir casillas ya marcadas para aparentar avance. Si surge un tema nuevo, añadirlo como pendiente sin marcar y comunicarlo; conservar los acuerdos históricos y evitar reordenar la lista sin motivo.
 
 ## Instrucción para retomar
 
