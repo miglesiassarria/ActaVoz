@@ -23,11 +23,12 @@ La persona escribe notas durante o después de la sesión y puede generar una s�
 | AC3 | **Síntesis:** Botón Generar síntesis combina notas y acta/resumen y muestra resultado al final de Mis notas, identificado como generado por IA. | Con notas y resumen ficticios generar con proveedor simulado e inspeccionar entradas y presentación. | pendiente |
 | AC4 | **Actualización:** Al cambiar notas o resumen indicar que síntesis puede actualizarse; acción Actualizar síntesis reemplaza anterior. | Generar, modificar cada fuente por separado y comprobar aviso y sustitución. | pendiente |
 | AC5 | **Separación:** Regenerar resumen principal no modifica notas; eliminar síntesis tras confirmación conserva notas, transcripción y resumen. | Realizar ambas operaciones y verificar contenidos restantes. | pendiente |
+| AC6 | **Resumen necesario:** si no existe el resumen principal, indicar que debe generarse antes de crear la síntesis. | Abrir una sesión sin resumen, solicitar la síntesis y comprobar el mensaje y que no se genera. | pendiente |
+| AC7 | **Edición de síntesis:** permitir editar la síntesis; al actualizarla, la nueva sustituye a la anterior, incluidas sus ediciones manuales. | Editar una síntesis, actualizarla con un proveedor simulado y comprobar la sustitución. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Decidir qué ocurre si no existe resumen principal y si la síntesis generada es editable. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
-- Decidir qué modelo se emplea para la síntesis y dónde se guardan las notas y la síntesis; coordinar con 0003 y 0006.
+- Decidir qué modelo se emplea para la síntesis; coordinar con 0006. Las notas se guardan en `notas.md` y la síntesis en `sintesis.md` dentro de la carpeta de sesión, según 0003.
 
 ## Fuera de alcance
 

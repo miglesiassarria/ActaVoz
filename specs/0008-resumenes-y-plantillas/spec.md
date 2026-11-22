@@ -25,10 +25,13 @@ La persona genera un resumen desde la transcripción y puede cambiar de plantill
 | AC5 | **Regeneración:** Elegir plantilla predeterminada en Ajustes; cambiar plantilla en sesión y regenerar sustituyendo resumen anterior y ediciones, sin historial de versiones por plantilla. | Editar resumen, regenerar con otra plantilla y verificar sustitución y transcripción intacta. | pendiente |
 | AC6 | **Edición:** Permitir editar resumen y guardar automáticamente. | Editar, cerrar y reabrir sesión y comprobar cambios. | pendiente |
 | AC7 | **Eliminar:** Permitir borrar resumen tras confirmación sin borrar transcripción ni notas. | Cancelar y confirmar borrado en sesión de prueba y comprobar archivos restantes. | pendiente |
+| AC8 | **Confirmación de sobrescritura:** antes de regenerar un resumen con ediciones manuales pedir confirmación; si no tiene ediciones manuales, no mostrarla. Cancelar conserva el resumen. | Regenerar en casos con y sin edición manual; cancelar y confirmar en el primero y verificar contenido y avisos. | pendiente |
+| AC9 | **Fallo de regeneración:** conservar intacto el resumen anterior si falla la regeneración, mostrar el error y ofrecer reintentar; sustituirlo solo al finalizar correctamente. | Simular fallo del proveedor tras iniciar regeneración y comprobar que el resumen anterior persiste; reintentar con éxito y verificar la sustitución. | pendiente |
+| AC10 | **Eliminar plantilla propia:** permitir eliminarla desde Ajustes tras confirmación; cancelar conserva la plantilla. | Crear una plantilla de prueba, cancelar su eliminación y después confirmarla; comprobar que solo desaparece tras confirmar. | pendiente |
+| AC11 | **Plantillas predefinidas:** conservar las cuatro originales sin modificar y permitir duplicarlas como plantillas propias editables. | Duplicar una plantilla predefinida, editar la copia y comprobar que la original permanece intacta. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Decidir borrado de plantillas propias, edición de predefinidas, confirmación al sobrescribir ediciones y recuperación ante fallo de regeneración. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 - Aclarar si análisis y otros resultados existen como archivos independientes o mediante plantillas y chat.
 
 ## Fuera de alcance
@@ -44,7 +47,7 @@ La persona genera un resumen desde la transcripción y puede cambiar de plantill
 
 ## Riesgos
 
-- Una regeneración fallida podría perder correcciones manuales; su comportamiento debe acordarse antes de aprobación. Los criterios semánticos requieren mediciones de 0011.
+- La sustitución debe preservar las ediciones manuales anteriores si la regeneración falla. Los criterios semánticos requieren mediciones de 0011.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

@@ -24,7 +24,7 @@ El mini chat muestra consultas y respuestas durante la grabación y en la sesió
 | AC4 | **Modelo:** Usar el modelo configurado para preguntas o el principal si no hay específico. | Comparar solicitudes simuladas con y sin modelo específico. | pendiente |
 | AC5 | **Errores:** Mostrar error comprensible si falla el proveedor, sin detener la captura ni fingir respuesta. | Simular fallo durante grabación y verificar aviso y continuidad. | pendiente |
 | AC6 | **Sin adjuntos:** No ofrecer adjuntar archivos en la fase actual. | Inspeccionar controles del chat. | pendiente |
-| AC7 | **Historial:** guardar preguntas y respuestas con la sesión y recuperarlas al reabrirla. | Mantener un intercambio con un proveedor simulado, cerrar y reabrir la sesión y comprobar el historial. | pendiente |
+| AC7 | **Historial:** guardar preguntas y respuestas en `chat.json` dentro de la carpeta de sesión y recuperarlas al reabrirla. | Mantener un intercambio con un proveedor simulado, cerrar y reabrir la sesión y comprobar el historial y el archivo. | pendiente |
 | AC8 | **Contexto conversacional:** cada consulta incluye los turnos anteriores del chat junto con toda la transcripción disponible en ese momento. | Realizar dos preguntas y verificar en el proveedor simulado que la segunda solicitud incorpora los turnos previos y toda la transcripción acumulada. | pendiente |
 | AC9 | **Preguntas en espera:** permitir escribir y enviar otra pregunta mientras se responde; mantenerla en espera y enviarla cuando termine la respuesta anterior, conservando el orden. | Demorar una respuesta con un proveedor simulado, enviar otra pregunta y comprobar que se procesa después y con el historial previo. | pendiente |
 

@@ -131,6 +131,10 @@ Las notas propias se podrán escribir y editar durante la sesión y después de 
 
 Un botón «Generar síntesis» permitirá crear esa segunda síntesis. Si después cambian las notas o el resumen principal, se mostrará un aviso de que puede actualizarse; al pulsar «Actualizar síntesis», la nueva sustituirá a la anterior.
 
+Si se intenta generar la síntesis antes de que exista el resumen principal, ActaVoz indicará que primero hay que generar dicho resumen.
+
+La síntesis se podrá editar directamente. Al actualizarla, la nueva sustituirá a la anterior, incluidas las ediciones manuales.
+
 ActaVoz incluirá plantillas de resumen preparadas y permitirá crear y editar plantillas propias. Las plantillas iniciales acordadas son:
 
 - **Resumen general:** temas y puntos importantes.
@@ -152,9 +156,17 @@ En Ajustes se podrá elegir una plantilla predeterminada para generar los resúm
 
 Al crear una plantilla propia se podrá indicar su nombre, las instrucciones para generar el resumen y los apartados que se quieran incluir.
 
+Las plantillas propias se podrán eliminar desde Ajustes, con confirmación previa.
+
+Las cuatro plantillas predefinidas se conservarán sin modificar. Se podrán duplicar para crear versiones propias editables.
+
 Para seleccionar una plantilla habrá un menú desplegable con las plantillas disponibles y un buscador por nombre.
 
 La persona podrá editar directamente el resumen generado. Si después lo regenera con otra plantilla, el nuevo resumen sustituirá al anterior, incluidos sus cambios manuales.
+
+Antes de regenerar un resumen que contenga ediciones manuales, ActaVoz pedirá confirmación. Si no hay ediciones manuales, no mostrará esa confirmación.
+
+Si la regeneración falla, se conservará intacto el resumen anterior y se mostrará el error con opción de volver a intentarlo. La sustitución tendrá lugar cuando la regeneración termine correctamente.
 
 Los cambios en «Mis notas» y en el resumen editable se guardarán automáticamente mientras la persona escribe.
 
@@ -186,6 +198,7 @@ Se podrán borrar por separado, tras confirmación, el resumen generado y la sí
 - El título visible inicial será la fecha y hora de inicio de la nota o reunión. La persona podrá editarlo libremente, por ejemplo añadiendo una descripción al principio.
 - La fecha y los participantes de la sesión se mostrarán bajo el título; la persona podrá revisar y corregir los nombres de los participantes.
 - Dentro de la carpeta de sesión se guardarán `sesion.json` (metadatos), `transcripcion.json` (texto con marcas de tiempo e interlocutores), `resumen.md` y, si se conserva, `audio.m4a`. El análisis u otros resultados se añadirán cuando se generen.
+- La carpeta también incluirá `notas.md` para las notas personales, `sintesis.md` para la síntesis de notas y reunión, y `chat.json` para el historial de preguntas y respuestas.
 
 ## Usuarios y contextos
 

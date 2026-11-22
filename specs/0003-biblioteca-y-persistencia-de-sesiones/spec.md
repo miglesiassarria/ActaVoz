@@ -30,10 +30,10 @@ La biblioteca enumera sesiones por fecha y directorio, permite organizar carpeta
 | AC10 | **Cabecera:** al abrir una sesión, mostrar fecha y participantes debajo del título y permitir revisar y corregir sus nombres. | Abrir una sesión de prueba, corregir un nombre y reabrirla para verificar que persiste. | pendiente |
 | AC11 | **Sin organizar:** la barra lateral ofrece una opción fija que muestra las notas sin directorio asignado. | Preparar sesiones organizadas y sin organizar en disco y comprobar que la vista muestra las correspondientes sin directorio. | pendiente |
 | AC12 | **Búsqueda:** encontrar sesiones por coincidencias en título, transcripción, notas o resumen. | Crear sesiones de prueba con términos exclusivos en cada campo y comprobar que cada búsqueda devuelve la sesión correspondiente. | pendiente |
+| AC13 | **Archivos adicionales:** conservar notas personales en `notas.md`, síntesis en `sintesis.md` e historial del chat en `chat.json` dentro de la carpeta de sesión cuando existan. | Preparar contenido de prueba, guardar y reabrir la sesión; verificar los tres archivos y su contenido. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Dónde y cómo se conservan notas, síntesis y posible historial de chat.
 - Representación del audio final y conservación de datos de voz sin audio; se coordina con 0004 y 0005.
 
 ## Fuera de alcance

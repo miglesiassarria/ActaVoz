@@ -22,6 +22,20 @@ La biblioteca permitirá buscar sesiones por título y por el texto de la transc
 
 El historial del chat se guardará con la sesión. Cada consulta utilizará la transcripción completa disponible y los turnos previos del chat.
 
+En la carpeta de cada sesión, las notas se guardarán en `notas.md`, la síntesis en `sintesis.md` y el historial de chat en `chat.json`.
+
+Si se solicita la síntesis sin que exista el resumen principal, ActaVoz indicará que primero hay que generarlo.
+
+Antes de regenerar un resumen con ediciones manuales se pedirá confirmación; si no tiene ediciones manuales no se preguntará.
+
+Si falla la regeneración, se conserva intacto el resumen anterior, se muestra el error y se ofrece reintentar; solo se sustituye al terminar correctamente.
+
+Las plantillas propias se podrán eliminar desde Ajustes con confirmación previa.
+
+Las cuatro plantillas predefinidas se conservarán sin modificar y se podrán duplicar para crear versiones propias editables.
+
+La síntesis se podrá editar; al actualizarla, la nueva sustituirá a la anterior, incluidas sus ediciones manuales.
+
 Las preguntas enviadas mientras se genera una respuesta quedarán en espera y se enviarán al terminar la anterior, manteniendo el orden.
 
 «Nueva nota» siempre abre el flujo de grabación; no se contempla crear una nota exclusivamente de texto mediante ese botón.
