@@ -27,15 +27,19 @@ La transcripción local distingue turnos, propone nombres con indicios claros y 
 | AC7 | **Privacidad local:** Audio y procesamiento de voz permanecen en el Mac; solo texto puede llegar al LLM. | Inspeccionar tráfico de red en prueba controlada y verificar ausencia de audio. | pendiente |
 | AC8 | **Reconocimiento posterior:** un perfil guardado se utiliza para proponer el mismo interlocutor en una reunión posterior cuando haya evidencia suficiente; las coincidencias inciertas no se dan por confirmadas. | Crear perfil con audio controlado, procesar otra sesión con la misma voz y otra distinta, comprobar propuesta y tratamiento de incertidumbre. | pendiente |
 | AC9 | **Procesamiento sin internet:** transcribir y distinguir interlocutores sin conexión con los recursos locales previamente disponibles. | Preparar los recursos, desconectar internet y procesar grabaciones de prueba en los idiomas admitidos. | pendiente |
+| AC10 | **Confirmación tardía sin audio:** si se activó guardar perfiles, conservar temporalmente los datos de voz necesarios para poder crear el perfil tras confirmar un nombre, incluso si se borró el audio. | Procesar una sesión de prueba con perfiles activados, borrar el audio, confirmar después un interlocutor y comprobar la creación de su perfil. | pendiente |
+| AC11 | **Retención temporal de voz:** conservar los datos temporales de cada interlocutor hasta confirmar su nombre o eliminar la sesión. | Con dos interlocutores de prueba, confirmar uno y verificar el tratamiento de sus datos; borrar la sesión y comprobar que se eliminan los temporales restantes. | pendiente |
+| AC12 | **Reasignación individual:** permitir asignar una intervención concreta a otro interlocutor sin modificar las demás. | Reasignar una intervención de prueba y comprobar que solo cambia su atribución; reabrir la sesión y verificar la corrección. | pendiente |
+| AC13 | **Fusión de interlocutores:** permitir fusionar dos interlocutores para agrupar sus intervenciones bajo un mismo nombre. | Fusionar dos interlocutores de prueba, comprobar sus intervenciones y reabrir la sesión para verificar el resultado. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Decidir identidad del usuario local, fusión de interlocutores, reasignación individual y perfiles tardíos tras borrar audio. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Decidir identidad del usuario local. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 - Decidir si la deducción de nombres utiliza un LLM y, en ese caso, qué modelo se asigna; coordinar con 0006 y la investigación 0012.
 
 ## Fuera de alcance
 
-- No incluye funciones aún no aprobadas de identificación del usuario, fusión o reasignación.
+- La identificación del usuario local queda pendiente de decisión.
 - La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias

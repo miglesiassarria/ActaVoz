@@ -34,7 +34,7 @@ La biblioteca enumera sesiones por fecha y directorio, permite organizar carpeta
 
 ## Decisiones previas a aprobación
 
-- Representación del audio final y conservación de datos de voz sin audio; se coordina con 0004 y 0005.
+- Conservación de datos de voz sin audio; se coordina con 0004 y 0005. El audio final conservado será un único archivo combinado.
 
 ## Fuera de alcance
 

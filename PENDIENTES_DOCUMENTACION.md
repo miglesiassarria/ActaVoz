@@ -91,8 +91,12 @@ Estas casillas se han añadido sin marcar porque la auditoría detectó decision
 - [x] **Sin proveedor:** se podrá omitir la configuración inicial y usar funciones locales, incluidas grabación, transcripción y notas. Al intentar usar una función que requiera proveedor, ActaVoz ofrecerá configurarlo. (0002, 0006)
 - [ ] **Contexto del modelo:** decidir el comportamiento ante rechazo por longitud y la estrategia para una o varias llamadas sin eliminar texto ni imponer límites propios. (0006, 0013)
 - [x] **Archivos de sesión:** guardar notas en `notas.md`, síntesis en `sintesis.md` e historial de chat en `chat.json`, dentro de la carpeta de cada sesión. (0003, 0007, 0009)
-- [ ] **Audio y perfiles tardíos:** decidir cómo se conserva el audio separado o mezclado y qué datos de voz permanecen si se borra el audio antes de confirmar un nombre. (0004, 0005)
-- [ ] **Corrección de voces:** decidir si habrá identificación del usuario local, fusión de interlocutores o reasignación de una intervención individual. (0005)
+- [x] **Audio y perfiles tardíos:** con guardar perfiles activado, conservar los datos de voz temporales de cada interlocutor hasta confirmar su nombre o eliminar la sesión. (0004, 0005)
+  - [x] **Audio final:** conservar un único archivo combinado para reproducción, manteniendo separadas las fuentes durante el procesamiento.
+  - [x] **Datos para perfiles tardíos:** con guardar perfiles activado, conservar temporalmente los datos de voz necesarios para crear perfiles tras confirmar nombres, incluso si se borra el audio.
+- [ ] **Corrección de voces:** decidir si habrá identificación del usuario local. (0005)
+  - [x] **Reasignación individual:** permitir asignar una intervención concreta a otro interlocutor sin modificar las demás.
+  - [x] **Fusión de interlocutores:** permitir agrupar bajo un mismo nombre las intervenciones de dos interlocutores que correspondan a la misma persona.
 - [x] **Resultados adicionales:** obtener análisis y tareas mediante plantillas o el chat, conservando el resumen como resultado principal sin archivos independientes de análisis. (0008)
 - [x] **Biblioteca:** «Nueva nota» siempre abre el flujo de grabación; no se contempla crear una nota exclusivamente de texto mediante ese botón. (0003)
   - [x] **Notas sin organizar:** acceso mediante una opción fija «Sin organizar» en la barra lateral.

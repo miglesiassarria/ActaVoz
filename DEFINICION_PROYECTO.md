@@ -28,6 +28,7 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 - La captura será nativa: **ScreenCaptureKit** para el audio del sistema y las herramientas de audio de Apple para el micrófono.
 - Antes de la primera grabación, ActaVoz explicará brevemente que necesita acceso al micrófono y al audio del sistema, y después mostrará las solicitudes de permisos correspondientes de macOS.
 - Se conservarán ambas fuentes separadas y sincronizadas durante el procesamiento, en vez de mezclarlas al capturarlas. Esto puede ayudar a distinguir la voz local de las voces remotas y reducir atribuciones erróneas.
+- Cuando se conserve el audio final de la sesión, se guardará en un único archivo combinado para su reproducción.
 - El micrófono y el audio del sistema estarán activados por defecto. Antes de cada grabación se podrá elegir el micrófono y desactivar cualquiera de las fuentes para esa sesión.
 - Si una fuente de audio no está disponible antes de iniciar, ActaVoz mostrará cuál falta y permitirá comenzar con la otra siempre que haya al menos una fuente disponible.
 - Si una fuente deja de estar disponible durante la grabación, ActaVoz mostrará un aviso claro y continuará con la fuente disponible. Si la fuente interrumpida vuelve, reanudará su captura.
@@ -92,6 +93,7 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - En ese panel, «Guardar perfiles de voz» estará seleccionado por defecto. La persona podrá desmarcarlo para una sesión concreta.
 - Cuando esté activado guardar perfiles, solo se guardarán los de interlocutores cuyo nombre haya sido confirmado por la persona, para facilitar su reconocimiento en futuras reuniones.
 - Los perfiles con nombre confirmado se guardarán al terminar el procesamiento de la reunión. Si se confirma otro nombre después, también se guardará su perfil cuando esté disponible. ActaVoz intentará deducir y proponer nombres automáticamente a partir de indicios claros de la conversación; la persona deberá confirmarlos o corregirlos.
+- Si se activó guardar perfiles, se conservarán temporalmente los datos de voz necesarios para crear después el perfil de un interlocutor confirmado, incluso si se borra el audio. Los datos temporales de cada interlocutor se conservarán hasta confirmar su nombre o eliminar la sesión.
 - En Ajustes habrá una sección para consultar los perfiles de voz guardados, cambiarles el nombre y eliminarlos.
 - El idioma seguirá las opciones acordadas: español, inglés o detección automática entre ambos, con español seleccionado por defecto.
 - La persona inicia una sesión para grabar una reunión o una reflexión en solitario.
@@ -102,6 +104,8 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - Si la grabación se interrumpe inesperadamente, ActaVoz conservará lo capturado y transcrito hasta ese momento. Al abrir de nuevo la aplicación, mostrará la sesión interrumpida y ofrecerá reanudarla o darla por terminada.
 - El sistema intentará distinguir las voces y asignar intervenciones a cada interlocutor. Si encuentra indicios claros de un nombre, lo propondrá para que la persona lo confirme o corrija. Mientras no se confirme, usará etiquetas neutrales como «Interlocutor 1» e «Interlocutor 2».
 - La transcripción mostrará el nombre o etiqueta de cada interlocutor junto a sus intervenciones. Al pulsarlo, la persona podrá corregirlo y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
+- También se podrá seleccionar una intervención concreta y reasignarla a otro interlocutor, sin modificar las demás.
+- Cuando dos interlocutores identificados correspondan a la misma persona, se podrán fusionar para agrupar sus intervenciones bajo un mismo nombre.
 - La corrección del nombre se guardará automáticamente con la sesión y se conservará al cerrarla y volverla a abrir.
 - Mientras la captura continúa, la persona puede escribir preguntas en un cuadro de texto. Para cada pregunta, ActaVoz enviará al LLM toda la transcripción acumulada hasta ese momento y responderá sin interrumpir la grabación.
 - El historial de preguntas y respuestas se guardará con la sesión para poder retomarlo después. Cada consulta utilizará, además de la transcripción completa disponible en ese momento, los turnos previos del chat.

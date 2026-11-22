@@ -14,6 +14,14 @@ El proyecto está en documentación y descubrimiento de la primera versión de e
 
 ActaVoz captura micrófono y audio del sistema, procesa voz localmente, permite preguntas con transcripción completa y ofrece biblioteca, notas, resumen, plantillas y proveedores configurables. Los detalles y excepciones están en la definición y las specs. La API REST, adjuntos, calendario y control de costes están fuera de la fase actual.
 
+Las fuentes se mantienen separadas durante el procesamiento; si se conserva el audio final, se guardará un único archivo combinado para su reproducción.
+
+Si guardar perfiles estaba activado, se conservarán los datos de voz temporales de cada interlocutor hasta confirmar su nombre o eliminar la sesión, incluso si se borra el audio.
+
+Se podrá reasignar una intervención concreta a otro interlocutor sin modificar las demás; sigue disponible la corrección del nombre para todas las intervenciones de un interlocutor en la sesión.
+
+Se podrán fusionar dos interlocutores que correspondan a la misma persona para agrupar sus intervenciones bajo un mismo nombre.
+
 Se podrá omitir la configuración inicial del proveedor y usar las funciones locales. Al intentar utilizar una función que lo requiera, se ofrecerá configurar un proveedor.
 
 La barra lateral tendrá una opción fija «Sin organizar» para acceder a las notas sin directorio asignado.
