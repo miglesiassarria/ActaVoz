@@ -16,6 +16,8 @@ ActaVoz captura micrófono y audio del sistema, procesa voz localmente, permite 
 
 Las fuentes se mantienen separadas durante el procesamiento; si se conserva el audio final, se guardará un único archivo combinado para su reproducción.
 
+Al intentar cerrar ActaVoz durante una grabación, aparecerá un aviso para continuar grabando o detener la sesión y cerrar.
+
 Si guardar perfiles estaba activado, se conservarán los datos de voz temporales de cada interlocutor hasta confirmar su nombre o eliminar la sesión, incluso si se borra el audio.
 
 Se podrá reasignar una intervención concreta a otro interlocutor sin modificar las demás; sigue disponible la corrección del nombre para todas las intervenciones de un interlocutor en la sesión.

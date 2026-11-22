@@ -101,6 +101,7 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - ActaVoz captura y procesa el audio de forma continua, mostrando el avance de la sesión.
 - Durante la grabación, la zona inferior mostrará un indicador visible de grabación, el tiempo transcurrido y los controles de pausa y parada.
 - La grabación se podrá pausar y reanudar dentro de la misma sesión. Durante la pausa no se capturará audio.
+- Si se intenta cerrar ActaVoz mientras graba, se mostrará un aviso para elegir entre continuar grabando o detener la sesión y cerrar.
 - El contador se detendrá durante la pausa y se reanudará al continuar, mostrando el tiempo de audio capturado.
 - Si la grabación se interrumpe inesperadamente, ActaVoz conservará lo capturado y transcrito hasta ese momento. Al abrir de nuevo la aplicación, mostrará la sesión interrumpida y ofrecerá reanudarla o darla por terminada.
 - El sistema intentará distinguir las voces y asignar intervenciones a cada interlocutor. Si encuentra indicios claros de un nombre, lo propondrá para que la persona lo confirme o corrija. Mientras no se confirme, usará etiquetas neutrales como «Interlocutor 1» e «Interlocutor 2».

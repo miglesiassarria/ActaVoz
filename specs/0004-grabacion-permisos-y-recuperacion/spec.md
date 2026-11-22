@@ -29,10 +29,11 @@ La persona prepara las fuentes, concede permisos, graba y puede pausar o recuper
 | AC9 | **Audio:** Aplicar tras procesar política guardar siempre por defecto, borrar siempre o preguntar cada sesión; el aviso solo aparece en preguntar y no borra textos. | Repetir con cada política en datos temporales; inspeccionar audio y textos. | pendiente |
 | AC10 | **Captura sin internet:** grabar y conservar audio local sin conexión a internet. | Preparar el entorno, desconectar internet y grabar señales controladas; comprobar los archivos locales. | pendiente |
 | AC11 | **Audio final:** cuando se conserve, guardar un único archivo combinado para reproducción, con las fuentes separadas durante el procesamiento. | Capturar señales distinguibles de ambas fuentes, conservar el audio y comprobar el archivo combinado y su reproducción. | pendiente |
+| AC12 | **Cierre durante grabación:** al intentar cerrar ActaVoz mientras graba, mostrar un aviso para continuar grabando o detener la sesión y cerrar. | Iniciar grabación, intentar cerrar y probar cada opción en sesiones de prueba; comprobar continuidad o parada y cierre. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Cerrar voluntariamente durante captura o sin responder al aviso de audio; tratamiento de permisos denegados y acceso a Ajustes del Sistema. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Decidir qué ocurre al cerrar sin responder al aviso de audio; tratamiento de permisos denegados y acceso a Ajustes del Sistema. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 
 ## Fuera de alcance
 
