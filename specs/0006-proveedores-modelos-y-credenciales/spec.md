@@ -27,10 +27,11 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 | AC7 | **Contexto:** No imponer control o límite propio de contexto; utilizar toda la transcripción, con una o varias llamadas según corresponda. | Proveedor simulado registra solicitudes; verificar cobertura completa y comportamiento ante rechazo. | pendiente |
 | AC8 | **Sin proveedor:** permitir usar las funciones locales sin proveedor configurado y ofrecer configurarlo al intentar hacer preguntas o generar resultados que lo requieran. | Sin proveedor, probar funciones locales y solicitar una pregunta y un resumen; comprobar la oferta de configuración. | pendiente |
 | AC9 | **Modelo para síntesis:** usar el modelo configurado para resúmenes o el principal si no se configuró uno específico. | Con proveedor simulado, generar síntesis con y sin modelo de resúmenes y comprobar el modelo solicitado. | pendiente |
+| AC10 | **Modelo para nombres:** cuando un LLM ayude a proponer nombres, usar el modelo principal configurado. | Con proveedor simulado y modelos distintos configurados, solicitar ayuda para nombres y comprobar que se usa el principal. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Resolver modelo para identificación de nombres, protocolos y comportamiento ante rechazo por contexto. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Resolver protocolos y comportamiento ante rechazo por contexto. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
 
 ## Fuera de alcance
 

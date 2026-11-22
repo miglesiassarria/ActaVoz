@@ -83,7 +83,7 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 Estas casillas se han añadido sin marcar porque la auditoría detectó decisiones que aún no constaban en la lista. Se resolverán antes de aprobar las specs afectadas.
 
-- [ ] **Modelo por función adicional:** decidir cómo se asigna el modelo de deducción de nombres cuando se utiliza un LLM. (0005, 0006)
+- [x] **Modelo por función adicional:** cuando se utilice un LLM para deducir nombres, usar el modelo principal configurado. (0005, 0006)
   - [x] **Modelo para síntesis de notas:** usar el modelo de resúmenes o, si no hay uno específico, el modelo principal. (0006, 0009)
   - [x] **Deducción de nombres:** intentar deducirlos localmente de pistas claras en la transcripción y permitir ayuda de un modelo configurado, con confirmación o corrección por la persona; validar ambas vías.
 - [x] **Confirmación de sobrescritura:** pedir confirmación antes de regenerar un resumen con ediciones manuales; sin ediciones manuales, no preguntar. (0008)
