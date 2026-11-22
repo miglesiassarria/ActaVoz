@@ -106,7 +106,7 @@ Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tie
 - La transcripción mostrará el nombre o etiqueta de cada interlocutor junto a sus intervenciones. Al pulsarlo, la persona podrá corregirlo y aplicar el cambio a todas las intervenciones atribuidas a ese interlocutor en la sesión.
 - También se podrá seleccionar una intervención concreta y reasignarla a otro interlocutor, sin modificar las demás.
 - Cuando dos interlocutores identificados correspondan a la misma persona, se podrán fusionar para agrupar sus intervenciones bajo un mismo nombre.
-- En Ajustes se podrá elegir el comportamiento de identificación de la persona usuaria. Por defecto, las intervenciones captadas por el micrófono se etiquetarán como «Yo»; seguirán disponibles las correcciones de atribución. Las demás opciones de este ajuste quedan por concretar.
+- En Ajustes se podrá elegir el comportamiento de identificación de la persona usuaria. Por defecto, las intervenciones captadas por el micrófono se etiquetarán como «Yo»; se podrá desactivar esa etiqueta automática y tratar las voces del micrófono como las de cualquier otra fuente. Seguirán disponibles las correcciones de atribución.
 - La corrección del nombre se guardará automáticamente con la sesión y se conservará al cerrarla y volverla a abrir.
 - Mientras la captura continúa, la persona puede escribir preguntas en un cuadro de texto. Para cada pregunta, ActaVoz enviará al LLM toda la transcripción acumulada hasta ese momento y responderá sin interrumpir la grabación.
 - El historial de preguntas y respuestas se guardará con la sesión para poder retomarlo después. Cada consulta utilizará, además de la transcripción completa disponible en ese momento, los turnos previos del chat.

@@ -94,7 +94,7 @@ Estas casillas se han añadido sin marcar porque la auditoría detectó decision
 - [x] **Audio y perfiles tardíos:** con guardar perfiles activado, conservar los datos de voz temporales de cada interlocutor hasta confirmar su nombre o eliminar la sesión. (0004, 0005)
   - [x] **Audio final:** conservar un único archivo combinado para reproducción, manteniendo separadas las fuentes durante el procesamiento.
   - [x] **Datos para perfiles tardíos:** con guardar perfiles activado, conservar temporalmente los datos de voz necesarios para crear perfiles tras confirmar nombres, incluso si se borra el audio.
-- [ ] **Corrección de voces:** concretar las demás opciones del ajuste de identificación del usuario local. (0005)
+- [x] **Corrección de voces:** permitir desactivar la etiqueta automática «Yo» y tratar las voces del micrófono como las de cualquier otra fuente. (0005)
   - [x] **Reasignación individual:** permitir asignar una intervención concreta a otro interlocutor sin modificar las demás.
   - [x] **Fusión de interlocutores:** permitir agrupar bajo un mismo nombre las intervenciones de dos interlocutores que correspondan a la misma persona.
   - [x] **Identidad del usuario local:** comportamiento configurable en Ajustes; por defecto, etiquetar como «Yo» las intervenciones captadas por el micrófono, manteniendo las correcciones de atribución.
