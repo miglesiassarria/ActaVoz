@@ -26,12 +26,26 @@ Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar 
 | --- | --- | --- | --- |
 | Probar captura dual y sincronización | Ambas señales llegan separadas con tiempos comparables | Datos sintéticos en Mac de prueba | No ejecutado |
 | Probar permisos, reconexión y Bluetooth | Identificar interrupciones y recuperación por versión de macOS | Sin datos personales | No ejecutado |
-| Probar transcripción en español, inglés y detección automática sin red | Medir disponibilidad y resultados con modelos previamente instalados | Audio preparado y autorizado | No ejecutado |
+| Probar transcripción en español, inglés y detección automática sin red | Medir disponibilidad y resultados con modelos previamente instalados | Audio preparado y autorizado | Parcial: frases sintéticas en ambos idiomas; red denegada al proceso cliente, no a los servicios del sistema. Falta verificar desconexión completa y detección automática |
 | Probar diarización y perfiles entre reuniones, incluso tras borrar audio | Medir reconocimiento, solapamiento y condiciones de persistencia | Voces sintéticas o consentidas; almacenamiento temporal | No ejecutado |
 | Verificar disponibilidad de SpeechAnalyzer y recursos por versión de macOS e idioma; evaluar alternativa si no encaja | Registrar versión mínima, recursos sin red y alternativa viable, incluida detección de idioma | Documentación oficial y pruebas en Mac de prueba | Parcial: disponibilidad e idiomas consultados; faltan transcripción, alternativa y validación en versiones objetivo |
 | Comparar ScreenCaptureKit y Core Audio taps | Registrar permisos, disponibilidad, captura simultánea y necesidad de reinicio en macOS objetivo | Señales sintéticas y cuenta de prueba | No ejecutado |
 | Verificar creación de ~/.ActaVoz sin App Sandbox | Confirmar acceso y ausencia de sobrescritura en macOS objetivo | Home de usuario de prueba con archivo centinela | Parcial: probado en home simulado y home real de la cuenta actual con ejecutable local sin sandbox; falta cuenta de prueba independiente y entorno de distribución |
 | Evaluar deducción de nombres en local o con LLM | Documentar opciones y efectos sobre uso sin conexión | Transcripciones sintéticas; sin envío de audio | No ejecutado |
+
+### Evidencia parcial: transcripción de un archivo en español
+
+- **Método:** generar `/tmp/actavoz_prueba_es.aiff` con `say -v Monica`, con la frase «Hola, esta es una reunión de prueba. Mañana revisaremos las tareas del proyecto.»; compilar `experimentos/transcribir.swift` con Xcode y ejecutar el binario con dicho archivo.
+- **Resultado:** salida 0; SpeechAnalyzer devolvió exactamente la frase de prueba. El experimento usa una voz sintética, un único archivo corto y el idioma español seleccionado explícitamente; no se desconectó la red y no se midieron latencia, calidad en reuniones, inglés ni detección automática.
+- **Fecha:** 2026-11-22.
+- **Commit:** sin commit.
+
+### Evidencia parcial: inglés y restricción de red del proceso
+
+- **Método:** generar audio sintético inglés con `say -v Samantha`, compilar `experimentos/transcribir.swift`, ejecutar con `en_US --instalar` y repetir español e inglés mediante `sandbox-exec -p '(version 1) (allow default) (deny network*)'`, sin modificar la conexión global del Mac.
+- **Resultado:** salida 0 en ambos idiomas; los textos transcritos coincidieron con las frases sintéticas. En inglés, AssetInventory pasó de `supported` a `installed` tras la descarga; la consulta de estado del módulo español informó `supported` y aun así produjo texto. La restricción se aplicó al proceso cliente, no garantiza que los servicios de macOS no accedieran a la red. No prueba uso completamente desconectado, detección automática ni calidad en reuniones.
+- **Fecha:** 2026-11-22.
+- **Commit:** sin commit.
 
 ### Evidencia parcial: disponibilidad de idiomas
 
