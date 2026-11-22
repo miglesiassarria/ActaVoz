@@ -10,6 +10,9 @@ Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar 
 - **Observado en documentación, 2026-11-22:** [ScreenCaptureKit](https://developer.apple.com/documentation/ScreenCaptureKit) documenta captura de audio y permiso de grabación de pantalla. [FluidAudio](https://github.com/FluidInference/FluidAudio) documenta diarización y extracción de representaciones de voz; no acredita nuestro caso de uso.
 - **Observado en documentación, 2026-11-22:** [AssetInventory de Apple](https://developer.apple.com/documentation/speech/assetinventory) indica que los modelos necesarios para SpeechAnalyzer se descargan y gestionan por el sistema. Su disponibilidad en una instalación sin red debe verificarse tras preparar los recursos.
 - **Observado en documentación, 2026-11-22:** [Core Audio taps](https://developer.apple.com/documentation/coreaudio/capturing-system-audio-with-core-audio-taps) permite capturar audio de procesos y describe una solicitud de permiso para audio del sistema; el ejemplo exige macOS 14.2 o posterior. Esto no fija la versión mínima de ActaVoz.
+- **Observado en SDK local, 2026-11-22:** la interfaz Swift del SDK de macOS 26.2 declara `SpeechAnalyzer` y `SpeechTranscriber` disponibles desde macOS 26. Esto no establece el mínimo de ActaVoz ni demuestra compatibilidad con todos los equipos.
+- **Observado en este Mac, 2026-11-22:** macOS 27.2.1, arquitectura arm64 y Xcode 27.2 con SDK de macOS 27.2. Tras la actualización y apertura de Xcode, la comprobación de primer inicio y la compilación del experimento de idiomas funcionan al seleccionarlo mediante `DEVELOPER_DIR`.
+- **Observado en este Mac, 2026-11-22:** `SpeechTranscriber.isAvailable` devolvió verdadero; el listado de idiomas admitidos incluía variantes de español e inglés. Los recursos instalados declarados incluían variantes de español, sin variantes de inglés. Esto no verifica transcripción, calidad ni funcionamiento sin red.
 - **Desconocido:** macOS y hardware mínimos, disponibilidad sin red e idiomas de SpeechAnalyzer, compatibilidad de FluidAudio, captura simultánea con auriculares Bluetooth, reinicio de permisos y reconocimiento entre reuniones.
 
 ## Hipótesis y desconocidos
@@ -29,6 +32,20 @@ Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar 
 | Comparar ScreenCaptureKit y Core Audio taps | Registrar permisos, disponibilidad, captura simultánea y necesidad de reinicio en macOS objetivo | Señales sintéticas y cuenta de prueba | No ejecutado |
 | Verificar creación de ~/.ActaVoz sin App Sandbox | Confirmar acceso y ausencia de sobrescritura en macOS objetivo | Home de usuario de prueba con archivo centinela | No ejecutado |
 | Evaluar deducción de nombres en local o con LLM | Documentar opciones y efectos sobre uso sin conexión | Transcripciones sintéticas; sin envío de audio | No ejecutado |
+
+### Evidencia parcial: disponibilidad de idiomas
+
+- **Método:** `swiftc -parse-as-library specs/0012-viabilidad-captura-transcripcion-y-voz-local/experimentos/idiomas.swift -o /tmp/actavoz_speech_probe && /tmp/actavoz_speech_probe`; consulta de versiones con `sw_vers`, `uname -m` y `xcrun --sdk macosx --show-sdk-version`.
+- **Resultado:** compilación y ejecución correctas; disponible: sí; admitidos: variantes `en_*` y `es_*`; instalados: `es_CL`, `es_ES`, `es_MX`, `es_US`. Las listas indican el estado de este equipo en la fecha, no una garantía para otros.
+- **Fecha:** 2026-11-22.
+- **Commit:** sin commit.
+
+### Comprobación de Xcode tras la actualización
+
+- **Método:** `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild -checkFirstLaunchStatus`, consulta de versión y SDK, y compilación y ejecución de `experimentos/idiomas.swift` usando ese directorio.
+- **Resultado:** Xcode 27.2, SDK 27.2 y comprobación de primer inicio con salida 0; compilación y ejecución correctas. El experimento volvió a informar disponibilidad e idiomas compatibles en español e inglés, con recursos de español instalados. No se alteró la selección global. La licencia había impedido compilar con la versión anterior; esa limitación ya no se reproduce.
+- **Fecha:** 2026-11-22.
+- **Commit:** sin commit.
 
 ## Resultado y siguiente paso
 

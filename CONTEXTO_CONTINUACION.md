@@ -76,7 +76,7 @@ Las preguntas enviadas mientras se genera una respuesta quedarán en espera y se
 
 ## Auditoría y siguiente paso
 
-La auditoría detectó dependencias circulares, contradicciones, decisiones sin cerrar y falta de investigación técnica. Se reorganizó la base 0002, se anotaron las decisiones abiertas en la lista y se crearon dos investigaciones: [voz local](specs/0012-viabilidad-captura-transcripcion-y-voz-local/discovery.md) y [proveedores](specs/0013-viabilidad-proveedores-contexto-y-oauth/discovery.md). Sus experimentos no se han ejecutado. El resultado debe revisarlo el auditor y las decisiones materiales deben resolverse antes de aprobar las specs afectadas.
+La auditoría detectó dependencias circulares, contradicciones, decisiones sin cerrar y falta de investigación técnica. Se reorganizó la base 0002, se anotaron las decisiones abiertas en la lista y se crearon dos investigaciones: [voz local](specs/0012-viabilidad-captura-transcripcion-y-voz-local/discovery.md) y [proveedores](specs/0013-viabilidad-proveedores-contexto-y-oauth/discovery.md). Se registró evidencia parcial de idiomas disponibles en este Mac y del catálogo público de OpenCode Go; los experimentos de captura, inferencia y OAuth siguen pendientes. Xcode 27.2 ya supera la comprobación de primer inicio y compila el experimento de idiomas usando `DEVELOPER_DIR`. Las decisiones materiales deben resolverse antes de aprobar las specs afectadas.
 
 ## Forma de avanzar
 

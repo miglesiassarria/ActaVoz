@@ -40,18 +40,19 @@ La transcripción local distingue turnos, propone nombres con indicios claros y 
 
 ## Fuera de alcance
 
-- La identificación por fuente puede atribuir al usuario voces de otras personas captadas por el micrófono; se puede desactivar y corregir.
+- No se incorporan funciones de voz ajenas a la transcripción e identificación de interlocutores previstas para esta fase.
 - La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias
 
 - **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
-- **Desconocido:** SpeechAnalyzer y FluidAudio/Core ML son candidatos, no dependencias validadas; precisión, idiomas, solapamiento y perfiles posteriores requieren experimentos; correcciones de atribución errónea por intervención no especificadas.
+- **Desconocido:** SpeechAnalyzer y FluidAudio/Core ML son candidatos, no dependencias validadas; precisión, idiomas, solapamiento y perfiles posteriores requieren experimentos. Las correcciones individuales están acordadas en AC12.
 - Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
 
 ## Riesgos
 
-- Idiomas, disponibilidad local, modelos descargados, solapamientos y reconocimiento entre sesiones requieren pruebas de 0012. El perfil tardío tras borrar audio sigue sin decidir.
+- Idiomas, disponibilidad local, modelos descargados, solapamientos y reconocimiento entre sesiones requieren pruebas de 0012. El perfil tardío tras borrar audio está acordado en AC10–AC11, pero necesita validación técnica.
+- La identificación por fuente puede atribuir al usuario voces de otras personas captadas por el micrófono; se puede desactivar y corregir.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

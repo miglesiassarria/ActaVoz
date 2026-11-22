@@ -48,7 +48,7 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 
 ## Riesgos
 
-- La viabilidad y autorización de OAuth, contratos de proveedores y rechazo por contexto se investigan en 0013; el tratamiento sin proveedor y la estrategia de múltiples llamadas siguen pendientes.
+- La viabilidad y autorización de OAuth, los contratos de proveedores y la estrategia acordada de múltiples llamadas ante rechazo por longitud se investigan en 0013. El uso sin proveedor está acordado en AC8.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables
