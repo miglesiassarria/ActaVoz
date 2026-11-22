@@ -28,6 +28,7 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 | AC8 | **Sin proveedor:** permitir usar las funciones locales sin proveedor configurado y ofrecer configurarlo al intentar hacer preguntas o generar resultados que lo requieran. | Sin proveedor, probar funciones locales y solicitar una pregunta y un resumen; comprobar la oferta de configuración. | pendiente |
 | AC9 | **Modelo para síntesis:** usar el modelo configurado para resúmenes o el principal si no se configuró uno específico. | Con proveedor simulado, generar síntesis con y sin modelo de resúmenes y comprobar el modelo solicitado. | pendiente |
 | AC10 | **Modelo para nombres:** cuando un LLM ayude a proponer nombres, usar el modelo principal configurado. | Con proveedor simulado y modelos distintos configurados, solicitar ayuda para nombres y comprobar que se usa el principal. | pendiente |
+| AC11 | **Rechazo de solicitud:** mostrar un error comprensible y permitir reintentar o cambiar de modelo, conservando la transcripción y los contenidos guardados. | Simular un rechazo del proveedor, comprobar el aviso y ambas opciones y verificar que los contenidos de la sesión permanecen. | pendiente |
 
 ## Decisiones previas a aprobación
 

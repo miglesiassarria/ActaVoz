@@ -34,6 +34,8 @@ ActaVoz intentará deducir nombres localmente a partir de pistas claras de la tr
 
 Se podrá omitir la configuración inicial del proveedor y usar las funciones locales. Al intentar utilizar una función que lo requiera, se ofrecerá configurar un proveedor.
 
+Si un proveedor rechaza una solicitud, ActaVoz mostrará un error comprensible y permitirá reintentar o cambiar de modelo; se conservarán la transcripción y los contenidos guardados.
+
 La barra lateral tendrá una opción fija «Sin organizar» para acceder a las notas sin directorio asignado.
 
 La biblioteca permitirá buscar sesiones por título y por el texto de la transcripción, las notas o el resumen.

@@ -68,6 +68,8 @@ Se podrán mantener varios proveedores configurados y elegir cuál está activo 
 
 Se podrá elegir un modelo principal para todas las funciones y, opcionalmente, asignar modelos específicos a funciones concretas, como preguntas o resúmenes.
 
+Si un proveedor rechaza una solicitud, ActaVoz mostrará un error comprensible y permitirá reintentar o cambiar de modelo. La transcripción y los contenidos guardados de la sesión se conservarán.
+
 El control y las estimaciones de costes de los proveedores quedan fuera de la fase actual y se podrán considerar en una fase posterior.
 
 Las API keys se introducirán una vez y se guardarán localmente en el Llavero de macOS para reutilizarlas sin volver a pedirlas en cada uso. ChatGPT ofrecerá API key u OAuth; los demás proveedores con credenciales usarán API key. La app solicitará renovar o corregir la credencial si caduca, se revoca o deja de funcionar. Las credenciales OAuth también se conservarán en el Llavero para mantener la sesión. La compatibilidad con servicios distintos no se dará por supuesta: cada proveedor puede tener formatos de API y capacidades diferentes. El usuario confirma que OpenCode Go permite usar API keys y que ya lo utiliza desde otras aplicaciones; por tanto, se contempla como proveedor configurable de ActaVoz. El acceso a la API de OpenAI requiere configurarla y facturarla por separado de una suscripción de ChatGPT.
