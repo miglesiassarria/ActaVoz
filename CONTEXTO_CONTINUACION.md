@@ -18,7 +18,7 @@ Completar la investigación [0012](specs/0012-viabilidad-captura-transcripcion-y
 
 ## Evidencia disponible
 
-Xcode 27.2 compila los experimentos de idiomas y carpetas. La consulta de idiomas declara español e inglés compatibles en este equipo, con recursos de español instalados. La prueba de carpetas conserva un centinela en un home temporal simulado, no acredita el home real de una instalación distribuida. El catálogo público de OpenCode Go respondió sin credenciales; no se probó inferencia autenticada. Los detalles, comandos y límites constan en cada discovery.
+Xcode 27.2 compila los experimentos de idiomas y carpetas. La consulta de idiomas declara español e inglés compatibles en este equipo, con recursos de español instalados. Las pruebas de carpetas conservaron el centinela tanto en un home simulado como en el home real de la cuenta actual usando un ejecutable local sin sandbox. Falta comprobar otra cuenta y la instalación distribuida. El catálogo público de OpenCode Go respondió sin credenciales; no se probó inferencia autenticada. Los detalles, comandos y límites constan en cada discovery.
 
 ## Restricciones y preferencias
 

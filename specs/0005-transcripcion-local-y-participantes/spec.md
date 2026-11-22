@@ -46,7 +46,8 @@ La transcripción local distingue turnos y propone nombres con indicios claros. 
 ## Supuestos y dependencias
 
 - **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
-- **Desconocido:** SpeechAnalyzer y FluidAudio/Core ML son candidatos, no dependencias validadas; precisión, idiomas, solapamiento y perfiles posteriores requieren experimentos. Las correcciones individuales están acordadas en AC12.
+- **Desconocido:** SpeechAnalyzer y FluidAudio/Core ML son candidatos, no dependencias validadas; precisión, idiomas, solapamiento y perfiles posteriores requieren experimentos.
+- **Confirmado:** las correcciones individuales están acordadas en AC12.
 - Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
 
 ## Riesgos

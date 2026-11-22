@@ -185,7 +185,7 @@ Si la regeneración falla, se conservará intacto el resumen anterior y se mostr
 
 Los cambios en «Mis notas» y en el resumen editable se guardarán automáticamente mientras la persona escribe.
 
-En Ajustes se podrá elegir cómo tratar el audio original al terminar el procesamiento: preguntar en cada sesión, guardarlo siempre o borrarlo siempre. El valor inicial será guardarlo siempre. Si se elige preguntar, ActaVoz mostrará un aviso al terminar el procesamiento. La política solo afecta al archivo de audio; las notas, transcripción y análisis siguen siendo el contenido de la sesión.
+En Ajustes se podrá elegir cómo tratar el audio original al terminar el procesamiento: preguntar en cada sesión, guardarlo siempre o borrarlo siempre. El valor inicial será guardarlo siempre. Si se elige preguntar, ActaVoz mostrará un aviso al terminar el procesamiento. La política solo afecta al archivo de audio; las notas, transcripción, resumen, síntesis y chat siguen siendo el contenido de la sesión.
 
 Si se cierra la aplicación sin responder al aviso de audio, se conservará el audio pendiente de decisión y se volverá a preguntar al abrir la sesión.
 

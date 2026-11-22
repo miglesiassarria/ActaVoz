@@ -30,7 +30,7 @@ Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar 
 | Probar diarización y perfiles entre reuniones, incluso tras borrar audio | Medir reconocimiento, solapamiento y condiciones de persistencia | Voces sintéticas o consentidas; almacenamiento temporal | No ejecutado |
 | Verificar disponibilidad de SpeechAnalyzer y recursos por versión de macOS e idioma; evaluar alternativa si no encaja | Registrar versión mínima, recursos sin red y alternativa viable, incluida detección de idioma | Documentación oficial y pruebas en Mac de prueba | Parcial: disponibilidad e idiomas consultados; faltan transcripción, alternativa y validación en versiones objetivo |
 | Comparar ScreenCaptureKit y Core Audio taps | Registrar permisos, disponibilidad, captura simultánea y necesidad de reinicio en macOS objetivo | Señales sintéticas y cuenta de prueba | No ejecutado |
-| Verificar creación de ~/.ActaVoz sin App Sandbox | Confirmar acceso y ausencia de sobrescritura en macOS objetivo | Home de usuario de prueba con archivo centinela | Parcial: experimento Foundation sin sandbox en home simulado; falta probar el home de una cuenta de prueba y el entorno de distribución |
+| Verificar creación de ~/.ActaVoz sin App Sandbox | Confirmar acceso y ausencia de sobrescritura en macOS objetivo | Home de usuario de prueba con archivo centinela | Parcial: probado en home simulado y home real de la cuenta actual con ejecutable local sin sandbox; falta cuenta de prueba independiente y entorno de distribución |
 | Evaluar deducción de nombres en local o con LLM | Documentar opciones y efectos sobre uso sin conexión | Transcripciones sintéticas; sin envío de audio | No ejecutado |
 
 ### Evidencia parcial: disponibilidad de idiomas
@@ -47,14 +47,21 @@ Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar 
 - **Fecha:** 2026-11-22.
 - **Commit:** sin commit.
 
-## Resultado y siguiente paso
-
 ### Evidencia parcial: carpetas sin sobrescritura
 
 - **Método:** `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun swiftc -parse-as-library specs/0012-viabilidad-captura-transcripcion-y-voz-local/experimentos/carpetas.swift -o /tmp/actavoz_carpetas_probe && /tmp/actavoz_carpetas_probe`.
 - **Resultado:** salida 0; creación repetida de `.ActaVoz/Notas` y `.ActaVoz/Directorios` en un home simulado dentro del directorio temporal, conservando un archivo centinela. El ejecutable no tiene App Sandbox. El experimento limpia únicamente su directorio temporal. No comprueba permisos sobre el home real, instalación DMG, firma ni otros sistemas operativos.
 - **Fecha:** 2026-11-22.
 - **Commit:** sin commit.
+
+### Evidencia parcial: acceso al home real
+
+- **Método:** `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun swiftc -parse-as-library specs/0012-viabilidad-captura-transcripcion-y-voz-local/experimentos/home-real.swift -o /tmp/actavoz_home_real_probe && /tmp/actavoz_home_real_probe`.
+- **Resultado:** salida 0; escritura en `.ActaVoz` del home real de la cuenta actual, creación repetida de subcarpetas en un directorio exclusivo de prueba y centinela intacto. La raíz no existía; el experimento elimina su subárbol exclusivo y utiliza `rmdir` para retirar la raíz solo si quedó vacía. No modifica ni elimina recursivamente contenido ajeno. No prueba firma, DMG, otro usuario ni otro macOS.
+- **Fecha:** 2026-11-22.
+- **Commit:** sin commit.
+
+## Resultado y siguiente paso
 
 ### Dirección técnica provisional
 
