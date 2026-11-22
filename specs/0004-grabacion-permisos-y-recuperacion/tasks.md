@@ -1,9 +1,31 @@
-# 0004 · Tareas
+# 0004 · Tareas propuestas: Captura y recuperación
 
-- [ ] **T1. Resultado pequeño y observable**
-  - Objetivo: Pendiente.
-  - Archivos: Pendiente.
-  - Verificación: Pendiente.
+Dependencias: 0002, 0003 y 0012. No se ha ejecutado ninguna tarea. Antes de build, resolver incógnitas técnicas pertinentes y reconciliar rutas y contratos con el proyecto existente.
+
+- [ ] **T1. Preparación y permisos**
+  - Objetivo: cumplir AC1–AC4 de la spec.
+  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Verificación: Dobles de fuentes y permisos; comprobar valores iniciales, denegaciones y ausencia de ambas fuentes.
+  - Evidencia:
+    - Método: pendiente.
+    - Resultado: pendiente.
+    - Fecha: pendiente.
+    - Commit: pendiente.
+
+- [ ] **T2. Grabación, pausas y recuperación**
+  - Objetivo: cumplir AC5–AC7, AC10 de la spec.
+  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Verificación: Prueba con señales controladas, interrupción del proceso y red desconectada; verificar archivos y contador.
+  - Evidencia:
+    - Método: pendiente.
+    - Resultado: pendiente.
+    - Fecha: pendiente.
+    - Commit: pendiente.
+
+- [ ] **T3. Finalización y conservación**
+  - Objetivo: cumplir AC8–AC9, AC11–AC14 de la spec.
+  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Verificación: Simular procesamiento, tres políticas, cierre y fallos; verificar audio combinado y textos conservados.
   - Evidencia:
     - Método: pendiente.
     - Resultado: pendiente.
@@ -12,15 +34,7 @@
 
 ## Cierre
 
-- [ ] Todas las tareas tienen verificación y evidencia ejecutada.
-- [ ] Pasa la verificación completa de `docs/verification.md`.
-- [ ] Cada criterio de `spec.md` tiene resultado y evidencia.
-- [ ] Se revisó el diff contra el alcance y se preservaron cambios ajenos.
-- [ ] Se actualizó documentación estable y ADR cuando correspondía.
-- [ ] `spec.md` y el índice muestran el mismo estado.
-
-## Resultado de criterios de aceptación
-
-| Criterio | Resultado | Evidencia |
-| --- | --- | --- |
-| AC1 | pendiente | pendiente |
+- [ ] Ejecutar cada tarea y registrar evidencia reproducible.
+- [ ] Verificar cada criterio de aceptación individualmente y revisar el diff y alcance.
+- [ ] Ejecutar verificaciones completas, validador SDD estricto y auditoría; actualizar documentación y ADR aplicables.
+- [ ] Actualizar estado de spec e índice solo tras el cierre efectivo.

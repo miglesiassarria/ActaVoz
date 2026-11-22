@@ -1,6 +1,6 @@
 # 0007 · Chat de sesión y consultas
 
-- **Estado:** spec
+- **Estado:** design
 - **Creada:** 2026-11-22
 - **Aprobación:** aprobada
 - **Aprobada por:** persona usuaria

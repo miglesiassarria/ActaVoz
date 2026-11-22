@@ -1,9 +1,21 @@
-# 0008 · Tareas
+# 0008 · Tareas propuestas: Resúmenes y plantillas
 
-- [ ] **T1. Resultado pequeño y observable**
-  - Objetivo: Pendiente.
-  - Archivos: Pendiente.
-  - Verificación: Pendiente.
+Dependencias: 0003, 0005 y 0006. No se ha ejecutado ninguna tarea. Antes de build, resolver incógnitas técnicas pertinentes y reconciliar rutas y contratos con el proyecto existente.
+
+- [ ] **T1. Plantillas y generación**
+  - Objetivo: cumplir AC1–AC4, AC10–AC12 de la spec.
+  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Verificación: Proveedor simulado; verificar cuatro plantillas, búsqueda, duplicación, borrado y entrada sin notas.
+  - Evidencia:
+    - Método: pendiente.
+    - Resultado: pendiente.
+    - Fecha: pendiente.
+    - Commit: pendiente.
+
+- [ ] **T2. Edición y sustitución**
+  - Objetivo: cumplir AC5–AC9 de la spec.
+  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Verificación: Editar, reabrir, cancelar confirmación, simular fallo y verificar reemplazo solo tras éxito.
   - Evidencia:
     - Método: pendiente.
     - Resultado: pendiente.
@@ -12,15 +24,7 @@
 
 ## Cierre
 
-- [ ] Todas las tareas tienen verificación y evidencia ejecutada.
-- [ ] Pasa la verificación completa de `docs/verification.md`.
-- [ ] Cada criterio de `spec.md` tiene resultado y evidencia.
-- [ ] Se revisó el diff contra el alcance y se preservaron cambios ajenos.
-- [ ] Se actualizó documentación estable y ADR cuando correspondía.
-- [ ] `spec.md` y el índice muestran el mismo estado.
-
-## Resultado de criterios de aceptación
-
-| Criterio | Resultado | Evidencia |
-| --- | --- | --- |
-| AC1 | pendiente | pendiente |
+- [ ] Ejecutar cada tarea y registrar evidencia reproducible.
+- [ ] Verificar cada criterio de aceptación individualmente y revisar el diff y alcance.
+- [ ] Ejecutar verificaciones completas, validador SDD estricto y auditoría; actualizar documentación y ADR aplicables.
+- [ ] Actualizar estado de spec e índice solo tras el cierre efectivo.

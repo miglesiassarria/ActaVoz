@@ -23,7 +23,7 @@ Determinar la viabilidad de la capacidad y registrar evidencia para el diseño d
 | --- | --- | --- | --- |
 | Revisar documentación oficial de OAuth y condiciones para terceros | Identificar flujo compatible o ausencia de uno | Sin credenciales reales ni accesos no autorizados | Parcial: fuentes oficiales consultadas; autorización y flujo para ActaVoz sin demostrar |
 | Probar OpenCode Go y proveedor genérico con credencial de prueba autorizada | Registrar formatos, errores y compatibilidad real | No registrar tokens ni datos personales | No ejecutado |
-| Probar transcripciones largas y rechazo de contexto | Comparar estrategias de una o varias llamadas sin descartar texto ni prometer contexto equivalente | Proveedor controlado y texto sintético | No ejecutado |
+| Probar transcripciones largas y rechazo de contexto | Comparar estrategias de una o varias llamadas sin descartar texto ni prometer contexto equivalente | Proveedor controlado y texto sintético | Parcial: cobertura exacta con proveedor simulado; falta evaluar síntesis y contexto con proveedores reales |
 | Comprobar listado y selección de modelos y streaming por proveedor | Registrar capacidades y diferencias entre lista dinámica e identificador manual | Servicios simulados o credenciales autorizadas sin registrar secretos | Parcial: catálogo público Go consultado; selección autenticada y streaming sin probar |
 | Comprobar acceso al Llavero en compilaciones locales y firmadas | Registrar si aparecen avisos repetidos y en qué condiciones | Llavero y credenciales de prueba, sin exponer secretos | No ejecutado |
 
@@ -31,6 +31,13 @@ Determinar la viabilidad de la capacidad y registrar evidencia para el diseño d
 
 - **Método:** `curl -fsS https://opencode.ai/inference/go/v1/models` y análisis JSON para mostrar únicamente el tipo de respuesta y número de modelos; sin credencial ni inferencia.
 - **Resultado:** HTTP 200, objeto `list` con 30 modelos en el momento de la consulta. No demuestra acceso de la cuenta del usuario, generación ni streaming.
+- **Fecha:** 2026-11-22.
+- **Commit:** sin commit.
+
+### Evidencia parcial: fragmentación ante rechazo
+
+- **Método:** `python3 specs/0013-viabilidad-proveedores-contexto-y-oauth/experimentos/contexto.py`.
+- **Resultado:** salida 0. Un proveedor simulado rechazó texto sobre su límite; la división recursiva procesó 16 partes cuya concatenación coincide exactamente con la entrada y propagó un rechazo irreducible. La prueba usa límites de caracteres artificiales; no simula tokens, historia, instrucciones, streaming ni solicitudes reales. No demuestra que los resultados parciales puedan combinarse dentro del contexto disponible ni equivalencia semántica.
 - **Fecha:** 2026-11-22.
 - **Commit:** sin commit.
 

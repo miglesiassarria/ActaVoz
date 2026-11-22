@@ -1,6 +1,6 @@
 # 0011 · Calidad y entrega estable
 
-- **Estado:** spec
+- **Estado:** design
 - **Creada:** 2026-11-22
 - **Aprobación:** aprobada
 - **Aprobada por:** persona usuaria

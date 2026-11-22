@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-Fase de documentación y discovery de la primera versión de escritorio. No hay aplicación implementada. Las specs 0003–0011 siguen en `spec` y fueron aprobadas explícitamente por la persona usuaria el 2026-11-22; la 0002 vuelve a aprobación pendiente por incorporar el objetivo de plataforma; 0012 y 0013 siguen en `discovery`. Su aprobación permite avanzar al diseño conforme a las dependencias y al flujo SDD.
+Fase de diseño y discovery de la primera versión de escritorio. No hay aplicación implementada. Las specs 0003–0011 fueron aprobadas explícitamente por la persona usuaria el 2026-11-22 y están en `design`, con diseños y tareas propuestos aún sujetos a revisión y a la resolución de dependencias; la 0002 está aprobada y en `design`. Las investigaciones 0012 y 0013 siguen en `discovery`.
 
 ## Referencias
 
@@ -18,7 +18,7 @@ Completar la investigación [0012](specs/0012-viabilidad-captura-transcripcion-y
 
 ## Evidencia disponible
 
-Xcode 27.2 compila los experimentos de idiomas y carpetas. La consulta de idiomas declara español e inglés compatibles en este equipo, con recursos de español instalados. Las pruebas de carpetas conservaron el centinela tanto en un home simulado como en el home real de la cuenta actual usando un ejecutable local sin sandbox. Falta comprobar otra cuenta y la instalación distribuida. El catálogo público de OpenCode Go respondió sin credenciales; no se probó inferencia autenticada. Los detalles, comandos y límites constan en cada discovery.
+Xcode 27.2 compila los experimentos de idiomas y carpetas. SpeechAnalyzer transcribió frases sintéticas cortas en español e inglés; se instaló el recurso inglés. La restricción de red al proceso cliente no demuestra desconexión de los servicios de macOS. Las pruebas de carpetas conservaron el centinela tanto en un home simulado como en el home real de la cuenta actual usando un ejecutable local sin sandbox; falta comprobar otra cuenta y la instalación distribuida. El catálogo público de OpenCode Go respondió sin credenciales; no se probó inferencia autenticada. Una prueba simulada de fragmentación conservó íntegro el texto, sin demostrar equivalencia semántica ni integración real. Los detalles y límites constan en cada discovery.
 
 ## Restricciones y preferencias
 

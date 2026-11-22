@@ -5,23 +5,23 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | # | Título | Estado | Siguiente paso | Notas |
 | --- | --- | --- | --- | --- |
 | [0001](0001-sistema-sdd/spec.md) | Sistema SDD independiente del modelo | `done` | Revisar mejoras del piloto al usar la primera feature | Instalación inicial verificada |
-| [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Base de aplicación y configuración inicial | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0007](0007-chat-de-sesion-y-consultas/spec.md) | Chat de sesión y consultas | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `spec` | Preparar diseño tras resolver dependencias aplicables | |
-| [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `spec` | Preparar diseño tras resolver dependencias aplicables | |
+| [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Base de aplicación y configuración inicial | `design` | Revisar diseño y ejecutar tareas | Aprobada por la persona usuaria |
+| [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `design` | Revisar diseño y resolver dependencias antes de tareas y build | Diseño y tareas propuestos |
+| [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0007](0007-chat-de-sesion-y-consultas/spec.md) | Chat de sesión y consultas | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0012](0012-viabilidad-captura-transcripcion-y-voz-local/spec.md) | Viabilidad captura transcripción y voz local | `discovery` | Cerrar decisión o crear una spec aprobable | |
 | [0013](0013-viabilidad-proveedores-contexto-y-oauth/spec.md) | Viabilidad proveedores contexto y OAuth | `discovery` | Cerrar decisión o crear una spec aprobable | |
 <!-- spec-driven-development:index-end -->
 
 ## Mapa de la primera versión
 
-Las unidades 0003–0011 fueron aprobadas el 2026-11-22; 0002 vuelve a aprobación pendiente por incorporar el objetivo de plataforma. Los diseños deben resolver las dependencias técnicas aplicables. Las unidades 0012 y 0013 están en `discovery`: recogen evidencia parcial e hipótesis y experimentos todavía pendientes. Los criterios de las specs incluyen métodos de verificación futuros, no resultados observados. El orden siguiente expresa dependencias de capacidades, no autoriza el diseño ni la implementación:
+Las unidades 0002–0011 fueron aprobadas por la persona usuaria el 2026-11-22. Los diseños deben resolver las dependencias técnicas aplicables. Las unidades 0012 y 0013 están en `discovery`: recogen evidencia parcial e hipótesis y experimentos todavía pendientes. Los criterios de las specs incluyen métodos de verificación futuros, no resultados observados. El orden siguiente expresa dependencias de capacidades, no autoriza el diseño ni la implementación:
 
 1. **0012 → 0002 → 0003:** investigar primero la versión mínima y el acceso a la carpeta del usuario; después refinar la base de aplicación y la persistencia. 0003 se verifica aisladamente con datos y puntos de entrada de prueba; las integraciones completas se comprueban en sus propias unidades. La conexión efectiva de proveedores pertenece a 0006.
 2. **0012 → 0004 y 0005:** investigar primero captura y voz local; después refinar las specs de captura, transcripción, atribuciones y perfiles con la evidencia.
