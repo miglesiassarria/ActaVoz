@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-Fase de documentación y discovery de la primera versión de escritorio. No hay aplicación implementada. Las specs 0002–0011 siguen en `spec` y fueron aprobadas explícitamente por la persona usuaria el 2026-11-22; 0012 y 0013 siguen en `discovery`. Su aprobación permite avanzar al diseño conforme a las dependencias y al flujo SDD.
+Fase de documentación y discovery de la primera versión de escritorio. No hay aplicación implementada. Las specs 0003–0011 siguen en `spec` y fueron aprobadas explícitamente por la persona usuaria el 2026-11-22; la 0002 vuelve a aprobación pendiente por incorporar el objetivo de plataforma; 0012 y 0013 siguen en `discovery`. Su aprobación permite avanzar al diseño conforme a las dependencias y al flujo SDD.
 
 ## Referencias
 
@@ -25,3 +25,5 @@ Xcode 27.2 compila los experimentos de idiomas y carpetas. La consulta de idioma
 La API REST, adjuntos en chat, calendario y control de costes están fuera del alcance actual. Mantener audio y procesamiento de voz locales. El usuario solicita autonomía para corregir documentación y escoger detalles técnicos razonables; distinguir siempre acuerdos, propuestas y observaciones. No reabrir preguntas de producto ya resueltas salvo incompatibilidad demostrada.
 
 Preparar casillas pendientes antes de tratar los temas; marcar la misma casilla al acordar y documentar una decisión. No añadir casillas ya cerradas para aparentar avance. Si se necesita una decisión del usuario, presentar opciones y recomendación; tras resolverla, presentar directamente el siguiente punto. Conservar cambios ajenos y no tocar datos personales ni credenciales para las pruebas.
+
+El objetivo inicial es macOS 26 o posterior en Apple Silicon; su compatibilidad completa sigue pendiente de validación.

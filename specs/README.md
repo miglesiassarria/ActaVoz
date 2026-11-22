@@ -21,7 +21,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 
 ## Mapa de la primera versión
 
-Las unidades 0002–0011 están en `spec` y fueron aprobadas por la persona usuaria el 2026-11-22; el diseño debe resolver las dependencias técnicas aplicables. Las unidades 0012 y 0013 están en `discovery`: recogen evidencia parcial e hipótesis y experimentos todavía pendientes. Los criterios de las specs incluyen métodos de verificación futuros, no resultados observados. El orden siguiente expresa dependencias de capacidades, no autoriza el diseño ni la implementación:
+Las unidades 0003–0011 fueron aprobadas el 2026-11-22; 0002 vuelve a aprobación pendiente por incorporar el objetivo de plataforma. Los diseños deben resolver las dependencias técnicas aplicables. Las unidades 0012 y 0013 están en `discovery`: recogen evidencia parcial e hipótesis y experimentos todavía pendientes. Los criterios de las specs incluyen métodos de verificación futuros, no resultados observados. El orden siguiente expresa dependencias de capacidades, no autoriza el diseño ni la implementación:
 
 1. **0012 → 0002 → 0003:** investigar primero la versión mínima y el acceso a la carpeta del usuario; después refinar la base de aplicación y la persistencia. 0003 se verifica aisladamente con datos y puntos de entrada de prueba; las integraciones completas se comprueban en sus propias unidades. La conexión efectiva de proveedores pertenece a 0006.
 2. **0012 → 0004 y 0005:** investigar primero captura y voz local; después refinar las specs de captura, transcripción, atribuciones y perfiles con la evidencia.

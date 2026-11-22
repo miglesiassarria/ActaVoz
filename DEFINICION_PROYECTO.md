@@ -25,6 +25,7 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 ### Dirección tecnológica
 
 - La aplicación de escritorio se desarrollará para macOS en **Swift**, con **SwiftUI** para la interfaz.
+- Objetivo inicial: **macOS 26 o posterior y Mac con Apple Silicon**; la compatibilidad y rendimiento deben comprobarse en equipos objetivo.
 - La captura será nativa: **ScreenCaptureKit** para el audio del sistema y las herramientas de audio de Apple para el micrófono.
 - Antes de la primera grabación, ActaVoz explicará brevemente que necesita acceso al micrófono y al audio del sistema, y después mostrará las solicitudes de permisos correspondientes de macOS.
 - Si se deniega un permiso de audio, ActaVoz explicará qué fuente no está disponible, ofrecerá abrir Ajustes del Sistema y permitirá grabar con la otra fuente si tiene permiso.

@@ -2,9 +2,9 @@
 
 - **Estado:** spec
 - **Creada:** 2026-11-22
-- **Aprobación:** aprobada
-- **Aprobada por:** persona usuaria
-- **Fecha de aprobación:** 2026-11-22
+- **Aprobación:** pendiente
+- **Aprobada por:** —
+- **Fecha de aprobación:** —
 
 ## Problema
 
@@ -23,10 +23,12 @@ La aplicación abre una ventana en macOS, prepara sus carpetas sin sobrescribir 
 | AC3 | **Ubicación:** la configuración básica se guarda en Library y las cachés regenerables en Caches. | Modificar configuración, reiniciar e inspeccionar ubicaciones con datos de prueba. | pendiente |
 | AC4 | **Primer inicio:** identificar que no hay proveedor activo, ofrecer acceso a su configuración y permitir omitirla para acceder a las funciones locales. La selección, credenciales y prueba de conexión pertenecen a 0006. | Con perfil limpio comprobar la oferta de configuración y que se puede omitir y entrar en la aplicación sin proveedor. | pendiente |
 
+| AC5 | **Plataforma objetivo:** macOS 26 o posterior en Apple Silicon. | Comprobar objetivo de compilación y ejecutar en equipo compatible; validar en macOS 26 cuando se disponga del entorno. | pendiente |
+
 
 ## Decisiones previas a aprobación
 
-- Completar la investigación 0012 sobre versión mínima y acceso a la carpeta del usuario antes de fijar el objetivo de plataforma.
+- Validar macOS 26, Apple Silicon y acceso a la carpeta del usuario mediante la investigación 0012.
 
 ## Fuera de alcance
 
