@@ -24,6 +24,8 @@ Se podrán fusionar dos interlocutores que correspondan a la misma persona para 
 
 La identificación del usuario local se podrá configurar en Ajustes. Por defecto, las intervenciones captadas por el micrófono se etiquetarán como «Yo», con posibilidad de corregir atribuciones; se podrá desactivar el etiquetado automático y tratar esas voces como las demás.
 
+ActaVoz intentará deducir nombres localmente a partir de pistas claras de la transcripción; un modelo configurado también podrá ayudar. La persona confirmará o corregirá las propuestas. Ambas vías requieren validación y falta decidir qué modelo se asigna cuando se usa un LLM.
+
 Se podrá omitir la configuración inicial del proveedor y usar las funciones locales. Al intentar utilizar una función que lo requiera, se ofrecerá configurar un proveedor.
 
 La barra lateral tendrá una opción fija «Sin organizar» para acceder a las notas sin directorio asignado.

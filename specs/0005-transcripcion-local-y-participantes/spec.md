@@ -32,10 +32,11 @@ La transcripción local distingue turnos, propone nombres con indicios claros y 
 | AC12 | **Reasignación individual:** permitir asignar una intervención concreta a otro interlocutor sin modificar las demás. | Reasignar una intervención de prueba y comprobar que solo cambia su atribución; reabrir la sesión y verificar la corrección. | pendiente |
 | AC13 | **Fusión de interlocutores:** permitir fusionar dos interlocutores para agrupar sus intervenciones bajo un mismo nombre. | Fusionar dos interlocutores de prueba, comprobar sus intervenciones y reabrir la sesión para verificar el resultado. | pendiente |
 | AC14 | **Identidad del usuario:** por defecto etiquetar como «Yo» las intervenciones captadas por el micrófono; permitir desactivar el etiquetado automático en Ajustes y corregir atribuciones. | Con ajustes iniciales, capturar una intervención de prueba y verificar «Yo» y su corrección; desactivar el ajuste y comprobar que no se asigna automáticamente. | pendiente |
+| AC15 | **Deducción de nombres:** intentar proponer nombres localmente a partir de pistas claras en la transcripción; un modelo configurado también podrá ayudar. La persona confirma o corrige las propuestas. | Usar transcripciones de prueba con y sin pistas claras; comprobar propuestas locales, asistencia del modelo simulado y confirmación o corrección. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Decidir si la deducción de nombres utiliza un LLM y, en ese caso, qué modelo se asigna; coordinar con 0006 y la investigación 0012.
+- Decidir qué modelo se asigna a la deducción de nombres cuando se utiliza un LLM; validar la viabilidad de las vías local y asistida en la investigación 0012 y coordinar con 0006.
 
 ## Fuera de alcance
 
