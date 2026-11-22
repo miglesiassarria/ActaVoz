@@ -190,7 +190,11 @@ Se podrán borrar por separado, tras confirmación, el resumen generado y la sí
 - Los directorios creados por la persona serán carpetas reales, agrupadas dentro de `~/.ActaVoz/Directorios` para mantener ordenada la raíz.
 - En la primera versión, los directorios se podrán crear, renombrar y borrar; no habrá directorios anidados.
 - Las sesiones se podrán abrir para revisar sus resultados, reproducir el audio si se conservó, renombrar, mover a otro directorio, exportar y borrar definitivamente tras confirmación.
+- La reproducción del audio conservado tendrá controles de reproducir y pausar, y una barra para avanzar o retroceder y ver el tiempo.
 - Se podrá exportar la transcripción, el resumen o las notas como archivos, y copiar su texto para pegarlo en otra aplicación.
+- Los formatos de exportación serán Markdown y texto plano.
+- La transcripción exportada incluirá el nombre o etiqueta del interlocutor y la marca de tiempo de cada intervención.
+- Al exportar «Mis notas», si existe una síntesis generada, se podrá elegir entre exportar solo las notas o incluir también la síntesis claramente diferenciada.
 - Borrar una sesión eliminará toda su carpeta y contenido: audio si se conservó, transcripción, resumen y análisis.
 - Borrar un directorio borrará también las sesiones y archivos que contiene. Antes, la app mostrará un aviso claro y pedirá confirmación.
 - Las sesiones nuevas sin directorio se guardarán bajo `~/.ActaVoz/Notas/`. Si se organizan después, su carpeta completa se moverá bajo `~/.ActaVoz/Directorios/<nombre-del-directorio>/`.

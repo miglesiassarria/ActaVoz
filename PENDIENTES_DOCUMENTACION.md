@@ -102,7 +102,10 @@ Estas casillas se han añadido sin marcar porque la auditoría detectó decision
   - [x] **Eliminar plantillas propias:** permitirlo desde Ajustes con confirmación previa.
 - [x] **Síntesis de notas:** se podrá editar directamente; al actualizarla, la nueva sustituirá a la anterior, incluidas las ediciones manuales. (0009)
   - [x] **Sin resumen principal:** indicar que primero hay que generarlo antes de generar la síntesis.
-- [ ] **Exportación y reproducción:** acordar formatos, marcas temporales, inclusión de síntesis y controles de reproducción. (0010)
+- [x] **Exportación y reproducción:** el audio conservado tendrá controles de reproducir y pausar, y una barra para avanzar o retroceder y ver el tiempo. (0010)
+  - [x] **Formatos:** exportar transcripción, resumen y notas en Markdown o texto plano.
+  - [x] **Transcripción exportada:** incluir nombre o etiqueta del interlocutor y marca de tiempo en cada intervención.
+  - [x] **Exportación de notas:** elegir si se exportan solo las notas o también la síntesis generada, claramente diferenciada, cuando exista.
 
 ## Decisiones para la documentación
 

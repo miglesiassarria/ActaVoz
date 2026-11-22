@@ -20,6 +20,14 @@ La barra lateral tendrá una opción fija «Sin organizar» para acceder a las n
 
 La biblioteca permitirá buscar sesiones por título y por el texto de la transcripción, las notas o el resumen.
 
+La transcripción, el resumen y las notas se podrán exportar como Markdown o texto plano.
+
+La transcripción exportada incluirá el nombre o etiqueta del interlocutor y la marca de tiempo de cada intervención.
+
+Al exportar «Mis notas», si existe síntesis, se podrá elegir si incluirla claramente diferenciada o exportar solo las notas.
+
+El audio conservado tendrá controles de reproducir y pausar, con una barra para avanzar o retroceder y ver el tiempo.
+
 El historial del chat se guardará con la sesión. Cada consulta utilizará la transcripción completa disponible y los turnos previos del chat.
 
 En la carpeta de cada sesión, las notas se guardarán en `notas.md`, la síntesis en `sintesis.md` y el historial de chat en `chat.json`.

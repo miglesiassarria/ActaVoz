@@ -18,13 +18,15 @@ La persona accede al audio conservado y puede exportar o copiar transcripción, 
 
 | # | Criterio observable | Verificación reproducible | Resultado final |
 | --- | --- | --- | --- |
-| AC1 | **Reproducir:** Permitir reproducir audio de sesión si se conservó; no ofrecer reproducción como disponible si fue borrado. | Probar sesiones con y sin audio y verificar controles. | pendiente |
-| AC2 | **Exportar:** Exportar transcripción, resumen y notas como archivos a una ubicación elegida. | Exportar cada contenido con datos ficticios y comparar archivo con pantalla. | pendiente |
+| AC1 | **Reproducir:** permitir reproducir y pausar el audio conservado, con barra para avanzar o retroceder y ver el tiempo; no ofrecer reproducción como disponible si fue borrado. | Probar sesiones con y sin audio; reproducir, pausar y desplazarse con la barra y comprobar el tiempo. | pendiente |
+| AC2 | **Exportar:** exportar transcripción, resumen y notas como archivos Markdown o de texto plano a una ubicación elegida. | Exportar cada contenido en ambos formatos con datos ficticios y comparar archivo con pantalla. | pendiente |
 | AC3 | **Copiar:** Copiar el texto de transcripción, resumen o notas para pegarlo en otra aplicación. | Copiar cada contenido y pegarlo en un destino de prueba. | pendiente |
+| AC4 | **Transcripción exportada:** incluir el nombre o etiqueta del interlocutor y la marca de tiempo de cada intervención. | Exportar en ambos formatos una transcripción de prueba con varios interlocutores y tiempos; comprobar cada intervención. | pendiente |
+| AC5 | **Notas exportadas:** si existe síntesis, permitir exportar solo las notas o incluir también la síntesis claramente diferenciada. | Exportar notas de prueba con ambas opciones y en ambos formatos; comprobar la inclusión o ausencia de síntesis y su identificación. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Acordar formatos, marcas temporales e interlocutores, inclusión de síntesis en notas y controles mínimos de reproducción. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Ninguna decisión de producto identificada pendiente para los controles básicos acordados; revisar cualquier dependencia técnica durante el diseño.
 
 ## Fuera de alcance
 
@@ -39,7 +41,7 @@ La persona accede al audio conservado y puede exportar o copiar transcripción, 
 
 ## Riesgos
 
-- Los formatos y la fidelidad de los archivos exportados deben definirse antes de aprobación; no dar por supuesta una exportación específica.
+- La fidelidad de los archivos exportados debe verificarse antes de declarar terminada la implementación.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables
