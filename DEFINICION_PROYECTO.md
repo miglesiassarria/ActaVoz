@@ -27,6 +27,7 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 - La aplicación de escritorio se desarrollará para macOS en **Swift**, con **SwiftUI** para la interfaz.
 - La captura será nativa: **ScreenCaptureKit** para el audio del sistema y las herramientas de audio de Apple para el micrófono.
 - Antes de la primera grabación, ActaVoz explicará brevemente que necesita acceso al micrófono y al audio del sistema, y después mostrará las solicitudes de permisos correspondientes de macOS.
+- Si se deniega un permiso de audio, ActaVoz explicará qué fuente no está disponible, ofrecerá abrir Ajustes del Sistema y permitirá grabar con la otra fuente si tiene permiso.
 - Se conservarán ambas fuentes separadas y sincronizadas durante el procesamiento, en vez de mezclarlas al capturarlas. Esto puede ayudar a distinguir la voz local de las voces remotas y reducir atribuciones erróneas.
 - Cuando se conserve el audio final de la sesión, se guardará en un único archivo combinado para su reproducción.
 - El micrófono y el audio del sistema estarán activados por defecto. Antes de cada grabación se podrá elegir el micrófono y desactivar cualquiera de las fuentes para esa sesión.

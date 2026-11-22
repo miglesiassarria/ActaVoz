@@ -31,10 +31,11 @@ La persona prepara las fuentes, concede permisos, graba y puede pausar o recuper
 | AC11 | **Audio final:** cuando se conserve, guardar un único archivo combinado para reproducción, con las fuentes separadas durante el procesamiento. | Capturar señales distinguibles de ambas fuentes, conservar el audio y comprobar el archivo combinado y su reproducción. | pendiente |
 | AC12 | **Cierre durante grabación:** al intentar cerrar ActaVoz mientras graba, mostrar un aviso para continuar grabando o detener la sesión y cerrar. | Iniciar grabación, intentar cerrar y probar cada opción en sesiones de prueba; comprobar continuidad o parada y cierre. | pendiente |
 | AC13 | **Aviso de audio sin respuesta:** al cerrar sin responder, conservar el audio pendiente y volver a preguntar al abrir la sesión. | Con la política de preguntar, cerrar sin responder, reabrir la sesión y comprobar que el audio existe y se vuelve a mostrar la pregunta. | pendiente |
+| AC14 | **Permiso denegado:** explicar qué fuente no está disponible, ofrecer abrir Ajustes del Sistema y permitir grabar con la otra si tiene permiso. | Denegar cada permiso en un entorno de prueba, comprobar el mensaje y acceso a Ajustes, y grabar con la fuente autorizada. | pendiente |
 
 ## Decisiones previas a aprobación
 
-- Decidir el tratamiento de permisos denegados y el acceso a Ajustes del Sistema. Consultar las casillas correspondientes en `PENDIENTES_DOCUMENTACION.md`.
+- Validar en 0012 cómo detectar las denegaciones y acceder a los ajustes correspondientes en las versiones de macOS compatibles.
 
 ## Fuera de alcance
 
@@ -49,7 +50,7 @@ La persona prepara las fuentes, concede permisos, graba y puede pausar o recuper
 
 ## Riesgos
 
-- La captura del sistema, permisos, cambios de dispositivo y apagados requieren evidencia en 0012; queda por decidir el tratamiento de permisos denegados.
+- La captura del sistema, detección de permisos, cambios de dispositivo y apagados requieren evidencia en 0012.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables

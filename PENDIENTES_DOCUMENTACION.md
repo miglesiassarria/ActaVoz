@@ -103,7 +103,7 @@ Estas casillas se han añadido sin marcar porque la auditoría detectó decision
 - [x] **Biblioteca:** «Nueva nota» siempre abre el flujo de grabación; no se contempla crear una nota exclusivamente de texto mediante ese botón. (0003)
   - [x] **Notas sin organizar:** acceso mediante una opción fija «Sin organizar» en la barra lateral.
   - [x] **Búsqueda de sesiones:** buscar por título y por texto de la transcripción, las notas o el resumen.
-- [ ] **Cierre y permisos:** decidir comportamiento ante permisos denegados. (0004)
+- [x] **Cierre y permisos:** ante un permiso denegado, explicar qué fuente no está disponible, ofrecer abrir Ajustes del Sistema y permitir grabar con la otra si tiene permiso. (0004)
   - [x] **Cerrar durante grabación:** avisar y permitir continuar grabando o detener la sesión y cerrar.
   - [x] **Aviso de audio sin respuesta:** conservar el audio pendiente de decisión y volver a preguntar al abrir la sesión.
 - [x] **Plantillas y fallo de regeneración:** las predefinidas se conservarán sin modificar y se podrán duplicar para crear versiones propias editables. (0008)
