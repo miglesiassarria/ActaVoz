@@ -33,7 +33,7 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 ## Lista de decisiones por tratar: prioridad alta
 
-- [ ] **Vista de grabación:** revisar los casos de cierre, permisos denegados e interrupciones recogidos en las casillas de auditoría; lo ya acordado incluye cerrar el panel de transcripción con su control o al pulsar fuera.
+- [x] **Vista de grabación:** acordados cierre, permisos denegados e interrupciones en las casillas correspondientes; el panel de transcripción se cierra con su control o al pulsar fuera. La validación técnica pertenece a 0012.
   - [x] **Panel de chat:** al pulsar la barra se abre un mini chat con preguntas y respuestas; al pulsar fuera se oculta y queda visible la barra.
   - [x] **Indicador de grabación:** mostrar abajo el estado de grabación, el tiempo transcurrido y los controles de pausa y parada.
   - [x] **Contador durante la pausa:** detenerlo al pausar y reanudarlo al continuar, para mostrar el tiempo de audio capturado.
@@ -68,7 +68,7 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 
 - [x] **Primera versión estable:** incluir las funciones de escritorio acordadas: grabación y recuperación, transcripción e identificación local, biblioteca, chat, resúmenes, notas, plantillas y proveedores configurables. Comprobar el funcionamiento con reuniones reales y acordar los niveles mínimos de calidad pendientes.
 - [x] **Permisos de audio:** antes de la primera grabación, explicar la necesidad de acceso al micrófono y al audio del sistema y mostrar las solicitudes correspondientes de macOS.
-- [ ] **Fuentes de audio:** concretar disponibilidad y limitaciones del micrófono y del audio del sistema.
+- [ ] **Fuentes de audio:** validar disponibilidad y limitaciones técnicas en [la investigación 0012](specs/0012-viabilidad-captura-transcripcion-y-voz-local/discovery.md).
   - [x] **Selección de fuentes:** ambas activadas por defecto; antes de grabar se podrá elegir el micrófono y desactivar cualquiera para la sesión.
   - [x] **Fuente no disponible al iniciar:** mostrar cuál falta y permitir empezar con la otra si hay al menos una fuente disponible.
 - [x] **Interrupciones de audio:** avisar y continuar grabando con la fuente disponible; reanudar la captura de la fuente interrumpida cuando vuelva.

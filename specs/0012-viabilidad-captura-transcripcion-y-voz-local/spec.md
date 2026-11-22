@@ -12,7 +12,7 @@ Captura, transcripción y perfiles locales. Registrar evidencia y resolver incó
 
 ## Comportamiento esperado
 
-Consultar el plan y los hechos de discovery.md. Los experimentos están pendientes; no se afirma viabilidad.
+Consultar el plan y los hechos de discovery.md. Existe evidencia parcial; los experimentos restantes siguen pendientes y no se afirma viabilidad completa.
 
 ## Criterios de aceptación
 

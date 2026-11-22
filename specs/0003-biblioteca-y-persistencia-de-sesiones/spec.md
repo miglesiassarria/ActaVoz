@@ -34,11 +34,11 @@ La biblioteca enumera sesiones por fecha y directorio, permite organizar carpeta
 
 ## Decisiones previas a aprobación
 
-- Conservación de datos de voz sin audio; se coordina con 0004 y 0005. El audio final conservado será un único archivo combinado.
+- No quedan decisiones de producto abiertas identificadas en esta unidad. La ubicación y representación técnica de datos temporales de voz se coordinarán en diseño con 0005, respetando su retención acordada; validar acceso al directorio en 0012.
 
 ## Fuera de alcance
 
-- Sin directorios anidados; el formato de archivos de notas, síntesis y posible chat figura en decisiones previas.
+- Sin directorios anidados. Los archivos de notas, síntesis y chat están definidos en AC13.
 - La API REST, adjuntos en chat, calendario y control de costes quedan fuera de la primera fase.
 
 ## Supuestos y dependencias

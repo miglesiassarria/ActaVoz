@@ -27,7 +27,7 @@ Las unidades 0002–0011 son propuestas en `spec`, pendientes de aprobación exp
 2. **0012 → 0004 y 0005:** investigar primero captura y voz local; después refinar las specs de captura, transcripción, atribuciones y perfiles con la evidencia.
 3. **0013 → 0006:** investigar protocolos, contexto y OAuth; después refinar la spec de conexiones y modelos.
 4. **0007, 0008 y 0009:** chat, resúmenes y plantillas, notas y síntesis; dependen de sesiones, transcripción y proveedor configurado.
-5. **0010:** reproducción y exportación de contenidos conservados; los formatos concretos aún no están decididos.
+5. **0010:** reproducción del audio conservado y exportación en Markdown o texto plano, con interlocutores y tiempos en la transcripción y síntesis opcional al exportar notas.
 6. **0011:** evaluación conjunta y entrega estable; los umbrales se decidirán con evidencia de grabaciones, en ambos idiomas.
 
 Antes de aprobar cada unidad deben resolverse los desconocidos materiales de su alcance, usando `discovery` cuando corresponda. La aprobación de una spec permite pasar a su diseño; después se preparan tareas y evidencias antes de construir. La API REST permanece en fase posterior.

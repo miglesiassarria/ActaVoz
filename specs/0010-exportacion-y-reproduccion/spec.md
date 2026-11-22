@@ -36,7 +36,7 @@ La persona accede al audio conservado y puede exportar o copiar transcripción, 
 ## Supuestos y dependencias
 
 - **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
-- **Desconocido:** Formatos de exportación y tratamiento de marcas de tiempo e interlocutores pendientes de decisión; no inventar formatos obligatorios.
+- **Confirmado:** Markdown y texto plano; las transcripciones incluyen interlocutores y tiempos, y al exportar notas se elige si incluir la síntesis. Depende de los contenidos persistidos de 0003 y de las capacidades de 0008 y 0009.
 - Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
 
 ## Riesgos

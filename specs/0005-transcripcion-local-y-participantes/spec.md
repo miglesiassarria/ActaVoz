@@ -12,7 +12,7 @@ Transcribir en tiempo real y distinguir interlocutores sin enviar audio a provee
 
 ## Comportamiento esperado
 
-La transcripción local distingue turnos, propone nombres con indicios claros y permite corregirlos. Los perfiles confirmados pueden ayudar a reconocer voces en sesiones posteriores.
+La transcripción local distingue turnos y propone nombres con indicios claros. Permite corregir nombres, reasignar una intervención y fusionar interlocutores. El micrófono se etiqueta como «Yo» por defecto, con opción de desactivarlo. Los perfiles confirmados pueden ayudar a reconocer voces en sesiones posteriores, conservando los datos temporales según AC10–AC11.
 
 ## Criterios de aceptación
 

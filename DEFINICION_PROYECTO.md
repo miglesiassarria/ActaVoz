@@ -201,7 +201,7 @@ Se podrán borrar por separado, tras confirmación, el resumen generado y la sí
 - La barra lateral tendrá una opción fija «Sin organizar» para mostrar las notas que todavía no están asignadas a ningún directorio.
 - La biblioteca tendrá un buscador de sesiones por título y por el texto de la transcripción, las notas o el resumen.
 - Al seleccionar un directorio, el panel central mostrará la lista de sesiones que contiene; al abrir una sesión se accede a sus contenidos.
-- Cada sesión puede contener audio, resumen, transcripción, notas y análisis.
+- Cada sesión puede contener audio, resumen, transcripción, notas, síntesis y chat.
 - Habrá un botón persistente en la zona inferior derecha para iniciar una grabación o crear una nota nueva.
 - Al terminar, la nota quedará sin carpeta asignada. La persona podrá moverla a un directorio o dejarla sin organizar.
 - Los directorios creados por la persona serán carpetas reales, agrupadas dentro de `~/.ActaVoz/Directorios` para mantener ordenada la raíz.
@@ -212,7 +212,7 @@ Se podrán borrar por separado, tras confirmación, el resumen generado y la sí
 - Los formatos de exportación serán Markdown y texto plano.
 - La transcripción exportada incluirá el nombre o etiqueta del interlocutor y la marca de tiempo de cada intervención.
 - Al exportar «Mis notas», si existe una síntesis generada, se podrá elegir entre exportar solo las notas o incluir también la síntesis claramente diferenciada.
-- Borrar una sesión eliminará toda su carpeta y contenido: audio si se conservó, transcripción, resumen y análisis.
+- Borrar una sesión eliminará toda su carpeta y contenido: audio si se conservó, transcripción, resumen, notas, síntesis y chat.
 - Borrar un directorio borrará también las sesiones y archivos que contiene. Antes, la app mostrará un aviso claro y pedirá confirmación.
 - Las sesiones nuevas sin directorio se guardarán bajo `~/.ActaVoz/Notas/`. Si se organizan después, su carpeta completa se moverá bajo `~/.ActaVoz/Directorios/<nombre-del-directorio>/`.
 - Cada sesión tendrá una carpeta propia, nombrada con fecha, hora e identificador único corto, por ejemplo `2026-11-20_15-42-09_7K4M2P/`. El título visible se guardará en sus metadatos y podrá cambiar sin depender del nombre de la carpeta.

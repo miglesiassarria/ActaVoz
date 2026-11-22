@@ -25,7 +25,7 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 | AC5 | **Conexión:** Permitir comprobar la conexión y mostrar errores comprensibles sin exponer credenciales. | Simular éxito, credencial inválida y servicio inaccesible. | pendiente |
 | AC6 | **OAuth:** Comprobar compatibilidad del flujo de terceros antes de prometerlo; si está disponible permitir conectar y desconectar en Ajustes. | Registrar evidencia de autorización y ejecutar conexión y revocación con cuenta de prueba si procede. | pendiente |
 | AC7 | **Contexto:** No imponer control o límite propio de contexto; utilizar toda la transcripción, con una o varias llamadas según corresponda. | Proveedor simulado registra solicitudes; verificar cobertura completa y comportamiento ante rechazo. | pendiente |
-| AC8 | **Sin proveedor:** permitir usar las funciones locales sin proveedor configurado y ofrecer configurarlo al intentar hacer preguntas o generar resultados que lo requieran. | Sin proveedor, probar funciones locales y solicitar una pregunta y un resumen; comprobar la oferta de configuración. | pendiente |
+| AC8 | **Sin proveedor:** permitir usar las funciones locales sin proveedor configurado y ofrecer configurarlo al intentar hacer preguntas o generar resultados que lo requieran. | Sin proveedor, probar funciones locales y solicitar pregunta, resumen y síntesis; comprobar la oferta de configuración sin perder datos. | pendiente |
 | AC9 | **Modelo para síntesis:** usar el modelo configurado para resúmenes o el principal si no se configuró uno específico. | Con proveedor simulado, generar síntesis con y sin modelo de resúmenes y comprobar el modelo solicitado. | pendiente |
 | AC10 | **Modelo para nombres:** cuando un LLM ayude a proponer nombres, usar el modelo principal configurado. | Con proveedor simulado y modelos distintos configurados, solicitar ayuda para nombres y comprobar que se usa el principal. | pendiente |
 | AC11 | **Rechazo de solicitud:** mostrar un error comprensible y permitir reintentar o cambiar de modelo, conservando la transcripción y los contenidos guardados. | Simular un rechazo del proveedor, comprobar el aviso y ambas opciones y verificar que los contenidos de la sesión permanecen. | pendiente |
@@ -43,7 +43,7 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 ## Supuestos y dependencias
 
 - **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
-- **Desconocido:** OAuth de ChatGPT y compatibilidad de endpoints no están verificados; decidir en diseño qué hacer ante rechazo por contexto sin perder contenido. Costes fuera de alcance.
+- **Desconocido:** compatibilidad y autorización de OAuth de ChatGPT, contratos de endpoints y viabilidad de la estrategia de varias llamadas de AC12. La investigación 0013 debe validarlos; el comportamiento observable ante rechazo ya está acordado en AC11–AC12.
 - Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
 
 ## Riesgos

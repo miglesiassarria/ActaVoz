@@ -21,10 +21,10 @@ Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar 
 
 | Experimento | Resultado esperado | Límite seguro | Evidencia |
 | --- | --- | --- | --- |
-| Revisar documentación oficial de OAuth y condiciones para terceros | Identificar flujo compatible o ausencia de uno | Sin credenciales reales ni accesos no autorizados | No ejecutado |
+| Revisar documentación oficial de OAuth y condiciones para terceros | Identificar flujo compatible o ausencia de uno | Sin credenciales reales ni accesos no autorizados | Parcial: fuentes oficiales consultadas; autorización y flujo para ActaVoz sin demostrar |
 | Probar OpenCode Go y proveedor genérico con credencial de prueba autorizada | Registrar formatos, errores y compatibilidad real | No registrar tokens ni datos personales | No ejecutado |
 | Probar transcripciones largas y rechazo de contexto | Comparar estrategias de una o varias llamadas sin descartar texto ni prometer contexto equivalente | Proveedor controlado y texto sintético | No ejecutado |
-| Comprobar listado y selección de modelos y streaming por proveedor | Registrar capacidades y diferencias entre lista dinámica e identificador manual | Servicios simulados o credenciales autorizadas sin registrar secretos | No ejecutado |
+| Comprobar listado y selección de modelos y streaming por proveedor | Registrar capacidades y diferencias entre lista dinámica e identificador manual | Servicios simulados o credenciales autorizadas sin registrar secretos | Parcial: catálogo público Go consultado; selección autenticada y streaming sin probar |
 | Comprobar acceso al Llavero en compilaciones locales y firmadas | Registrar si aparecen avisos repetidos y en qué condiciones | Llavero y credenciales de prueba, sin exponer secretos | No ejecutado |
 
 ### Evidencia parcial: catálogo público de OpenCode Go
@@ -36,4 +36,4 @@ Determinar la viabilidad de la capacidad y registrar evidencia antes de aprobar 
 
 ## Resultado y siguiente paso
 
-Bloquea el cierre de compatibilidad y estrategia de contexto en 0006; las decisiones de producto ante fallos deben revisarse con la persona.
+Bloquea el cierre de compatibilidad y validación de la estrategia de contexto en 0006. Las decisiones ante fallos están acordadas en AC11–AC12; faltan pruebas de su viabilidad y de sus efectos sobre el resultado.

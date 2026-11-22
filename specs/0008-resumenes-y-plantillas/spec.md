@@ -43,7 +43,7 @@ La persona genera un resumen desde la transcripción y puede cambiar de plantill
 ## Supuestos y dependencias
 
 - **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
-- **Desconocido:** Manejo de fallos de regeneración y persistencia de plantillas requiere diseño; no prometer calidad semántica sin evaluación.
+- **Desconocido:** la implementación de la sustitución atómica del resumen y la persistencia de plantillas requiere diseño. AC9 ya establece conservar el resumen anterior ante fallo; la calidad semántica necesita evaluación.
 - Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
 
 ## Riesgos

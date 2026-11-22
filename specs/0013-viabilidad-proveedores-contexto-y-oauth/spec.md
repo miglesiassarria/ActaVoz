@@ -12,7 +12,7 @@ Proveedores, OAuth y contexto. Registrar evidencia y resolver incógnitas antes 
 
 ## Comportamiento esperado
 
-Consultar el plan y los hechos de discovery.md. Los experimentos están pendientes; no se afirma viabilidad.
+Consultar el plan y los hechos de discovery.md. Existe evidencia parcial; los experimentos restantes siguen pendientes y no se afirma viabilidad completa.
 
 ## Criterios de aceptación
 

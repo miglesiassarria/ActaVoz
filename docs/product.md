@@ -19,7 +19,7 @@ ActaVoz será una aplicación de escritorio para macOS que permite capturar reun
 - Ningún proveedor de IA está activo por defecto.
 - La API REST no forma parte de la primera fase y no debe definirse ni construirse sin una decisión explícita posterior.
 - La atribución de interlocutores es aproximada: si no hay evidencia suficiente, se usan etiquetas neutrales.
-- El audio original y los resultados de una sesión son contenidos distintos; la política de audio no elimina por sí sola notas, transcripción o análisis.
+- El audio original y los resultados de una sesión son contenidos distintos; la política de audio no elimina por sí sola notas, transcripción, resumen, síntesis o chat.
 
 ## Decisiones pendientes
 

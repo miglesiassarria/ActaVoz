@@ -39,12 +39,12 @@ La persona escribe notas durante o después de la sesión y puede generar una s�
 ## Supuestos y dependencias
 
 - **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
-- **Desconocido:** Ubicación concreta de notas y síntesis dentro de la carpeta de sesión y comportamiento si no existe resumen principal requieren diseño.
+- **Confirmado:** las notas se guardan en notas.md y la síntesis en sintesis.md; AC6 establece el comportamiento sin resumen principal. La integración de persistencia y modelos depende de 0003 y 0006.
 - Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
 
 ## Riesgos
 
-- La persistencia y los fallos de generación deben evitar pérdidas; se requiere acordar qué hacer sin resumen principal.
+- La persistencia y los fallos de generación deben evitar pérdidas; el diseño debe asegurar que una operación fallida no dañe notas ni contenidos guardados.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables
