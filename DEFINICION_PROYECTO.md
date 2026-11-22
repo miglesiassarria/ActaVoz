@@ -78,7 +78,7 @@ Las API keys se introducirán una vez y se guardarán localmente en el Llavero d
 - La configuración de ActaVoz se guardará en las ubicaciones de **Library** recomendadas por macOS. Las credenciales se guardarán en el Llavero y las cachés regenerables en **Caches**.
 - Las exportaciones se guardarán en la ubicación que elija la persona.
 - Esta carpeta de sesiones es una preferencia explícita del proyecto. La distribución prevista es una app de Mac descargable en DMG y arrastrable a Aplicaciones. Para crear `~/.ActaVoz` automáticamente sin pedir al usuario que elija la carpeta, la dirección propuesta es distribuirla fuera del Mac App Store y sin App Sandbox, con firma y notarización de Apple.
-- Queda por definir qué ocurre si la persona cierra la app sin responder al aviso del audio. La retención y el borrado acordados se describen en «Al finalizar» y «Biblioteca de sesiones».
+- La retención y el borrado acordados, incluido el cierre sin responder al aviso de audio, se describen en «Al finalizar» y «Biblioteca de sesiones».
 
 Los LLM no son necesarios para todas las funciones. Capturar audio, mantener tiempos, separar fuentes, detectar actividad de voz, transcribir y organizar interlocutores son tareas que se procesarán localmente con frameworks y modelos especializados. Un LLM aporta valor cuando hay que interpretar la transcripción, responder preguntas con contexto, resumir o redactar conclusiones.
 

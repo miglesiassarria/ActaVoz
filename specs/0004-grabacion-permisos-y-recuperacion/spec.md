@@ -44,12 +44,12 @@ La persona prepara las fuentes, concede permisos, graba y puede pausar o recuper
 ## Supuestos y dependencias
 
 - **Confirmado:** la fase inicial es escritorio macOS, con archivos locales y procesamiento de voz local.
-- **Desconocido:** Recuperación tras apagado depende de persistencia efectiva; comportamiento ante fallo de escritura y cierre del aviso de audio debe precisarse en diseño.
+- **Desconocido:** La recuperación tras apagado depende de persistencia efectiva; el comportamiento ante fallo de escritura debe precisarse en diseño.
 - Las demás capacidades necesarias se coordinan mediante el índice de dependencias de `specs/README.md`.
 
 ## Riesgos
 
-- La captura del sistema, permisos, cambios de dispositivo y apagados requieren evidencia en 0012; quedan por decidir cierre voluntario, denegación de permisos y cierre del aviso de audio.
+- La captura del sistema, permisos, cambios de dispositivo y apagados requieren evidencia en 0012; queda por decidir el tratamiento de permisos denegados.
 - Las verificaciones de esta tabla describen métodos futuros; no se han ejecutado ni constituyen evidencia de implementación.
 
 ## Invariantes aplicables
