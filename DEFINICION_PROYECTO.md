@@ -86,6 +86,10 @@ La persona detiene la captura y, cuando termine el procesamiento, podrá pulsar 
 
 Las capturas aportadas sirven de referencia para presentar el resultado como un documento central con título, encabezados por tema y puntos agrupados. También muestran un selector de plantillas para distintos tipos de reunión, opciones para buscar y crear plantillas, y una vista de notas propias diferenciada del contenido generado. Se quieren incorporar estas posibilidades; queda por concretar su funcionamiento y alcance. Las capturas incluyen además controles para fecha, participantes, organización en carpetas y compartir, cuyo comportamiento aún no se ha acordado.
 
+Cada sesión tendrá dos vistas separadas: «Mis notas», donde la persona podrá escribir y editar sus propias notas, y «Resumen», con el contenido generado. Regenerar el resumen al cambiar de plantilla no modificará las notas propias.
+
+Las notas propias se podrán escribir y editar durante la sesión y después de terminar la transcripción. El resumen principal se generará inicialmente sin tener en cuenta esas notas. En «Mis notas» se podrá generar un segundo resumen que combine el acta o resumen de la reunión con las notas escritas; aparecerá al final de esa vista, claramente identificado como contenido generado por inteligencia artificial. Las notas personales, este segundo resumen y el resumen principal conservarán espacios diferenciados.
+
 ActaVoz incluirá plantillas de resumen preparadas y permitirá crear y editar plantillas propias. Las plantillas iniciales acordadas son:
 
 - **Resumen general:** temas y puntos importantes.

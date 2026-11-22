@@ -6,6 +6,8 @@ Estamos definiendo y documentando el producto. Esta lista registra decisiones y 
 
 Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad según avance la conversación. La fase de implementación tendrá su propia lista de seguimiento cuando empecemos a construir el producto.
 
+**Forma de mantener esta lista:** dividir los temas amplios en decisiones concretas. Cuando una decisión se acuerde y quede documentada, añadirla o moverla a «Decisiones acordadas y documentadas» y marcarla con `[x]`. Mantener con `[ ]` únicamente los aspectos que sigan abiertos, desglosándolos cuando una parte esté cerrada. Evitar párrafos de avances sin casilla y revisar la lista en cada decisión para que refleje el progreso real.
+
 ## Decisiones acordadas y documentadas
 
 - [x] **Datos y almacenamiento:** crear `~/.ActaVoz` al primer arranque; configuración en Library y credenciales en el Llavero.
@@ -18,6 +20,8 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 - [x] **Vista de sesión:** referencia visual de Granola, con notas centrales, transcripción en directo desplegable abajo a la izquierda y chat para preguntas. Tras detener y procesar la grabación, un botón genera el resumen en el centro. Los adjuntos quedan fuera de la definición actual.
 - [x] **Plantillas:** incluir resumen general, reunión de trabajo, reunión individual y reflexión personal; permitir crear y editar plantillas propias.
 - [x] **Aplicación de plantillas:** elegir la predeterminada en Ajustes y permitir cambiarla tras generar el resumen. Al regenerar se usan los datos conservados, incluida la transcripción completa, y el resultado sustituye al anterior sin historial.
+- [x] **Notas propias y resumen:** cada sesión tendrá vistas separadas de «Mis notas», que se pueden escribir y editar, y «Resumen». Regenerar el resumen no modificará las notas propias.
+- [x] **Síntesis de notas y reunión:** las notas se podrán escribir y editar durante la sesión o después de la transcripción. El resumen principal se generará inicialmente sin ellas; en «Mis notas» se podrá generar una segunda síntesis que combine el acta de la reunión con las notas, al final de la vista y claramente identificada como generada por IA.
 - [x] **Proveedores y credenciales:** ofrecer OpenAI/ChatGPT, Claude, OpenCode Go, Ollama y un proveedor genérico; sin proveedor activo por defecto. Guardar las credenciales localmente en el Llavero; ChatGPT tendrá opciones de API key y OAuth.
 
 ## Pendientes de prioridad alta
@@ -25,7 +29,8 @@ Los pendientes se pueden añadir, dividir, reordenar o cambiar de prioridad seg�
 - [ ] **Flujo de escritorio:** concretar el recorrido completo de captura, preguntas, parada, procesamiento, política de audio y revisión, incluidas las interacciones de la vista.
 - [ ] **Transcripción y diarización:** definir precisión esperada, presentación y corrección de atribuciones, qué perfiles se guardan y cómo se gestionan o eliminan.
 - [ ] **Proveedores de IA:** detallar el flujo inicial y Ajustes; decidir si se pueden configurar varios y elegir modelos distintos por función.
-- [ ] **Resultados y plantillas:** concretar contenido, configuración y búsqueda de plantillas, notas propias frente al resultado generado y ejemplos de formato. Revisar los controles de fecha, participantes, carpetas y compartir que aparecen en las capturas.
+- [ ] **Resultados y plantillas:** concretar contenido, configuración y búsqueda de plantillas y ejemplos de formato. Revisar los controles de fecha, participantes, carpetas y compartir que aparecen en las capturas.
+- [ ] **Síntesis de notas y reunión:** concretar cómo se solicita y actualiza la segunda síntesis y qué ocurre si cambian las notas o el resumen principal.
 - [ ] **Criterios de éxito:** acordar cómo juzgar la calidad de transcripción, separación de interlocutores, latencia y resúmenes.
 - [ ] **Borrado de resultados:** concretar si se podrán borrar resultados individuales y su comportamiento; el borrado completo de sesiones y directorios ya está acordado.
 

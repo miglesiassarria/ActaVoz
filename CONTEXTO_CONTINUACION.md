@@ -101,11 +101,17 @@ En la conversación se sugirió añadir temas sobre biblioteca y gestión de ses
 
 **Aplicación de plantillas:** se podrá elegir una plantilla predeterminada en Ajustes para generar los resúmenes. Después se podrá seleccionar otra plantilla y regenerar el resumen a partir de los datos conservados de la sesión, incluida la transcripción completa. El nuevo resumen sustituirá al anterior sin guardar historial de versiones por plantilla, aunque el audio se haya borrado.
 
+**Notas y resumen:** cada sesión tendrá dos vistas separadas: «Mis notas», editable por la persona, y «Resumen», generado. Regenerar el resumen no modificará las notas propias.
+
+**Síntesis adicional:** las notas pueden escribirse o editarse durante la sesión y también después de la transcripción. El resumen principal se genera inicialmente sin las notas. En «Mis notas» se podrá generar una segunda síntesis que combine el acta de la reunión y las notas; aparecerá al final de esa vista, diferenciada e identificada como generada por IA. Falta concretar cómo se solicita y actualiza cuando cambian sus fuentes.
+
 **Siguiente punto:** continuar cerrando el flujo principal de escritorio. Presentar opciones concretas y una recomendación para el paso siguiente, manteniendo abierta la gestión de perfiles de voz.
 
 ## Forma de avanzar
 
 Al abordar cada nuevo punto de documentación, presentar opciones concretas y una recomendación, y permitir que la persona elija varias, haga preguntas o proponga otra alternativa.
+
+Mantener `PENDIENTES_DOCUMENTACION.md` como seguimiento visible del progreso: dividir temas amplios en decisiones concretas; marcar con `[x]` cada decisión acordada y documentada en la sección de decisiones cerradas; dejar con `[ ]` solo lo que siga abierto y desglosarlo cuando se cierre una parte. Evitar registrar avances como párrafos sin casilla. Actualizar la lista al cerrar cada decisión.
 
 ## Instrucción para retomar
 
