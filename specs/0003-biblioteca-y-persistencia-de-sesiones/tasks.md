@@ -10,7 +10,7 @@ Estado: `build`. T1, T2 y T5 están verificadas; T3 y T4 tienen la lógica imple
     - Método: `./scripts/test-core.sh`; casos `testCreateSessionUsesDateAndShortIDUnderNotas`, `testTwoSessionsAtTheSameInstantGetDifferentFolders`, `testExistingFolderWithSameIdentityRetriesAnotherID`, `testUnwritableInboxReportsErrorWithoutCreatingSession`, `testTitleCanChangeWithoutRenamingTheFolder`, `testParticipantCorrectionsSurviveReopening`.
     - Resultado: 43 pruebas, 0 fallos. Carpetas `AAAA-MM-DD_HH-mm-ss_ID` únicas, reintento con otro identificador ante colisión y error de E/S informado sin crear sesión.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 42fb1e2.
 - [x] **T2. Carpetas y movimiento**
   - Objetivo: crear y renombrar directorios sin anidar y mover sesiones completas sin sobrescribir ni salir de raíz.
   - Archivos: repositorio y pruebas de biblioteca.
@@ -19,7 +19,7 @@ Estado: `build`. T1, T2 y T5 están verificadas; T3 y T4 tienen la lógica imple
     - Método: `./scripts/test-core.sh`; casos `testDirectoryCreateRenameAndNestingRejection`, `testMoveSessionKeepsIdentityAndContents`, `testMoveOntoExistingFolderIsRejected`, `testPathsOutsideRootAreRejected`, `testUnknownFilesSurviveAMove`.
     - Resultado: 0 fallos. Nombres con separador u ocultos rechazados, movimiento preserva notas y archivos desconocidos, destino existente produce `collision` y las rutas fuera de la raíz se rechazan.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 42fb1e2.
 - [ ] **T3. Borrado y persistencia**
   - Objetivo: confirmación en UI, cancelación sin cambios y borrado completo de sesión o directorio confirmado.
   - Archivos: repositorio, `LibraryModel`, `LibraryView` y pruebas.
@@ -28,7 +28,7 @@ Estado: `build`. T1, T2 y T5 están verificadas; T3 y T4 tienen la lógica imple
     - Método: `testDeletionNeedsConfirmationAndCancelKeepsData`, `testDeletingDirectoryRemovesContainedSessions`, `testNotesSummarySynthesisAndChatRoundTrip`; compilación de `LibraryView` con la alerta de confirmación.
     - Resultado: cancelar deja la sesión y sus archivos; confirmar elimina la carpeta completa; el contenido persiste al recargar. No se pulsó la alerta en la interfaz ni se simuló un fallo de disco durante el borrado.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 42fb1e2.
 - [ ] **T4. Vistas y navegación**
   - Objetivo: barra lateral, Sin organizar, lista por fecha, detalle, cabecera y botón Nueva nota con punto de entrada de prueba.
   - Archivos: `LibraryView.swift`, `SessionView.swift`, `LibraryModel.swift` y pruebas de modelos.
@@ -37,7 +37,7 @@ Estado: `build`. T1, T2 y T5 están verificadas; T3 y T4 tienen la lógica imple
     - Método: `swift run ActaVozFixtures build/fixtures`; `ActaVoz -ActaVozRoot build/fixtures`; `CGWindowListCopyWindowInfo`; `LibraryModelTests` y `SessionModelTests`.
     - Resultado: la app abre desde la biblioteca de ejemplo con una ventana de 1100×720 y sin errores en el registro. Los modelos filtran por directorio, «Sin organizar», búsqueda y confirman el borrado; guardar título, notas y participantes persiste en disco. No se inspeccionaron visualmente la barra lateral, la cabecera ni el botón, ni se pulsaron.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 42fb1e2.
 - [x] **T5. Archivos y búsqueda**
   - Objetivo: conservar archivos acordados y buscar por título, transcripción, notas y resumen.
   - Archivos: repositorio, `LibrarySearch.swift` y pruebas.
@@ -46,7 +46,7 @@ Estado: `build`. T1, T2 y T5 están verificadas; T3 y T4 tienen la lógica imple
     - Método: `testTranscriptKeepsTimestampsAndSpeakers`, `testNotesSummarySynthesisAndChatRoundTrip`, `testAudioIsCopiedAndFlagged`, `testSearchFindsExclusiveTermsInEachField`, `testSearchCoversSummaryAndIsAccentInsensitive`.
     - Resultado: 0 fallos. Tiempos y hablantes conservados; `notas.md`, `resumen.md`, `sintesis.md` y `chat.json` se releen igual; audio copiado y marcado; búsqueda por cada campo e insensible a acentos y mayúsculas.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 42fb1e2.
 
 ## Cierre
 
