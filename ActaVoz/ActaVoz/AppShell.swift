@@ -18,6 +18,7 @@ final class FirstRunModel: ObservableObject {
 struct RootView: View {
     @ObservedObject var bootstrap: AppBootstrap
     @ObservedObject var firstRun: FirstRunModel
+    @ObservedObject var recording: RecordingFlowModel
 
     var body: some View {
         Group {
@@ -27,7 +28,18 @@ struct RootView: View {
                     .task { bootstrap.start() }
             case .ready(let configuration):
                 if configuration.hasCompletedFirstRun {
-                    LibraryView(model: bootstrap.libraryModel)
+                    LibraryView(
+                        model: bootstrap.libraryModel,
+                        onNewNote: { recording.present() }
+                    )
+                    .sheet(isPresented: recordingBinding) {
+                        RecordingFlowView(model: recording)
+                            .onAppear {
+                                recording.onOpenSession = { folder in
+                                    bootstrap.libraryModel.selectSession(at: folder)
+                                }
+                            }
+                    }
                 } else {
                     FirstRunView(
                         model: firstRun,
@@ -40,6 +52,13 @@ struct RootView: View {
             }
         }
         .frame(minWidth: 900, minHeight: 560)
+    }
+
+    private var recordingBinding: Binding<Bool> {
+        Binding(
+            get: { recording.isPresented },
+            set: { if !$0 { recording.dismiss() } }
+        )
     }
 }
 

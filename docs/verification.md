@@ -8,7 +8,7 @@ Existe un proyecto Swift para la unidad 0002: app SwiftUI en `ActaVoz/ActaVoz.xc
 
 - **Compilar la app** (2026-11-23, salida 0):
   `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild -project ActaVoz/ActaVoz.xcodeproj -scheme ActaVoz -configuration Debug -derivedDataPath build/DerivedData -destination 'platform=macOS,arch=arm64' build`
-- **Probar el núcleo** (2026-11-23, 43 pruebas y 0 fallos):
+- **Probar el núcleo** (2026-11-23, 54 pruebas y 0 fallos):
   `./scripts/test-core.sh`, equivalente a `cd ActaVoz/ActaVozCore && swift test --disable-sandbox` con `TMPDIR` y `CLANG_MODULE_CACHE_PATH` dentro de `build/`.
 - **Biblioteca de ejemplo** para revisar la interfaz sin datos reales:
   `cd ActaVoz/ActaVozCore && swift run --disable-sandbox ActaVozFixtures ../../build/fixtures --reset`, y después `ActaVoz.app/Contents/MacOS/ActaVoz -ActaVozRoot <ruta>` (solo en compilaciones de depuración). Sin `--reset` se niega a escribir sobre una ruta con contenido.
@@ -17,6 +17,8 @@ Existe un proyecto Swift para la unidad 0002: app SwiftUI en `ActaVoz/ActaVoz.xc
 Notas de entorno: `-derivedDataPath` mantiene los artefactos dentro del repositorio. `--disable-sandbox` solo es necesario cuando la sesión del agente ejecuta SwiftPM dentro de una jaula que impide su sandbox interno; en un terminal normal basta `swift test`.
 
 ## Límite conocido
+
+La captura real de audio necesita que la persona conceda micrófono y grabación de pantalla en macOS; el diálogo del sistema no es accesible para el agente. El audio del sistema exige reiniciar la app tras conceder el permiso. Hasta entonces, las pruebas de captura usan dobles y los criterios afectados quedan parciales.
 
 No se dispone de un equipo con macOS 26 (confirmado por la persona usuaria el 2026-11-23). El proyecto fija `MACOSX_DEPLOYMENT_TARGET = 26.0` y se ejecuta en macOS 27.2.1/arm64. La compatibilidad con macOS 26 no se comprueba y no debe declararse validada en ninguna evidencia.
 

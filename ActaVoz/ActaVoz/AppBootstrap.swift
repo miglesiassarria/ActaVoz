@@ -17,10 +17,12 @@ final class AppBootstrap: ObservableObject {
     /// `ActaVoz -ActaVozRoot /ruta/a/fixtures`. Solo en compilaciones de depuración.
     static func resolvedLocations() -> StorageLocations {
         #if DEBUG
+        let environment = ProcessInfo.processInfo.environment["ACTAVOZ_ROOT"]
         let arguments = CommandLine.arguments
-        if let index = arguments.firstIndex(of: "-ActaVozRoot"),
-           arguments.indices.contains(index + 1) {
-            let root = URL(fileURLWithPath: arguments[index + 1], isDirectory: true)
+        if let path = environment ?? (arguments.firstIndex(of: "-ActaVozRoot").flatMap { index in
+            arguments.indices.contains(index + 1) ? arguments[index + 1] : nil
+        }) {
+            let root = URL(fileURLWithPath: path, isDirectory: true)
             return StorageLocations(
                 root: root,
                 configurationDirectory: root.appendingPathComponent("Config", isDirectory: true),
@@ -36,6 +38,12 @@ final class AppBootstrap: ObservableObject {
     let locations: StorageLocations
     let repository: SessionRepository
     private(set) lazy var libraryModel = LibraryModel(repository: repository)
+    private(set) lazy var recordingFlow = RecordingFlowModel(
+        repository: repository,
+        retentionPolicy: { [weak self] in
+            (try? self?.store.load().audioRetentionPolicy) ?? .alwaysKeep
+        }
+    )
 
     private let bootstrap: Bootstrap
     private let store: SettingsStore

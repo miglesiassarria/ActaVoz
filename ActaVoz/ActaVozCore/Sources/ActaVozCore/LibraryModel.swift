@@ -66,6 +66,12 @@ final class LibraryModel: ObservableObject {
         }
     }
 
+    /// Abre una sesión por su carpeta, útil al terminar una grabación.
+    func selectSession(at folder: URL) {
+        reload()
+        selectedSession = sessions.first { $0.folderURL.standardizedFileURL == folder.standardizedFileURL }
+    }
+
     func select(_ newSelection: Selection) {
         selection = newSelection
         selectedSession = nil

@@ -4,12 +4,31 @@ import Foundation
 public struct AppConfiguration: Codable, Equatable, Sendable {
     public var schemaVersion: Int
     public var hasCompletedFirstRun: Bool
+    public var audioRetentionPolicy: AudioRetentionPolicy
 
     public static let current = AppConfiguration(schemaVersion: 1, hasCompletedFirstRun: false)
 
-    public init(schemaVersion: Int = 1, hasCompletedFirstRun: Bool = false) {
+    public init(
+        schemaVersion: Int = 1,
+        hasCompletedFirstRun: Bool = false,
+        audioRetentionPolicy: AudioRetentionPolicy = .alwaysKeep
+    ) {
         self.schemaVersion = schemaVersion
         self.hasCompletedFirstRun = hasCompletedFirstRun
+        self.audioRetentionPolicy = audioRetentionPolicy
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case schemaVersion
+        case hasCompletedFirstRun
+        case audioRetentionPolicy
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        schemaVersion = try container.decodeIfPresent(Int.self, forKey: .schemaVersion) ?? 1
+        hasCompletedFirstRun = try container.decodeIfPresent(Bool.self, forKey: .hasCompletedFirstRun) ?? false
+        audioRetentionPolicy = try container.decodeIfPresent(AudioRetentionPolicy.self, forKey: .audioRetentionPolicy) ?? .alwaysKeep
     }
 }
 
