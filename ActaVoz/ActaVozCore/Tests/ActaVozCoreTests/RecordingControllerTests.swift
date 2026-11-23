@@ -81,7 +81,8 @@ final class RecordingControllerTests: XCTestCase {
 
     private func makeController(
         options: RecordingOptions = RecordingOptions(),
-        policy: AudioRetentionPolicy = .alwaysKeep
+        policy: AudioRetentionPolicy = .alwaysKeep,
+        restoredElapsed: TimeInterval = 0
     ) -> RecordingController {
         RecordingController(
             folder: folder,
@@ -89,6 +90,7 @@ final class RecordingControllerTests: XCTestCase {
             driver: driver,
             finalizer: finalizer,
             retentionPolicy: policy,
+            restoredElapsed: restoredElapsed,
             now: { [clock] in clock!.now }
         )
     }
@@ -145,6 +147,16 @@ final class RecordingControllerTests: XCTestCase {
         if case .failed = controller.status {} else {
             XCTFail("Se esperaba estado failed, llegó \(controller.status)")
         }
+    }
+
+    func testRecoveredRecordingKeepsElapsedTime() async throws {
+        let controller = makeController(restoredElapsed: 12)
+
+        try await controller.start()
+        clock.advance(3)
+        controller.tick()
+
+        XCTAssertEqual(controller.elapsed, 15, accuracy: 0.001)
     }
 
     func testPauseFreezesElapsedAndResumeContinuesWithoutCountingPause() async throws {

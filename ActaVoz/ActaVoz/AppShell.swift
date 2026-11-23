@@ -32,6 +32,7 @@ struct RootView: View {
                         model: bootstrap.libraryModel,
                         onNewNote: { recording.present() }
                     )
+                    .task { recording.presentRecoveryIfNeeded() }
                     .sheet(isPresented: recordingBinding) {
                         RecordingFlowView(model: recording)
                             .onAppear {

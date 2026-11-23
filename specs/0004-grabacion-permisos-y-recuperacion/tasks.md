@@ -1,6 +1,6 @@
 # 0004 · Tareas: Captura y recuperación
 
-Estado: `build`. Corrección de permisos y captura real verificada el 2026-11-23: ambas fuentes, pausa sin crecimiento de CAF y exportación m4a de 24 s con muestras no nulas. Suite: 58 pruebas, 0 fallos. Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
+Estado: `build`. Corrección de permisos y captura real verificada el 2026-11-23: ambas fuentes, pausa sin crecimiento de CAF y exportación m4a de 24 s con muestras no nulas. Recuperación tras caída real verificada con ambas opciones. Suite: 66 pruebas, 0 fallos. Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
 
 - [ ] **T1. Preparación y permisos**
   - Objetivo: cumplir AC1–AC4 de la spec.
@@ -11,13 +11,14 @@ Estado: `build`. Corrección de permisos y captura real verificada el 2026-11-23
     - Resultado: el panel abre con español, perfiles activados y ambas fuentes; sin permiso, «Empezar» queda deshabilitado y se muestra el aviso. Las pruebas confirman que se graba con la fuente permitida, se avisa de la que falta y no se inicia sin ninguna. AC1 y AC4 verificados; AC2 queda parcial porque el diálogo de macOS no se pudo confirmar; AC3 requiere captura real.
     - Fecha: 2026-11-23.
     - Commit: sin commit.
-- [ ] **T2. Grabación, pausas y recuperación**
+- [x] **T2. Grabación, pausas y recuperación** (parcial: AC5 y AC10 siguen abiertos)
   - Objetivo: cumplir AC5–AC7 y AC10 de la spec.
   - Archivos: coordinador, `RecordingFlow.swift` y pruebas.
   - Verificación: señal controlada, interrupción del proceso y red desconectada; verificar archivos y contador.
   - Evidencia parcial:
     - Método: `testPauseFreezesElapsedAndResumeContinuesWithoutCountingPause`, `testLosingAllSourcesPausesAndRecoveryResumes`, `testPausedStateIsPersistedForRecovery`.
-    - Resultado: la pausa detiene el contador y no procesa fragmentos; la pérdida de una fuente avisa y continúa; la pérdida de ambas pausa; la recuperación reanuda; el marcador `grabacion.json` guarda estado y tiempo. Sin captura real ni interrupción del proceso, AC5 y AC7 quedan parciales y AC10 sin verificar.
+    - Resultado: la pausa detiene el contador y no procesa fragmentos; la pérdida de una fuente avisa y continúa; la pérdida de ambas pausa; la recuperación reanuda; el marcador `grabacion.json` guarda estado y tiempo.
+    - Evidencia real AC7 (2026-11-23): con raíz `build/recovery-test`, grabación de sistema y `kill -9`; al reabrir apareció «Recuperar grabación» con «Reanudar», «Dar por terminada» y «Ahora no». «Reanudar» restauró fuente, idioma y tiempo, escribió un CAF nuevo y exportó m4a de 8,6507 s (2 canales, RMS 0,0762370). «Dar por terminada» eliminó el marcador y abrió la sesión. Prueba `testRecoveredRecordingKeepsElapsedTime`. AC7 cumplido; AC5 y AC10 siguen parciales.
     - Fecha: 2026-11-23.
     - Commit: sin commit.
 - [ ] **T3. Finalización y conservación**
@@ -46,7 +47,7 @@ Estado: `build`. Corrección de permisos y captura real verificada el 2026-11-23
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
 | AC5 | parcial | Pausa real: contador 00:20 y tamaños CAF constantes; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante pausa. |
 | AC6 | cumplido | Pérdida y recuperación de una y ambas fuentes probadas. |
-| AC7 | parcial | Marcador y oferta de reanudar/terminar implementados; falta interrupción real. |
+| AC7 | cumplido | Caída real con kill -9; aviso automático al reabrir, reanudación con fuente y tiempo restaurados, y terminación que conserva y abre la sesión. |
 | AC8 | parcial | UI de procesado y botón implementados; no ejecutado de extremo a extremo. |
 | AC9 | cumplido | Tres políticas probadas con datos temporales; por defecto guardar. |
 | AC10 | sin verificar | Requiere red desconectada y captura real. |

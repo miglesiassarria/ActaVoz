@@ -19,7 +19,19 @@ final class AppBootstrap: ObservableObject {
         #if DEBUG
         let environment = ProcessInfo.processInfo.environment["ACTAVOZ_ROOT"]
         let arguments = CommandLine.arguments
-        if let path = environment ?? (arguments.firstIndex(of: "-ActaVozRoot").flatMap { index in
+        // Permite pruebas de interfaz con datos temporales sin re-firmar el bundle:
+        // busca build/debug-root.txt subiendo desde la app compilada.
+        var probeURL = Bundle.main.bundleURL
+        var debugRoot: String?
+        for _ in 0..<8 {
+            probeURL = probeURL.deletingLastPathComponent()
+            let candidate = probeURL.appendingPathComponent("build/debug-root.txt")
+            if let value = try? String(contentsOf: candidate, encoding: .utf8) {
+                debugRoot = value.trimmingCharacters(in: .whitespacesAndNewlines)
+                break
+            }
+        }
+        if let path = environment ?? debugRoot ?? (arguments.firstIndex(of: "-ActaVozRoot").flatMap { index in
             arguments.indices.contains(index + 1) ? arguments[index + 1] : nil
         }) {
             let root = URL(fileURLWithPath: path, isDirectory: true)

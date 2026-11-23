@@ -65,6 +65,13 @@ final class RecordingFlowModel: ObservableObject {
         isPresented = true
     }
 
+    /// Al abrir la app, si quedó una grabación interrumpida, ofrecer recuperarla.
+    func presentRecoveryIfNeeded() {
+        guard !isPresented, phase == .preparation else { return }
+        guard findPendingRecording() != nil else { return }
+        present()
+    }
+
     func dismiss() {
         guard !isStarting, phase != .recording, phase != .processing else { return }
         stopTicker()
@@ -150,17 +157,30 @@ final class RecordingFlowModel: ObservableObject {
         isStarting = true
         defer { isStarting = false }
         do {
+            var resumed = options
+            resumed.microphoneEnabled = pending.marker.sources.contains(.microphone)
+            resumed.systemEnabled = pending.marker.sources.contains(.system)
+            resumed.language = pending.marker.language
+            resumed.savesVoiceProfiles = pending.marker.savesVoiceProfiles
+            options = resumed
+            if resumed.systemEnabled { _ = await driver.checkSystemAccess() }
+            refreshAvailability()
+            guard PermissionRequestPolicy.canAttemptStart(options: resumed, availability: availability) else {
+                throw CaptureError.noSourceAvailable
+            }
             let controller = RecordingController(
                 folder: pending.summary.folderURL,
-                options: options,
+                options: resumed,
                 driver: driver,
                 finalizer: CompositionAudioFinalizer(),
-                retentionPolicy: retentionPolicy()
+                retentionPolicy: retentionPolicy(),
+                restoredElapsed: pending.marker.elapsed
             )
             self.controller = controller
             self.folder = pending.summary.folderURL
             createdTitle = pending.summary.title
             try await controller.start()
+            elapsed = controller.elapsed
             pendingRecovery = nil
             phase = .recording
             statusText = controller.status.displayName
@@ -297,12 +317,15 @@ struct NewNotePanel: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Nueva nota").font(.title2.bold())
+            Text(model.pendingRecovery == nil ? "Nueva nota" : "Recuperar grabación").font(.title2.bold())
 
             if let pending = model.pendingRecovery {
                 recovery(pending)
-            }
-
+                HStack {
+                    Spacer()
+                    Button("Ahora no") { model.dismiss() }.disabled(model.isStarting)
+                }
+            } else {
             Text("ActaVoz necesita acceso al micrófono y al audio del sistema. macOS pedirá permiso la primera vez; puedes grabar con una sola fuente si la otra no está disponible.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -345,6 +368,7 @@ struct NewNotePanel: View {
                 Button("Empezar") { Task { await model.start() } }
                     .keyboardShortcut(.defaultAction)
                     .disabled(!model.canStart || model.isStarting || model.checkingPermissions)
+            }
             }
         }
         .padding(22)

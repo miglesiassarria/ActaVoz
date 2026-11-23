@@ -58,6 +58,8 @@ public final class RecordingController: ObservableObject {
     private let now: () -> Date
 
     private var accumulated: TimeInterval = 0
+    private var startingElapsed: TimeInterval = 0
+    private var ticksSinceMarker = 0
     private var segmentStart: Date?
     private var pendingSources: [URL] = []
 
@@ -68,6 +70,7 @@ public final class RecordingController: ObservableObject {
         finalizer: any AudioFinalizing,
         marker: PendingRecordingStore? = nil,
         retentionPolicy: AudioRetentionPolicy = .alwaysKeep,
+        restoredElapsed: TimeInterval = 0,
         now: @escaping () -> Date = Date.init
     ) {
         self.folder = folder
@@ -77,6 +80,8 @@ public final class RecordingController: ObservableObject {
         self.marker = marker ?? PendingRecordingStore(folder: folder)
         self.retentionPolicy = retentionPolicy
         self.now = now
+        self.startingElapsed = restoredElapsed
+        self.elapsed = restoredElapsed
     }
 
     // MARK: - Preparación
@@ -124,8 +129,9 @@ public final class RecordingController: ObservableObject {
             throw CaptureError.driverFailed(error.localizedDescription)
         }
 
-        accumulated = 0
-        elapsed = 0
+        accumulated = startingElapsed
+        elapsed = startingElapsed
+        startingElapsed = 0
         segmentStart = now()
         activeSources = plan
         // El arranque real confirma la fuente; no avisar con el estado previo.
@@ -140,6 +146,12 @@ public final class RecordingController: ObservableObject {
             return
         }
         elapsed = accumulated + now().timeIntervalSince(segmentStart)
+        // Conserva el tiempo aproximado si el proceso se interrumpe.
+        ticksSinceMarker += 1
+        if ticksSinceMarker >= 12 {
+            ticksSinceMarker = 0
+            persistMarker()
+        }
     }
 
     public func togglePause() {

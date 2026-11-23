@@ -59,3 +59,14 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Verificación en la ruta Debug: compilación dc573b8b… mostró aviso falso pero audio.m4a de 21.0027 s, 2 canales, RMS 0.0489243. Tras corregir y recompilar (cdhash db3ac3dcc38b0c0ebf59f2c1b209076ebc9289a1): sin aviso, 12.0107 s, 2 canales, RMS 0.1238746, pico 0.9042447, estado Procesada.
 - Esto demuestra captura tras cambiar la compilación (otro cdhash). No demuestra que cualquier compilación futura conserve TCC para siempre ni sustituye la prueba en otro Mac.
 - Suite: 65 pruebas, 0 fallos. Fecha: 2026-11-23. Commit: 75d61cd.
+
+## Recuperación tras caída real (2026-11-23, 23:22–23:26)
+
+- Preparación: raíz aislada build/recovery-test y build/debug-root.txt leído solo en DEBUG; no se usó la biblioteca personal.
+- Método: grabación con solo audio del sistema; tras existir grabacion.json se ejecutó kill -9 sobre el proceso.
+- Resultado al reabrir: panel «Recuperar grabación» automático con Reanudar, Dar por terminada y Ahora no; sin formulario de nota nueva.
+- Reanudar: restauró fuente, idioma y tiempo del marcador, escribió AudioFuentes/sistema-8E727BE4-….caf y exportó audio.m4a de 8,650666 s, 2 canales, RMS 0,0762370, pico 0,1848260; contador 00:30 al detener.
+- Dar por terminada: eliminó grabacion.json, abrió la sesión y no borró el audio existente.
+- Regresión: testRecoveredRecordingKeepsElapsedTime; suite de 66 pruebas con 0 fallos.
+- Límite: la caída fue kill -9, no un corte de energía; no se probó caída durante la exportación ni disco lleno. La transcripción no existe aún, así que «conservar lo transcrito» no aplica todavía.
+- Fecha: 2026-11-23. Commit: 3e976e6 (base) + este incremento.
