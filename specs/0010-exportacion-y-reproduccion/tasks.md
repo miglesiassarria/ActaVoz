@@ -4,7 +4,7 @@ Dependencias: 0003, 0005, 0008 y 0009. No se ha ejecutado ninguna tarea. Antes d
 
 - [ ] **T1. Reproducción**
   - Objetivo: cumplir AC1 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Export/ExportService.swift`, `Playback/SessionAudioPlayer.swift`, `Export/ExportView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Archivo de prueba con duración conocida; reproducir, pausar, saltar y probar archivo ausente.
   - Evidencia:
     - Método: pendiente.
@@ -14,7 +14,7 @@ Dependencias: 0003, 0005, 0008 y 0009. No se ha ejecutado ninguna tarea. Antes d
 
 - [ ] **T2. Exportación y copia**
   - Objetivo: cumplir AC2–AC5 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Export/ExportService.swift`, `Playback/SessionAudioPlayer.swift`, `Export/ExportView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Exportar cada contenido en ambos formatos a carpeta temporal; comparar interlocutores, tiempos y síntesis opcional.
   - Evidencia:
     - Método: pendiente.

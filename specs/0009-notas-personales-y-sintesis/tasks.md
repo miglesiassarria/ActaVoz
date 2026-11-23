@@ -4,7 +4,7 @@ Dependencias: 0003, 0006 y 0008. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T1. Notas y persistencia**
   - Objetivo: cumplir AC1–AC2, AC5 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Notes/NotesController.swift`, `Notes/NotesView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Editar durante y después, reabrir y borrar síntesis con cancelación/confirmación.
   - Evidencia:
     - Método: pendiente.
@@ -14,7 +14,7 @@ Dependencias: 0003, 0006 y 0008. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T2. Síntesis**
   - Objetivo: cumplir AC3–AC4, AC6–AC8 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Notes/NotesController.swift`, `Notes/NotesView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Proveedor simulado; comprobar entradas, modelo, aviso de actualización, edición y falta de resumen.
   - Evidencia:
     - Método: pendiente.

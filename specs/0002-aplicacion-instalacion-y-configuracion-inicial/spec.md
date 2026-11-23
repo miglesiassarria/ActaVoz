@@ -1,6 +1,6 @@
 # 0002 · Base de aplicación y configuración inicial
 
-- **Estado:** design
+- **Estado:** build
 - **Creada:** 2026-11-22
 - **Aprobación:** aprobada
 - **Aprobada por:** persona usuaria

@@ -79,8 +79,13 @@ Determinar la viabilidad de la capacidad y registrar evidencia para los diseños
 
 ### Dirección técnica provisional
 
-El SDK consultado declara SpeechAnalyzer desde macOS 26; si se mantiene ese componente, macOS 26 es el candidato mínimo a comprobar. Apple Silicon es el único hardware probado en esta investigación. No se declara soporte Intel ni se fija el mínimo definitivo sin comprobar los componentes de voz y las plataformas objetivo. Esta conclusión es una inferencia para orientar los experimentos, no una matriz de compatibilidad validada.
+El SDK consultado declara SpeechAnalyzer desde macOS 26 y Apple Silicon es el único hardware probado en esta investigación. La plataforma ya no es una pregunta abierta: se decidió el 2026-11-23. Lo que queda es evidencia pendiente, no una decisión pendiente.
 
-Condiciona la versión mínima y el acceso a carpetas de 0002, y los diseños de 0004 y 0005. Faltan evidencias y decisiones; no se ha elegido versión mínima ni librería definitiva.
+Condiciona el acceso a carpetas de 0002 y los diseños de 0004 y 0005.
 
-**Objetivo inicial elegido:** macOS 26 o posterior en Apple Silicon. La compatibilidad real, rendimiento y uso sin conexión en macOS 26 aún deben validarse; no se ha probado Intel.
+### Decisión de plataforma (2026-11-23)
+
+- **Decidido por la persona usuaria:** el mínimo de la fase 1 es **macOS 26 o posterior en Apple Silicon**. No se declara soporte Intel.
+- **Consecuencia:** el proyecto Swift de 0002 se configura con despliegue macOS 26 y arquitectura arm64. La pregunta no se reabre salvo incompatibilidad demostrada de un componente.
+- **Pendiente de evidencia, no de decisión:** ejecución real en un equipo con macOS 26, uso sin conexión, captura dual, diarización y rendimiento. Se registran como riesgos de 0002 y se verifican en 0011 con el artefacto real; la evidencia actual se obtuvo en macOS 27.2.1/arm64 con ejecutables locales sin sandbox.
+- **Sigue sin elegirse** librería definitiva de transcripción ni de diarización: corresponde a los experimentos de esta investigación y a los diseños de 0004 y 0005.

@@ -4,7 +4,7 @@ Dependencias: 0002–0010, 0012 y 0013. No se ha ejecutado ninguna tarea. Antes 
 
 - [ ] **T1. Evaluación funcional y calidad**
   - Objetivo: cumplir AC1–AC4 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `docs/verification.md`, `scripts/quality/`, `docs/evidence/` y artefacto de distribución; rutas propuestas, ajustables al proyecto real.
   - Verificación: Ejecutar recorridos y corpus etiquetado en español e inglés, con solapamientos; registrar errores y latencias.
   - Evidencia:
     - Método: pendiente.
@@ -14,7 +14,7 @@ Dependencias: 0002–0010, 0012 y 0013. No se ha ejecutado ninguna tarea. Antes 
 
 - [ ] **T2. Umbrales**
   - Objetivo: cumplir AC5 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `docs/verification.md`, `scripts/quality/`, `docs/evidence/` y artefacto de distribución; rutas propuestas, ajustables al proyecto real.
   - Verificación: Documentar umbrales acordados tras mediciones y comparar resultados sin inventar evidencia.
   - Evidencia:
     - Método: pendiente.
@@ -24,7 +24,7 @@ Dependencias: 0002–0010, 0012 y 0013. No se ha ejecutado ninguna tarea. Antes 
 
 - [ ] **T3. Entrega e integración offline**
   - Objetivo: cumplir AC6–AC7 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `docs/verification.md`, `scripts/quality/`, `docs/evidence/` y artefacto de distribución; rutas propuestas, ajustables al proyecto real.
   - Verificación: Verificar DMG firmado y notarizado en Mac limpio y repetir recorrido completo con red desconectada.
   - Evidencia:
     - Método: pendiente.

@@ -4,7 +4,7 @@ Dependencias: 0002, 0003 y 0012. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T1. Preparación y permisos**
   - Objetivo: cumplir AC1–AC4 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Captura/CaptureCoordinator.swift`, `Captura/AudioSource.swift`, `Captura/RecordingView.swift`, `Captura/AudioRetention.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Dobles de fuentes y permisos; comprobar valores iniciales, denegaciones y ausencia de ambas fuentes.
   - Evidencia:
     - Método: pendiente.
@@ -14,7 +14,7 @@ Dependencias: 0002, 0003 y 0012. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T2. Grabación, pausas y recuperación**
   - Objetivo: cumplir AC5–AC7, AC10 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Captura/CaptureCoordinator.swift`, `Captura/AudioSource.swift`, `Captura/RecordingView.swift`, `Captura/AudioRetention.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Prueba con señales controladas, interrupción del proceso y red desconectada; verificar archivos y contador.
   - Evidencia:
     - Método: pendiente.
@@ -24,7 +24,7 @@ Dependencias: 0002, 0003 y 0012. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T3. Finalización y conservación**
   - Objetivo: cumplir AC8–AC9, AC11–AC14 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Captura/CaptureCoordinator.swift`, `Captura/AudioSource.swift`, `Captura/RecordingView.swift`, `Captura/AudioRetention.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Simular procesamiento, tres políticas, cierre y fallos; verificar audio combinado y textos conservados.
   - Evidencia:
     - Método: pendiente.

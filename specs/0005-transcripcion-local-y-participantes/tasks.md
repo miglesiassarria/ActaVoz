@@ -4,7 +4,7 @@ Dependencias: 0003, 0004, 0006 opcional y 0012. No se ha ejecutado ninguna tarea
 
 - [ ] **T1. Transcripción e identidades**
   - Objetivo: cumplir AC1–AC4, AC12–AC15 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Speech/SpeechPipeline.swift`, `Speech/SpeakerRepository.swift`, `Speech/TranscriptView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Audio sintético y transcripciones con pistas; verificar turnos, Yo configurable, correcciones y persistencia.
   - Evidencia:
     - Método: pendiente.
@@ -14,7 +14,7 @@ Dependencias: 0003, 0004, 0006 opcional y 0012. No se ha ejecutado ninguna tarea
 
 - [ ] **T2. Perfiles y privacidad**
   - Objetivo: cumplir AC5–AC8, AC10–AC11 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Speech/SpeechPipeline.swift`, `Speech/SpeakerRepository.swift`, `Speech/TranscriptView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Dos sesiones controladas, confirmación tardía sin audio, fusión y borrado; observar tráfico sin audio.
   - Evidencia:
     - Método: pendiente.
@@ -24,7 +24,7 @@ Dependencias: 0003, 0004, 0006 opcional y 0012. No se ha ejecutado ninguna tarea
 
 - [ ] **T3. Sin conexión**
   - Objetivo: cumplir AC9 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Speech/SpeechPipeline.swift`, `Speech/SpeakerRepository.swift`, `Speech/TranscriptView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Con recursos instalados, desconectar red del equipo de prueba y procesar ambos idiomas; registrar limitaciones.
   - Evidencia:
     - Método: pendiente.

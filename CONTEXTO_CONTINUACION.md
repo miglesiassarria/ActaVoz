@@ -2,19 +2,20 @@
 
 ## Estado actual
 
-Fase de diseño y discovery de la primera versión de escritorio. No hay aplicación implementada. Las specs 0003–0011 fueron aprobadas explícitamente por la persona usuaria el 2026-11-22 y están en `design`, con diseños y tareas propuestos aún sujetos a revisión y a la resolución de dependencias; la 0002 está aprobada y en `design`. Las investigaciones 0012 y 0013 siguen en `discovery`.
+La unidad 0002 está en `build` con base implementada: app SwiftUI compilable, arranque con carpetas idempotentes y primer inicio omitible. T1 y T2 están verificadas el 2026-11-23; faltan el clic real de T3 y la ejecución en macOS 26 de T4. Las specs 0003–0011 siguen en `design` con diseños y tareas propuestos; las investigaciones 0012 y 0013 siguen en `discovery`.
 
 ## Referencias
 
 - [Definición](DEFINICION_PROYECTO.md): acuerdos de producto vigentes.
 - [Seguimiento](PENDIENTES_DOCUMENTACION.md): casillas históricas y pendientes reales.
 - [Índice de specs](specs/README.md): capacidades, dependencias y aprobación.
+- [Entrega a agentes](docs/entrega-agentes.md): orden de trabajo, contratos y condiciones para verificar cada unidad.
 - [Ejemplos](EJEMPLOS_PLANTILLAS.md): formatos ficticios aceptados.
 - [Informe de revisión](docs/revision-auditoria.md): correcciones de la última auditoría y límites de la evidencia.
 
 ## Próximo trabajo
 
-Completar la investigación [0012](specs/0012-viabilidad-captura-transcripcion-y-voz-local/discovery.md), empezando por plataforma y acceso al directorio para refinar 0002 y 0003; continuar captura dual, transcripción con audio real, diarización y perfiles. En [0013](specs/0013-viabilidad-proveedores-contexto-y-oauth/discovery.md), continuar OAuth autorizado, inferencia, streaming, Llavero y estrategia de contexto largo. No afirmar viabilidad completa por una consulta de idiomas o del catálogo público.
+Plataforma decidida el 2026-11-23: macOS 26 o posterior en Apple Silicon. Completar la investigación [0012](specs/0012-viabilidad-captura-transcripcion-y-voz-local/discovery.md) con el acceso a carpetas en otra cuenta e instalación distribuida, la captura dual, la transcripción con audio real, la diarización y los perfiles; después refinar 0002 y 0003. En [0013](specs/0013-viabilidad-proveedores-contexto-y-oauth/discovery.md), continuar OAuth autorizado, inferencia, streaming, Llavero y estrategia de contexto largo. No afirmar viabilidad completa por una consulta de idiomas o del catálogo público.
 
 ## Evidencia disponible
 

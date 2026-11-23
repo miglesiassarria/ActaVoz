@@ -4,7 +4,7 @@ Dependencias: 0002 y 0013. No se ha ejecutado ninguna tarea. Antes de build, res
 
 - [ ] **T1. Conexiones y credenciales**
   - Objetivo: cumplir AC1–AC6 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Providers/ProviderRegistry.swift`, `Providers/LanguageProvider.swift`, `Providers/SecretStore.swift`, `Providers/ContextProcessor.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Servidor simulado; verificar catálogo, alternancia, selección, errores, Llavero y OAuth solo si se valida.
   - Evidencia:
     - Método: pendiente.
@@ -14,7 +14,7 @@ Dependencias: 0002 y 0013. No se ha ejecutado ninguna tarea. Antes de build, res
 
 - [ ] **T2. Contexto, modelos y errores**
   - Objetivo: cumplir AC7–AC12 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Providers/ProviderRegistry.swift`, `Providers/LanguageProvider.swift`, `Providers/SecretStore.swift`, `Providers/ContextProcessor.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Proveedor simulado con rechazo por longitud; verificar cobertura, reintento, selección y conservación de datos.
   - Evidencia:
     - Método: pendiente.

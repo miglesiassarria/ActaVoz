@@ -2,7 +2,7 @@
 
 ## Estado observado
 
-El repositorio está en fase de definición. A fecha de esta instalación no contiene proyecto Swift, `Package.swift`, `.xcodeproj`, `.xcworkspace`, pruebas ni código de producción. La arquitectura descrita aquí separa dirección acordada de dependencias aún no validadas.
+El repositorio contiene desde el 2026-11-23 un proyecto Swift para la unidad 0002: app SwiftUI en `ActaVoz/ActaVoz.xcodeproj` y paquete `ActaVozCore` con rutas, configuración y arranque. La app compila los fuentes del núcleo como grupo del proyecto y el paquete se usa para ejecutar sus pruebas; la decisión y sus límites están en [ADR 0001](adr/0001-persistencia-de-sesiones.md). El resto de componentes descritos abajo sigue sin implementar y sus dependencias no están validadas.
 
 ## Dirección técnica confirmada
 

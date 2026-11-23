@@ -4,7 +4,7 @@ Dependencias: 0003, 0005 y 0006. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T1. Interfaz y consultas**
   - Objetivo: cumplir AC1–AC6 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Chat/SessionChatController.swift`, `Chat/ChatView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Proveedor doble y fuente de audio simulada; abrir/cerrar panel, consultar durante captura y simular fallo.
   - Evidencia:
     - Método: pendiente.
@@ -14,7 +14,7 @@ Dependencias: 0003, 0005 y 0006. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T2. Historial y cola**
   - Objetivo: cumplir AC7–AC9 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Chat/SessionChatController.swift`, `Chat/ChatView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Enviar preguntas con respuesta demorada, verificar orden, contexto, persistencia y reapertura.
   - Evidencia:
     - Método: pendiente.

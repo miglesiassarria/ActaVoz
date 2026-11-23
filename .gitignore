@@ -1,1 +1,9 @@
+build/
+.build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+__pycache__/
+*.pyc
+.DS_Store
 .agents

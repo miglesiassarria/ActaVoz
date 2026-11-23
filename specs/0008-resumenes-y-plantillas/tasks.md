@@ -4,7 +4,7 @@ Dependencias: 0003, 0005 y 0006. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T1. Plantillas y generación**
   - Objetivo: cumplir AC1–AC4, AC10–AC12 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Summaries/SummaryService.swift`, `Summaries/TemplateRepository.swift`, `Summaries/SummaryView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Proveedor simulado; verificar cuatro plantillas, búsqueda, duplicación, borrado y entrada sin notas.
   - Evidencia:
     - Método: pendiente.
@@ -14,7 +14,7 @@ Dependencias: 0003, 0005 y 0006. No se ha ejecutado ninguna tarea. Antes de buil
 
 - [ ] **T2. Edición y sustitución**
   - Objetivo: cumplir AC5–AC9 de la spec.
-  - Archivos: superficies propuestas de esta unidad y pruebas asociadas, ajustadas al proyecto real.
+  - Archivos: `Summaries/SummaryService.swift`, `Summaries/TemplateRepository.swift`, `Summaries/SummaryView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
   - Verificación: Editar, reabrir, cancelar confirmación, simular fallo y verificar reemplazo solo tras éxito.
   - Evidencia:
     - Método: pendiente.
