@@ -35,7 +35,7 @@ La prueba de 24 s se lanzó directamente como proceso hijo del agente. Demuestra
 - Firma observada: codesign -d -r- --verbose=4 muestra Signature=adhoc, TeamIdentifier no establecido y requisito designado basado en cdhash. security find-identity -v -p codesigning devolvió 0 identidades válidas. El hash cambió al recompilar. No se modificaron certificados, Llavero ni la base TCC.
 - Verificación real: dos aperturas del mismo bundle mediante open -n, con cierre entre ambas y sin recompilar, y apertura de Nueva nota por CUA. No hubo solicitud automática; ambos permisos se muestran no confirmados en este artefacto. No se pulsó Solicitar permisos ni se afirmó que persistieran autorizaciones concedidas a otra compilación.
 - Pendiente: identidad de firma estable y prueba conceder → cerrar → abrir por LaunchServices. Un interruptor visible en Ajustes no demuestra que el binario recién recompilado satisfaga el requisito de la autorización anterior.
-- Fecha: 2026-11-23. Commit: sin commit.
+- Fecha: 2026-11-23. Commit: 75d61cd.
 
 ## Alternativa Core Audio sin certificado (2026-11-23, 22:58–23:00)
 
@@ -47,7 +47,7 @@ La prueba de 24 s se lanzó directamente como proceso hijo del agente. Demuestra
 - Capturas 05-coreaudio-sistema.webp y 06-coreaudio-reapertura.webp. Solo las sesiones creadas por estas pruebas fueron medidas; las anteriores no se modificaron.
 - ZIP exacto de la copia validada: build/audio-only-v2/ActaVoz-audio-only-verificada.zip; SHA256 a1bda37696541f8d0fbc1d8e9d72449cbacf6cd7300b414068bddb3a13d22b38. No publicado en GitHub.
 - Revisión posterior: crear/destruir un tap solo prueba disponibilidad, no permiso; se eliminó ese falso positivo en fuentes y se añadieron defensas de inicio. Build y suite de 64 pruebas pasan. Esa revisión no modifica el ZIP fijo probado.
-- Fecha: 2026-11-23. Commit: sin commit.
+- Fecha: 2026-11-23. Commit: 75d61cd.
 - Límites: no demuestra continuidad tras recompilar, Gatekeeper de descarga, otro Mac, sincronización dual ni reconexión de dispositivos. La spec sigue en build.
 
 ## Aviso falso corregido en la compilación Debug (2026-11-23, 23:13–23:15)
@@ -58,4 +58,4 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Corrección: recalcular disponibilidad después de driver.start y antes de warningIfMissing. Prueba testUnverifiedSystemSourceDoesNotWarnAfterSuccessfulStart con micrófono desactivado.
 - Verificación en la ruta Debug: compilación dc573b8b… mostró aviso falso pero audio.m4a de 21.0027 s, 2 canales, RMS 0.0489243. Tras corregir y recompilar (cdhash db3ac3dcc38b0c0ebf59f2c1b209076ebc9289a1): sin aviso, 12.0107 s, 2 canales, RMS 0.1238746, pico 0.9042447, estado Procesada.
 - Esto demuestra captura tras cambiar la compilación (otro cdhash). No demuestra que cualquier compilación futura conserve TCC para siempre ni sustituye la prueba en otro Mac.
-- Suite: 65 pruebas, 0 fallos. Fecha: 2026-11-23. Commit: sin commit al escribir esta línea.
+- Suite: 65 pruebas, 0 fallos. Fecha: 2026-11-23. Commit: 75d61cd.
