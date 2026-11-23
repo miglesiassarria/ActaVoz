@@ -2,27 +2,32 @@ import Foundation
 import ActaVozCore
 
 /// Genera una biblioteca de ejemplo para revisar la interfaz sin datos reales.
-/// Uso: swift run ActaVozFixtures <ruta-raiz>
+/// Uso: swift run ActaVozFixtures <ruta-raiz> [--reset]
 @main
 struct Fixtures {
-    static func main() throws {
-        guard CommandLine.arguments.count > 1 else {
-            FileHandle.standardError.write(Data("Uso: ActaVozFixtures <ruta-raiz>\n".utf8))
+    static func main() {
+        do {
+            try run()
+        } catch {
+            FileHandle.standardError.write(Data("No se pudo crear la biblioteca: \(error.localizedDescription)\n".utf8))
+            exit(1)
+        }
+    }
+
+    static func run() throws {
+        var arguments = Array(CommandLine.arguments.dropFirst())
+        let reset = arguments.contains("--reset")
+        arguments.removeAll { $0 == "--reset" }
+
+        guard let path = arguments.first else {
+            FileHandle.standardError.write(Data("Uso: ActaVozFixtures <ruta-raiz> [--reset]\n".utf8))
             exit(64)
         }
-        let root = URL(fileURLWithPath: CommandLine.arguments[1], isDirectory: true)
-        let repository = SessionRepository(root: root)
-        try DirectoryPreparer().prepare(
-            StorageLocations(
-                root: root,
-                configurationDirectory: root.appendingPathComponent("Config", isDirectory: true),
-                cachesDirectory: root.appendingPathComponent("Caches", isDirectory: true)
-            )
-        )
-        // Marca el primer inicio como completado para que la app abra la biblioteca.
-        try SettingsStore(fileURL: root.appendingPathComponent("Config/config.json"))
-            .save(AppConfiguration(hasCompletedFirstRun: true))
 
+        let root = URL(fileURLWithPath: path, isDirectory: true)
+        try prepareRoot(root, reset: reset)
+
+        let repository = SessionRepository(root: root)
         try repository.createDirectory(named: "Clientes")
 
         let calendar = Calendar(identifier: .gregorian)
@@ -80,5 +85,30 @@ struct Fixtures {
         for summary in try repository.allSessions() {
             print("- \(summary.location): \(summary.title)")
         }
+    }
+
+    /// Solo escribe en una ruta vacía, nueva o marcada con --reset.
+    private static func prepareRoot(_ root: URL, reset: Bool) throws {
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: root.path) {
+            let contents = (try? fileManager.contentsOfDirectory(atPath: root.path)) ?? []
+            if !contents.isEmpty {
+                guard reset else {
+                    FileHandle.standardError.write(Data("La ruta ya tiene contenido. Usa --reset o elige otra ruta.\n".utf8))
+                    exit(73)
+                }
+                try fileManager.removeItem(at: root)
+            }
+        }
+        try fileManager.createDirectory(at: root, withIntermediateDirectories: true)
+        try SettingsStore(fileURL: root.appendingPathComponent("Config/config.json"))
+            .save(AppConfiguration(hasCompletedFirstRun: true))
+        try DirectoryPreparer().prepare(
+            StorageLocations(
+                root: root,
+                configurationDirectory: root.appendingPathComponent("Config", isDirectory: true),
+                cachesDirectory: root.appendingPathComponent("Caches", isDirectory: true)
+            )
+        )
     }
 }

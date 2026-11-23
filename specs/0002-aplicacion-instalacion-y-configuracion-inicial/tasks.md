@@ -20,7 +20,8 @@ Estado: `build`. T1, T2 y T4 están verificadas; T3 tiene la lógica y la compil
     - Resultado: 13 pruebas, 0 fallos. Creación repetida sin borrar el centinela; raíz que es un archivo rechazada como `pathIsNotDirectory` conservando su contenido; padre no escribible informado como `cannotCreateDirectory`; configuración guardada con reemplazo atómico y recuperada en un arranque nuevo.
     - Fecha: 2026-11-23.
     - Commit: 0276b39.
-  - Límite: las pruebas usan raíces temporales. La app lanzada desde esta sesión no pudo escribir en el home real porque la jaula del agente lo impide; falta comprobarlo abriéndola fuera de la jaula y en una cuenta distinta.
+  - Evidencia en el equipo de la persona usuaria (2026-11-23): al abrir la app por primera vez se crearon `~/.ActaVoz/Notas` y `~/.ActaVoz/Directorios`, y `~/Library/Application Support/ActaVoz/config.json` con `hasCompletedFirstRun: true`. La app muestra la biblioteca vacía. Falta una segunda apertura con un archivo centinela dentro de `Notas` para cerrar AC2, y otra cuenta de usuario.
+  - Límite: las pruebas automáticas usan raíces temporales; la comprobación real anterior la hizo la persona usuaria, no la sesión del agente.
 - [ ] **T3. Primer inicio opcional**
   - Objetivo: ofrecer configuración sin proveedor y permitir omitirla, con punto de integración para 0006.
   - Archivos: `FirstRunView.swift`, `AppShell.swift`, `AppBootstrap.swift` y `AppSettings.swift`; pruebas `BootstrapTests`.
@@ -53,7 +54,7 @@ Estado: `build`. T1, T2 y T4 están verificadas; T3 tiene la lógica y la compil
 | Criterio | Resultado | Evidencia |
 | --- | --- | --- |
 | AC1 | cumplido | Build Debug arm64, bundle firmado ad-hoc y una ventana on-screen de 1078×706 (2026-11-23). |
-| AC2 | parcial | Pruebas con raíz temporal: creación idempotente, centinela y errores de E/S. Falta home real fuera de la jaula y cuenta distinta. |
-| AC3 | parcial | Configuración en directorio inyectable con reemplazo atómico y recarga tras reinicio. Falta comprobar la ruta real de Library. |
-| AC4 | parcial | Lógica y persistencia verificadas; falta comprobar el clic real de omitir y el acceso a configuración. |
+| AC2 | parcial | Creación real observada el 2026-11-23: `~/.ActaVoz/Notas` y `Directorios`. Falta la segunda apertura con centinela y otra cuenta de usuario. |
+| AC3 | parcial | `config.json` real en Application Support con `hasCompletedFirstRun: true`. Falta reiniciar la app para confirmar que la configuración persiste. |
+| AC4 | cumplido | La persona usuaria completó el primer inicio sin proveedor y la app abrió la biblioteca; `config.json` lo registra (2026-11-23). |
 | AC5 | cumplido con límite | Compila con despliegue 26.0, arm64 y funciona en macOS 27.2.1; macOS 26 no se prueba por falta de equipo, aceptado por la persona usuaria el 2026-11-23. |

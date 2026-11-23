@@ -34,7 +34,7 @@ Estado: `build`. T1, T2 y T5 están verificadas; T3 y T4 tienen la lógica imple
   - Archivos: `LibraryView.swift`, `SessionView.swift`, `LibraryModel.swift` y pruebas de modelos.
   - Verificación: ejecutar AC1, AC9–AC11 con fixtures y acciones simuladas; reabrir una corrección de participante.
   - Evidencia parcial:
-    - Método: `swift run ActaVozFixtures build/fixtures`; `ActaVoz -ActaVozRoot build/fixtures`; `CGWindowListCopyWindowInfo`; `LibraryModelTests` y `SessionModelTests`.
+    - Método: `swift run ActaVozFixtures build/fixtures --reset`; `ActaVoz -ActaVozRoot build/fixtures`; `CGWindowListCopyWindowInfo`; `LibraryModelTests` y `SessionModelTests`.
     - Resultado: la app abre desde la biblioteca de ejemplo con una ventana de 1100×720 y sin errores en el registro. Los modelos filtran por directorio, «Sin organizar», búsqueda y confirman el borrado; guardar título, notas y participantes persiste en disco. El botón «Nueva nota» abre un aviso que remite a 0004. No se inspeccionaron visualmente la barra lateral, la cabecera ni el botón, ni se pulsaron.
     - Fecha: 2026-11-23.
     - Commit: 42fb1e2.
