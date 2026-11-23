@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-La unidad 0002 está en `build` con base implementada: app SwiftUI compilable, arranque con carpetas idempotentes y primer inicio omitible. T1 y T2 están verificadas el 2026-11-23; faltan el clic real de T3 y la ejecución en macOS 26 de T4. Las specs 0003–0011 siguen en `design` con diseños y tareas propuestos; las investigaciones 0012 y 0013 siguen en `discovery`.
+0002 está en `build` con la base implementada y T1, T2 y T4 verificadas; faltan el clic de T3 y comprobar el home real. 0003 está en `build` con biblioteca, repositorio y búsqueda implementados y 43 pruebas en el núcleo; faltan las comprobaciones de interfaz (AC1, AC7, AC9–AC11). Las specs 0004–0011 siguen en `design`; 0012 y 0013 siguen en `discovery`.
 
 ## Referencias
 

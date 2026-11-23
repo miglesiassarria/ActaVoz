@@ -9,6 +9,11 @@ let package = Package(
     ],
     targets: [
         .target(name: "ActaVozCore", path: "Sources/ActaVozCore"),
+        .executableTarget(
+            name: "ActaVozFixtures",
+            dependencies: ["ActaVozCore"],
+            path: "Sources/ActaVozFixtures"
+        ),
         .testTarget(name: "ActaVozCoreTests", dependencies: ["ActaVozCore"], path: "Tests/ActaVozCoreTests")
     ]
 )

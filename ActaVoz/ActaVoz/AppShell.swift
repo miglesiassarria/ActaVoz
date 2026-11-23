@@ -27,7 +27,7 @@ struct RootView: View {
                     .task { bootstrap.start() }
             case .ready(let configuration):
                 if configuration.hasCompletedFirstRun {
-                    MainView()
+                    LibraryView(model: bootstrap.libraryModel)
                 } else {
                     FirstRunView(
                         model: firstRun,

@@ -8,8 +8,10 @@ Existe un proyecto Swift para la unidad 0002: app SwiftUI en `ActaVoz/ActaVoz.xc
 
 - **Compilar la app** (2026-11-23, salida 0):
   `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild -project ActaVoz/ActaVoz.xcodeproj -scheme ActaVoz -configuration Debug -derivedDataPath build/DerivedData -destination 'platform=macOS,arch=arm64' build`
-- **Probar el núcleo** (2026-11-23, 13 pruebas y 0 fallos):
+- **Probar el núcleo** (2026-11-23, 43 pruebas y 0 fallos):
   `./scripts/test-core.sh`, equivalente a `cd ActaVoz/ActaVozCore && swift test --disable-sandbox` con `TMPDIR` y `CLANG_MODULE_CACHE_PATH` dentro de `build/`.
+- **Biblioteca de ejemplo** para revisar la interfaz sin datos reales:
+  `cd ActaVoz/ActaVozCore && swift run --disable-sandbox ActaVozFixtures ../../build/fixtures`, y después `ActaVoz.app/Contents/MacOS/ActaVoz -ActaVozRoot <ruta>` (solo en compilaciones de depuración).
 - **Validación documental:** `python3 scripts/validate_sdd.py --strict` y `python3 scripts/audit_sdd.py`.
 
 Notas de entorno: `-derivedDataPath` mantiene los artefactos dentro del repositorio. `--disable-sandbox` solo es necesario cuando la sesión del agente ejecuta SwiftPM dentro de una jaula que impide su sandbox interno; en un terminal normal basta `swift test`.

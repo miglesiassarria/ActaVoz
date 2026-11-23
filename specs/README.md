@@ -6,7 +6,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | --- | --- | --- | --- | --- |
 | [0001](0001-sistema-sdd/spec.md) | Sistema SDD independiente del modelo | `done` | Revisar mejoras del piloto al usar la primera feature | Instalación inicial verificada |
 | [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Base de aplicación y configuración inicial | `build` | Completar T3 (clic real) y comprobar home/Library reales | T1, T2 y T4 verificadas el 2026-11-23; macOS 26 no probado por falta de equipo |
-| [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `design` | Revisar diseño y resolver dependencias antes de tareas y build | Diseño y tareas propuestos |
+| [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `build` | Comprobar la interfaz con fixtures (AC1, AC7, AC9–AC11) | Núcleo con 43 pruebas en verde; esquema en ADR 0002 |
 | [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
