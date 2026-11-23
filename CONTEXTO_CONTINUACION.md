@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-0002 está en `build` con la base implementada y T1, T2 y T4 verificadas; faltan el clic de T3 y comprobar el home real. 0003 está en `build` con biblioteca, repositorio y búsqueda implementados y 43 pruebas en el núcleo; faltan las comprobaciones de interfaz (AC1, AC7, AC9–AC11). Las specs 0004–0011 siguen en `design`; 0012 y 0013 siguen en `discovery`.
+0002 está en `done` desde el 2026-11-23: base implementada y verificada en la cuenta actual, con macOS 26 fuera de alcance por falta de equipo. 0003 está en `build` con biblioteca, repositorio y búsqueda implementados y 43 pruebas en el núcleo; faltan las comprobaciones de interfaz con la biblioteca de ejemplo (AC1, AC7, AC9–AC11). Las specs 0004–0011 siguen en `design`; 0012 y 0013 siguen en `discovery`.
 
 ## Referencias
 

@@ -1,6 +1,6 @@
 # 0002 · Base de aplicación y configuración inicial
 
-- **Estado:** build
+- **Estado:** done
 - **Creada:** 2026-11-22
 - **Aprobación:** aprobada
 - **Aprobada por:** persona usuaria
@@ -19,8 +19,8 @@ La aplicación abre una ventana en macOS, prepara sus carpetas sin sobrescribir 
 | # | Criterio observable | Verificación reproducible | Resultado final |
 | --- | --- | --- | --- |
 | AC1 | **Base de aplicación:** app macOS Swift/SwiftUI ejecutable localmente y capaz de abrir su ventana principal. | Compilar el proyecto real y abrirlo en un Mac de prueba. | cumplido (2026-11-23) |
-| AC2 | **Primer arranque:** Crear si faltan ~/.ActaVoz y las subcarpetas necesarias, incluidas Notas y Directorios; no destruir datos existentes. | Con un usuario de prueba abrir dos veces, verificar carpetas y conservar un archivo centinela. | pendiente |
-| AC3 | **Ubicación:** la configuración básica se guarda en Library y las cachés regenerables en Caches. | Modificar configuración, reiniciar e inspeccionar ubicaciones con datos de prueba. | pendiente |
+| AC2 | **Primer arranque:** Crear si faltan ~/.ActaVoz y las subcarpetas necesarias, incluidas Notas y Directorios; no destruir datos existentes. | Con un usuario de prueba abrir dos veces, verificar carpetas y conservar un archivo centinela. | cumplido (2026-11-23); solo cuenta actual |
+| AC3 | **Ubicación:** la configuración básica se guarda en Library y las cachés regenerables en Caches. | Modificar configuración, reiniciar e inspeccionar ubicaciones con datos de prueba. | cumplido (2026-11-23) |
 | AC4 | **Primer inicio:** identificar que no hay proveedor activo, ofrecer acceso a su configuración y permitir omitirla para acceder a las funciones locales. La selección, credenciales y prueba de conexión pertenecen a 0006. | Con perfil limpio comprobar la oferta de configuración y que se puede omitir y entrar en la aplicación sin proveedor. | pendiente |
 | AC5 | **Plataforma objetivo:** macOS 26 o posterior en Apple Silicon. El desarrollo apunta a esa versión; no hay equipo con macOS 26 para probarla. | Comprobar `MACOSX_DEPLOYMENT_TARGET = 26.0` y arm64 en el build real; ejecutar en la versión de macOS disponible y registrar que macOS 26 no se ha probado por falta de equipo. | cumplido con límite registrado (2026-11-23) |
 

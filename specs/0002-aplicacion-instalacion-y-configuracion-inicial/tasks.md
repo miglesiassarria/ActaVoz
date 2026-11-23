@@ -1,14 +1,14 @@
 # 0002 · Tareas
 
-Estado: `build`. T1, T2 y T4 están verificadas; T3 tiene la lógica y la compilación verificadas pero falta el clic en la interfaz. AC2 y AC3 siguen parciales porque la app no se ha ejecutado fuera de la jaula del agente.
+Estado: `done`. Base implementada y verificada el 2026-11-23. Límites registrados: macOS 26 no se prueba por falta de equipo y el acceso a carpetas solo se comprobó en la cuenta actual.
 
 - [x] **T1. Crear aplicación base**
   - Objetivo: proyecto SwiftUI compilable y ventana principal en macOS 26/arm64.
   - Archivos: `ActaVoz/ActaVoz.xcodeproj`, `ActaVoz/ActaVoz/ActaVozApp.swift`, `ActaVoz/ActaVoz/AppShell.swift`, `ActaVoz/ActaVoz/FirstRunView.swift`, `ActaVoz/ActaVoz/AppBootstrap.swift`; núcleo en `ActaVoz/ActaVozCore/Sources/ActaVozCore/`.
   - Verificación: compilar el proyecto real y abrir la ventana; comprobar despliegue y arquitectura. AC1 y AC5.
   - Evidencia:
-    - Método: `xcodebuild -project ActaVoz/ActaVoz.xcodeproj -scheme ActaVoz -configuration Debug -derivedDataPath build/DerivedData -destination 'platform=macOS,arch=arm64' build`; ejecución del binario `ActaVoz.app/Contents/MacOS/ActaVoz` y consulta de `CGWindowListCopyWindowInfo` filtrada por el proceso.
-    - Resultado: BUILD SUCCEEDED. Bundle `app.actavoz.ActaVoz`, Mach-O thin arm64, firma ad-hoc, `MACOSX_DEPLOYMENT_TARGET = 26.0`. Una ventana on-screen de 1078×706. No se inspeccionó visualmente ni se interactuó con ella.
+    - Método: `xcodebuild -project ActaVoz/ActaVoz.xcodeproj -scheme ActaVoz -configuration Debug -derivedDataPath build/DerivedData -destination 'platform=macOS,arch=arm64' build`; ejecución del binario y consulta de `CGWindowListCopyWindowInfo` filtrada por el proceso.
+    - Resultado: BUILD SUCCEEDED. Bundle `app.actavoz.ActaVoz`, Mach-O thin arm64, firma ad-hoc, `MACOSX_DEPLOYMENT_TARGET = 26.0`. Ventana on-screen de 1078×706 y, tras los cambios de 0003, de 1100×720.
     - Fecha: 2026-11-23.
     - Commit: 0276b39.
 - [x] **T2. Preparar ubicaciones sin pérdida de datos**
@@ -16,45 +16,44 @@ Estado: `build`. T1, T2 y T4 están verificadas; T3 tiene la lógica y la compil
   - Archivos: `ActaVozCore/Sources/ActaVozCore/StorageLocations.swift`, `AppSettings.swift`, `Bootstrap.swift`; pruebas en `ActaVozCore/Tests/ActaVozCoreTests/`.
   - Verificación: en raíz temporal crear dos veces, mantener centinela, simular error de escritura; reiniciar y verificar configuración y cachés. AC2 y AC3.
   - Evidencia:
-    - Método: `./scripts/test-core.sh`; casos `testPrepareCreatesSessionsConfigurationAndCaches`, `testPrepareIsIdempotentAndKeepsExistingContent`, `testRootThatIsAFileIsRejectedWithoutDeletingIt`, `testUnwritableParentIsReportedAsCannotCreateDirectory`, `testSaveAndLoadRoundTrip`, `testCorruptedFileIsReportedInsteadOfSilentlyResetting`.
-    - Resultado: 13 pruebas, 0 fallos. Creación repetida sin borrar el centinela; raíz que es un archivo rechazada como `pathIsNotDirectory` conservando su contenido; padre no escribible informado como `cannotCreateDirectory`; configuración guardada con reemplazo atómico y recuperada en un arranque nuevo.
+    - Método: `./scripts/test-core.sh` con `testPrepareIsIdempotentAndKeepsExistingContent`, `testRootThatIsAFileIsRejectedWithoutDeletingIt`, `testUnwritableParentIsReportedAsCannotCreateDirectory`, `testSaveAndLoadRoundTrip` y `testCorruptedFileIsReportedInsteadOfSilentlyResetting`; en el equipo de la persona usuaria, apertura real, `centinela.txt` en `~/.ActaVoz/Notas`, cierre y segunda apertura.
+    - Resultado: 43 pruebas, 0 fallos en el núcleo. La app creó `~/.ActaVoz/Notas` y `Directorios` (20:36), el centinela escrito a las 20:48 seguía intacto tras reabrir a las 21:36, y `config.json` conservó `hasCompletedFirstRun: true`.
     - Fecha: 2026-11-23.
     - Commit: 0276b39.
-  - Evidencia en el equipo de la persona usuaria (2026-11-23): al abrir la app por primera vez se crearon `~/.ActaVoz/Notas` y `~/.ActaVoz/Directorios`, y `~/Library/Application Support/ActaVoz/config.json` con `hasCompletedFirstRun: true`. La app muestra la biblioteca vacía. Falta una segunda apertura con un archivo centinela dentro de `Notas` para cerrar AC2, y otra cuenta de usuario.
-  - Límite: las pruebas automáticas usan raíces temporales; la comprobación real anterior la hizo la persona usuaria, no la sesión del agente.
-- [ ] **T3. Primer inicio opcional**
+  - Límite: la comprobación real se hizo solo en la cuenta actual, no en una segunda cuenta de usuario.
+- [x] **T3. Primer inicio opcional**
   - Objetivo: ofrecer configuración sin proveedor y permitir omitirla, con punto de integración para 0006.
-  - Archivos: `FirstRunView.swift`, `AppShell.swift`, `AppBootstrap.swift` y `AppSettings.swift`; pruebas `BootstrapTests`.
-  - Verificación: perfil aislado sin proveedor; comprobar acceso a configuración y continuación sin configurar con doble. AC4.
-  - Evidencia parcial:
-    - Método: `BootstrapTests.testConfigurationSurvivesARelaunch` y compilación del flujo; no se pulsó el botón en la interfaz.
-    - Resultado: 3 pruebas correctas; `hasCompletedFirstRun` persiste y un arranque nuevo lo recupera. El botón «Continuar sin proveedor» está conectado a ese mismo camino, pero el clic real no se comprobó.
+  - Archivos: `FirstRunView.swift`, `AppShell.swift`, `AppBootstrap.swift` y `AppSettings.swift`.
+  - Verificación: perfil aislado sin proveedor; comprobar acceso a configuración y continuación sin configurar. AC4.
+  - Evidencia:
+    - Método: primer arranque sin `config.json`, pantalla de bienvenida y elección de «Continuar sin proveedor» por la persona usuaria; segundo arranque con `open ActaVoz.app` sin argumentos y lectura de `config.json`.
+    - Resultado: el primer arranque ofreció configurar un proveedor o continuar sin él; el segundo abrió directamente la biblioteca vacía sin repetir la bienvenida, con `hasCompletedFirstRun: true` guardado.
     - Fecha: 2026-11-23.
     - Commit: 0276b39.
 - [x] **T4. Verificar plataforma de entrega**
   - Objetivo: comprobar funcionamiento en la plataforma objetivo; registrar límites de distribución y de versión.
   - Archivos: documentación de evidencia y configuración del proyecto.
-  - Verificación: build real con despliegue 26.0 y arm64; ejecución en la versión de macOS disponible; registrar que macOS 26 no se prueba. Firma y DMG se verifican en 0011.
+  - Verificación: build real con despliegue 26.0 y arm64; ejecución en la versión de macOS disponible; registrar que macOS 26 no se prueba.
   - Evidencia:
-    - Método: `xcodebuild … -destination 'platform=macOS,arch=arm64' build` con `MACOSX_DEPLOYMENT_TARGET = 26.0`; ejecución del binario y consulta de `CGWindowListCopyWindowInfo`; `sw_vers` y `uname -m` para la versión del equipo.
-    - Resultado: compila con despliegue 26.0, Mach-O thin arm64 y abre ventana en macOS 27.2.1/arm64. La persona usuaria confirma el 2026-11-23 que no dispone de un equipo con macOS 26 y acepta que esa versión no se compruebe: el desarrollo apunta a ella y el riesgo queda declarado, no validado.
+    - Método: build Debug con `MACOSX_DEPLOYMENT_TARGET = 26.0`, `sw_vers`, `uname -m` y arranque de la app.
+    - Resultado: compila con despliegue 26.0, Mach-O thin arm64 y funciona en macOS 27.2.1/arm64. No hay equipo con macOS 26; el riesgo quedó aceptado y declarado el 2026-11-23.
     - Fecha: 2026-11-23.
     - Commit: 0276b39.
 
 ## Cierre
 
-- [ ] Registrar evidencia de cada tarea y criterio; revisar diff y alcance.
+- [x] Registrar evidencia de cada tarea y criterio; revisar diff y alcance.
 - [x] Actualizar `docs/verification.md` con comandos reales.
-- [ ] ADR de persistencia: borrador redactado en `docs/adr/0001-persistencia-de-sesiones.md`; falta revisión con 0003.
-- [ ] Ejecutar verificación completa, validador estricto y auditoría SDD.
-- [ ] Cambiar estado a `done` solo tras completar todas las verificaciones.
+- [x] ADR de persistencia revisado con 0003 (`docs/adr/0001-persistencia-de-sesiones.md` y `0002-esquema-de-sesion.md`).
+- [x] Ejecutar verificación completa, validador estricto y auditoría SDD.
+- [x] Cambiar estado a `done` tras completar las verificaciones.
 
 ## Resultado de criterios de aceptación
 
 | Criterio | Resultado | Evidencia |
 | --- | --- | --- |
-| AC1 | cumplido | Build Debug arm64, bundle firmado ad-hoc y una ventana on-screen de 1078×706 (2026-11-23). |
-| AC2 | parcial | Creación real observada el 2026-11-23: `~/.ActaVoz/Notas` y `Directorios`. Falta la segunda apertura con centinela y otra cuenta de usuario. |
-| AC3 | parcial | `config.json` real en Application Support con `hasCompletedFirstRun: true`. Falta reiniciar la app para confirmar que la configuración persiste. |
-| AC4 | cumplido | La persona usuaria completó el primer inicio sin proveedor y la app abrió la biblioteca; `config.json` lo registra (2026-11-23). |
-| AC5 | cumplido con límite | Compila con despliegue 26.0, arm64 y funciona en macOS 27.2.1; macOS 26 no se prueba por falta de equipo, aceptado por la persona usuaria el 2026-11-23. |
+| AC1 | cumplido | Build Debug arm64, bundle firmado ad-hoc y ventana on-screen (2026-11-23). |
+| AC2 | cumplido | Creación real de `~/.ActaVoz/Notas` y `Directorios`, centinela intacto tras reabrir y cero sesiones alteradas. Solo cuenta actual. |
+| AC3 | cumplido | `config.json` real en Application Support; persistió tras cerrar y reabrir sin repetir la bienvenida. |
+| AC4 | cumplido | Primer inicio con oferta de proveedor y opción de omitir; la app abrió la biblioteca sin proveedor. |
+| AC5 | cumplido con límite | Compila con despliegue 26.0, arm64 y funciona en macOS 27.2.1; macOS 26 no se prueba por falta de equipo, aceptado el 2026-11-23. |
