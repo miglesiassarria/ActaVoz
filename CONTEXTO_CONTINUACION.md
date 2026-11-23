@@ -2,7 +2,7 @@
 
 ## Estado actual
 
-0002 está en `done` desde el 2026-11-23: base implementada y verificada en la cuenta actual, con macOS 26 fuera de alcance por falta de equipo. 0003 está en `build` con biblioteca, repositorio y búsqueda implementados y 43 pruebas en el núcleo; faltan las comprobaciones de interfaz con la biblioteca de ejemplo (AC1, AC7, AC9–AC11). Las specs 0004–0011 siguen en `design`; 0012 y 0013 siguen en `discovery`.
+0002 y 0003 están en `done` desde el 2026-11-23: base de aplicación y biblioteca con persistencia, verificadas con pruebas (43 en el núcleo) y con capturas de interfaz en `docs/evidencia/0003`. macOS 26 queda fuera de alcance por falta de equipo. La siguiente unidad es 0004 (grabación), que depende de la investigación 0012 sobre captura dual; 0005–0011 siguen en `design` y 0012–0013 en `discovery`.
 
 ## Referencias
 
