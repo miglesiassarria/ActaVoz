@@ -1,6 +1,6 @@
 # 0002 · Tareas
 
-Estado: `build`. T1 y T2 están verificadas; T3 tiene la lógica y la compilación verificadas pero falta el clic en la interfaz; T4 necesita un equipo con macOS 26.
+Estado: `build`. T1, T2 y T4 están verificadas; T3 tiene la lógica y la compilación verificadas pero falta el clic en la interfaz. AC2 y AC3 siguen parciales porque la app no se ha ejecutado fuera de la jaula del agente.
 
 - [x] **T1. Crear aplicación base**
   - Objetivo: proyecto SwiftUI compilable y ventana principal en macOS 26/arm64.
@@ -30,13 +30,13 @@ Estado: `build`. T1 y T2 están verificadas; T3 tiene la lógica y la compilaci�
     - Resultado: 3 pruebas correctas; `hasCompletedFirstRun` persiste y un arranque nuevo lo recupera. El botón «Continuar sin proveedor» está conectado a ese mismo camino, pero el clic real no se comprobó.
     - Fecha: 2026-11-23.
     - Commit: 0276b39.
-- [ ] **T4. Verificar plataforma de entrega**
-  - Objetivo: comprobar funcionamiento en macOS 26 sobre Apple Silicon; registrar límites de distribución.
+- [x] **T4. Verificar plataforma de entrega**
+  - Objetivo: comprobar funcionamiento en la plataforma objetivo; registrar límites de distribución y de versión.
   - Archivos: documentación de evidencia y configuración del proyecto.
-  - Verificación: ejecutar build real en entorno macOS 26, registrar versión, arquitectura, comando y resultado. AC5. Firma y DMG se verifican en 0011.
-  - Evidencia parcial:
-    - Método: build con `MACOSX_DEPLOYMENT_TARGET = 26.0` y ejecución en macOS 27.2.1 arm64; no hay equipo con macOS 26 disponible en esta sesión.
-    - Resultado: compila y abre ventana en macOS 27.2.1/arm64; falta la ejecución en macOS 26, por lo que AC5 no se cierra.
+  - Verificación: build real con despliegue 26.0 y arm64; ejecución en la versión de macOS disponible; registrar que macOS 26 no se prueba. Firma y DMG se verifican en 0011.
+  - Evidencia:
+    - Método: `xcodebuild … -destination 'platform=macOS,arch=arm64' build` con `MACOSX_DEPLOYMENT_TARGET = 26.0`; ejecución del binario y consulta de `CGWindowListCopyWindowInfo`; `sw_vers` y `uname -m` para la versión del equipo.
+    - Resultado: compila con despliegue 26.0, Mach-O thin arm64 y abre ventana en macOS 27.2.1/arm64. La persona usuaria confirma el 2026-11-23 que no dispone de un equipo con macOS 26 y acepta que esa versión no se compruebe: el desarrollo apunta a ella y el riesgo queda declarado, no validado.
     - Fecha: 2026-11-23.
     - Commit: 0276b39.
 
@@ -56,4 +56,4 @@ Estado: `build`. T1 y T2 están verificadas; T3 tiene la lógica y la compilaci�
 | AC2 | parcial | Pruebas con raíz temporal: creación idempotente, centinela y errores de E/S. Falta home real fuera de la jaula y cuenta distinta. |
 | AC3 | parcial | Configuración en directorio inyectable con reemplazo atómico y recarga tras reinicio. Falta comprobar la ruta real de Library. |
 | AC4 | parcial | Lógica y persistencia verificadas; falta comprobar el clic real de omitir y el acceso a configuración. |
-| AC5 | parcial | Compila con despliegue 26.0 y funciona en macOS 27.2.1 arm64; falta ejecución en macOS 26. |
+| AC5 | cumplido con límite | Compila con despliegue 26.0, arm64 y funciona en macOS 27.2.1; macOS 26 no se prueba por falta de equipo, aceptado por la persona usuaria el 2026-11-23. |

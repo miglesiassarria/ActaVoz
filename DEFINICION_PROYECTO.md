@@ -25,7 +25,7 @@ Producto independiente que se abordará en una fase posterior. Su definición y 
 ### Dirección tecnológica
 
 - La aplicación de escritorio se desarrollará para macOS en **Swift**, con **SwiftUI** para la interfaz.
-- Objetivo inicial: **macOS 26 o posterior y Mac con Apple Silicon**; la compatibilidad y rendimiento deben comprobarse en equipos objetivo.
+- Objetivo inicial: **macOS 26 o posterior y Mac con Apple Silicon**. No se dispone de un equipo con macOS 26: el despliegue apunta a 26.0 y la comprobación se hace en la versión disponible, dejando registrado el límite en lugar de darlo por validado.
 - La captura será nativa: **ScreenCaptureKit** para el audio del sistema y las herramientas de audio de Apple para el micrófono.
 - Antes de la primera grabación, ActaVoz explicará brevemente que necesita acceso al micrófono y al audio del sistema, y después mostrará las solicitudes de permisos correspondientes de macOS.
 - Si se deniega un permiso de audio, ActaVoz explicará qué fuente no está disponible, ofrecerá abrir Ajustes del Sistema y permitirá grabar con la otra fuente si tiene permiso.
@@ -270,3 +270,4 @@ La primera versión estable tendrá las funciones de escritorio acordadas: graba
 - Compatibilidad de OAuth de ChatGPT, protocolos de proveedores y tratamiento de contexto largo: [discovery de proveedores](specs/0013-viabilidad-proveedores-contexto-y-oauth/discovery.md).
 - Casos de uso y decisiones concretas pendientes: [lista de documentación](PENDIENTES_DOCUMENTACION.md).
 - Niveles de calidad y latencia: acordar tras disponer de mediciones reproducibles.
+- Compatibilidad con macOS 26: no verificable por falta de equipo; riesgo aceptado el 2026-11-23.

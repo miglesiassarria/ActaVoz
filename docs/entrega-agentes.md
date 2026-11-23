@@ -10,7 +10,7 @@ No ejecutar simultáneamente agentes que editen las mismas superficies o contrat
 
 | Unidad | Entrada para el agente | Condición para construir o cerrar |
 | --- | --- | --- |
-| 0002 Aplicación base | `spec.md`, `design.md`, `tasks.md`; aprobación registrada; macOS 26/Apple Silicon objetivo | El primer proyecto puede prepararse con el SDK disponible; AC5 requiere ejecutarlo en macOS 26 sobre Apple Silicon antes del cierre. Acceso a carpetas en cuenta actual ya explorado; no equivale a instalación distribuida. |
+| 0002 Aplicación base | `spec.md`, `design.md`, `tasks.md`; aprobación registrada; macOS 26/Apple Silicon objetivo | El proyecto se prepara y ejecuta con el SDK disponible en Apple Silicon. No hay equipo con macOS 26 (2026-11-23): el despliegue apunta a 26.0 y el límite se registra en la evidencia, sin declararlo validado. El acceso a carpetas en la cuenta actual está explorado; no equivale a instalación distribuida. |
 | 0003 Biblioteca | Unidad 0002 y contratos de persistencia; fixtures y puntos de entrada de prueba | Definir y revisar contrato versionado de sesiones y ADR de persistencia; verificar aislamiento de rutas y E/S. Las integraciones reales se comprueban en sus unidades. |
 | 0004 Grabación | 0002/0003 y resultados de 0012 | Validar captura dual, permisos, dispositivos, sincronización y recuperación con audio controlado; no tratar capacidades de frameworks como pruebas del producto. |
 | 0005 Voz | 0003/0004, 0006 opcional y 0012 | Validar transcripción local, detección automática, diarización y perfiles con material controlado; resolver contratos y datos temporales según la spec. |

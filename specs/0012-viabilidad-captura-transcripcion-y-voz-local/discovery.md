@@ -87,5 +87,6 @@ Condiciona el acceso a carpetas de 0002 y los diseños de 0004 y 0005.
 
 - **Decidido por la persona usuaria:** el mínimo de la fase 1 es **macOS 26 o posterior en Apple Silicon**. No se declara soporte Intel.
 - **Consecuencia:** el proyecto Swift de 0002 se configura con despliegue macOS 26 y arquitectura arm64. La pregunta no se reabre salvo incompatibilidad demostrada de un componente.
-- **Pendiente de evidencia, no de decisión:** ejecución real en un equipo con macOS 26, uso sin conexión, captura dual, diarización y rendimiento. Se registran como riesgos de 0002 y se verifican en 0011 con el artefacto real; la evidencia actual se obtuvo en macOS 27.2.1/arm64 con ejecutables locales sin sandbox.
+- **Límite aceptado (2026-11-23):** no hay un equipo con macOS 26 disponible, así que esa versión no se comprobará. El despliegue apunta a 26.0 y la evidencia se obtiene en macOS 27.2.1/arm64. Es un riesgo declarado, no una validación.
+- **Pendiente de evidencia:** uso sin conexión, captura dual, diarización y rendimiento. Se verifican en sus unidades y en 0011 con el artefacto real.
 - **Sigue sin elegirse** librería definitiva de transcripción ni de diarización: corresponde a los experimentos de esta investigación y a los diseños de 0004 y 0005.

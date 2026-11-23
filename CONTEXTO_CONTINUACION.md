@@ -27,4 +27,4 @@ La API REST, adjuntos en chat, calendario y control de costes están fuera del a
 
 Preparar casillas pendientes antes de tratar los temas; marcar la misma casilla al acordar y documentar una decisión. No añadir casillas ya cerradas para aparentar avance. Si se necesita una decisión del usuario, presentar opciones y recomendación; tras resolverla, presentar directamente el siguiente punto. Conservar cambios ajenos y no tocar datos personales ni credenciales para las pruebas.
 
-El objetivo inicial es macOS 26 o posterior en Apple Silicon; su compatibilidad completa sigue pendiente de validación.
+El objetivo es macOS 26 o posterior en Apple Silicon. No hay equipo con macOS 26 para probarlo (confirmado el 2026-11-23): el despliegue apunta a 26.0, se valida en la versión disponible y el riesgo queda aceptado y declarado.
