@@ -187,9 +187,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = NO;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ActaVozInfo.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSAudioCaptureUsageDescription = "ActaVoz necesita capturar el audio del sistema para grabar las reuniones, sin capturar la pantalla.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "ActaVoz necesita el micrófono para grabar tus reuniones y reflexiones.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -211,9 +213,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = NO;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ActaVozInfo.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSAudioCaptureUsageDescription = "ActaVoz necesita capturar el audio del sistema para grabar las reuniones, sin capturar la pantalla.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "ActaVoz necesita el micrófono para grabar tus reuniones y reflexiones.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

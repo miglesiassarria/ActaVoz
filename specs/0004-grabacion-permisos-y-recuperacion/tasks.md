@@ -1,6 +1,6 @@
 # 0004 · Tareas: Captura y recuperación
 
-Estado: `build`. Núcleo y panel verificados; falta la captura real con permisos de macOS. El diseño y los criterios que dependen de hardware conservan su resultado parcial.
+Estado: `build`. Corrección de permisos y captura real verificada el 2026-11-23: ambas fuentes, pausa sin crecimiento de CAF y exportación m4a de 24 s con muestras no nulas. Suite: 58 pruebas, 0 fallos. Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
 
 - [ ] **T1. Preparación y permisos**
   - Objetivo: cumplir AC1–AC4 de la spec.
@@ -42,15 +42,15 @@ Estado: `build`. Núcleo y panel verificados; falta la captura real con permisos
 | --- | --- | --- |
 | AC1 | cumplido | Panel con idioma, perfiles, fuentes, dispositivo y «Empezar»; captura 01. |
 | AC2 | parcial | Explicación y solicitud lanzadas; el diálogo de macOS no se pudo confirmar. |
-| AC3 | sin verificar | Requiere captura real con permisos. |
+| AC3 | parcial | Captura dual real verificada; faltan selección efectiva de micrófono y precisión de sincronización. |
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
-| AC5 | parcial | Pausa, contador y reanudación probados con dobles; falta audio real. |
+| AC5 | parcial | Pausa real: contador 00:20 y tamaños CAF constantes; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante pausa. |
 | AC6 | cumplido | Pérdida y recuperación de una y ambas fuentes probadas. |
 | AC7 | parcial | Marcador y oferta de reanudar/terminar implementados; falta interrupción real. |
 | AC8 | parcial | UI de procesado y botón implementados; no ejecutado de extremo a extremo. |
 | AC9 | cumplido | Tres políticas probadas con datos temporales; por defecto guardar. |
 | AC10 | sin verificar | Requiere red desconectada y captura real. |
-| AC11 | parcial | Combinador implementado y probado con dobles; falta señal real. |
+| AC11 | parcial | Exportación real de 24 s, 2 canales y RMS 0.0530095; falta medir sincronización de fuentes. |
 | AC12 | implementado | Aviso de cierre con dos opciones; falta comprobarlo con clic real. |
 | AC13 | parcial | Marcador de audio pendiente implementado; falta repreguntar al reabrir la sesión. |
 | AC14 | parcial | Mensajes y acceso a Ajustes implementados; falta denegar y grabar con la otra fuente. |

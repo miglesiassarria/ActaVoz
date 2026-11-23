@@ -9,6 +9,8 @@ private final class FakeDriver: CaptureDriver {
         devices: [AudioDevice(id: "mic-1", name: "Micrófono interno")]
     )
     var startError: Error?
+    /// Permite simular que el arranque real confirma una fuente antes ambigua.
+    var availabilityAfterStart: CaptureAvailability?
     private(set) var startedPlan: CapturePlan?
     private(set) var paused = false
     private(set) var stopped = false
@@ -16,9 +18,10 @@ private final class FakeDriver: CaptureDriver {
 
     func availability() -> CaptureAvailability { availabilityValue }
 
-    func start(_ plan: CapturePlan, folder: URL) throws {
+    func start(_ plan: CapturePlan, folder: URL) async throws {
         if let startError { throw startError }
         startedPlan = plan
+        if let availabilityAfterStart { availabilityValue = availabilityAfterStart }
         for source in plan.sources {
             let url = folder.appendingPathComponent("fuente-\(source.rawValue).caf")
             try Data("audio".utf8).write(to: url)
@@ -28,7 +31,7 @@ private final class FakeDriver: CaptureDriver {
 
     func pause() { paused = true }
     func resume() { paused = false }
-    func stop() throws -> [CaptureSource: URL] {
+    func stop() async throws -> [CaptureSource: URL] {
         stopped = true
         return files
     }
@@ -43,7 +46,7 @@ private final class FakeFinalizer: AudioFinalizing {
     var error: Error?
     var destinationExists = false
 
-    func combine(_ sources: [URL], to destination: URL) throws {
+    func combine(_ sources: [URL], to destination: URL) async throws {
         if let error { throw error }
         calls.append(sources)
         try Data("audio".utf8).write(to: destination)
@@ -90,10 +93,10 @@ final class RecordingControllerTests: XCTestCase {
         )
     }
 
-    func testStartRecordsBothSourcesAndWritesMarker() throws {
+    func testStartRecordsBothSourcesAndWritesMarker() async throws {
         let controller = makeController()
 
-        try controller.start()
+        try await controller.start()
 
         XCTAssertEqual(controller.status, .recording)
         XCTAssertEqual(controller.activeSources, [.microphone, .system])
@@ -103,11 +106,11 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertEqual(marker?.paused, false)
     }
 
-    func testDeniedMicrophoneWarnsAndRecordsOnlySystem() throws {
+    func testDeniedMicrophoneWarnsAndRecordsOnlySystem() async throws {
         driver.availabilityValue.microphone = .denied
         let controller = makeController()
 
-        try controller.start()
+        try await controller.start()
 
         XCTAssertEqual(controller.activeSources, [.system])
         XCTAssertEqual(controller.missingSources, [.microphone])
@@ -115,23 +118,38 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertEqual(controller.status, .recording)
     }
 
-    func testNoAvailableSourceFailsWithoutStartingDriver() {
+    func testUnverifiedSystemSourceDoesNotWarnAfterSuccessfulStart() async throws {
+        driver.availabilityValue = CaptureAvailability(microphone: .denied, system: .undetermined)
+        driver.availabilityAfterStart = CaptureAvailability(microphone: .denied, system: .granted)
+        var options = RecordingOptions()
+        options.microphoneEnabled = false
+        let controller = makeController(options: options)
+
+        XCTAssertTrue(controller.canStart)
+        try await controller.start()
+
+        XCTAssertEqual(controller.activeSources, [.system])
+        XCTAssertNil(controller.warning)
+        XCTAssertTrue(controller.missingSources.isEmpty)
+        XCTAssertEqual(controller.status, .recording)
+    }
+
+    func testNoAvailableSourceFailsWithoutStartingDriver() async throws {
         driver.availabilityValue = CaptureAvailability(microphone: .denied, system: .denied)
         let controller = makeController()
 
         XCTAssertFalse(controller.canStart)
-        XCTAssertThrowsError(try controller.start()) { error in
-            XCTAssertEqual(error as? CaptureError, .noSourceAvailable)
-        }
+        do { try await controller.start(); XCTFail("Debe rechazar inicio sin fuentes") }
+        catch { XCTAssertEqual(error as? CaptureError, .noSourceAvailable) }
         XCTAssertNil(driver.startedPlan)
         if case .failed = controller.status {} else {
             XCTFail("Se esperaba estado failed, llegó \(controller.status)")
         }
     }
 
-    func testPauseFreezesElapsedAndResumeContinuesWithoutCountingPause() throws {
+    func testPauseFreezesElapsedAndResumeContinuesWithoutCountingPause() async throws {
         let controller = makeController()
-        try controller.start()
+        try await controller.start()
 
         clock.advance(10)
         controller.tick()
@@ -154,9 +172,9 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertEqual(controller.elapsed, 15, accuracy: 0.001)
     }
 
-    func testLosingAllSourcesPausesAndRecoveryResumes() throws {
+    func testLosingAllSourcesPausesAndRecoveryResumes() async throws {
         let controller = makeController()
-        try controller.start()
+        try await controller.start()
 
         driver.emit(.sourceLost(.microphone))
         XCTAssertEqual(controller.activeSources, [.system])
@@ -171,12 +189,12 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertEqual(controller.activeSources, [.system])
     }
 
-    func testStopKeepsCombinedAudioAndClearsMarker() throws {
+    func testStopKeepsCombinedAudioAndClearsMarker() async throws {
         let controller = makeController()
-        try controller.start()
+        try await controller.start()
         clock.advance(8)
 
-        let destination = try controller.stop()
+        let destination = try await controller.stop()
 
         XCTAssertEqual(controller.status, .finished)
         XCTAssertNotNil(destination)
@@ -187,11 +205,11 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertEqual(controller.elapsed, 8, accuracy: 0.001)
     }
 
-    func testStopDeletesAudioWhenPolicySaysSo() throws {
+    func testStopDeletesAudioWhenPolicySaysSo() async throws {
         let controller = makeController(policy: .alwaysDelete)
-        try controller.start()
+        try await controller.start()
 
-        let destination = try controller.stop()
+        let destination = try await controller.stop()
 
         XCTAssertNil(destination)
         XCTAssertEqual(controller.status, .finished)
@@ -199,11 +217,11 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertFalse(FileManager.default.fileExists(atPath: folder.appendingPathComponent("audio.m4a").path))
     }
 
-    func testAskPolicyWaitsForDecisionAndKeepsOrDeletes() throws {
+    func testAskPolicyWaitsForDecisionAndKeepsOrDeletes() async throws {
         let controller = makeController(policy: .askEachTime)
-        try controller.start()
+        try await controller.start()
 
-        let destination = try controller.stop()
+        let destination = try await controller.stop()
 
         XCTAssertNil(destination)
         XCTAssertEqual(controller.status, .awaitingAudioDecision)
@@ -212,26 +230,26 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertEqual(pending.count, 2)
         XCTAssertTrue(pending.allSatisfy { FileManager.default.fileExists(atPath: $0.path) })
 
-        try controller.resolveAudioDecision(keep: true)
+        try await controller.resolveAudioDecision(keep: true)
         XCTAssertEqual(controller.status, .finished)
         XCTAssertTrue(FileManager.default.fileExists(atPath: folder.appendingPathComponent("audio.m4a").path))
         XCTAssertFalse(FileManager.default.fileExists(atPath: folder.appendingPathComponent("audio-pendiente.json").path))
     }
 
-    func testAskPolicyCanDiscardPendingAudio() throws {
+    func testAskPolicyCanDiscardPendingAudio() async throws {
         let controller = makeController(policy: .askEachTime)
-        try controller.start()
-        _ = try controller.stop()
+        try await controller.start()
+        _ = try await controller.stop()
 
-        try controller.resolveAudioDecision(keep: false)
+        try await controller.resolveAudioDecision(keep: false)
 
         XCTAssertEqual(controller.status, .finished)
         XCTAssertFalse(FileManager.default.fileExists(atPath: folder.appendingPathComponent("audio.m4a").path))
     }
 
-    func testPausedStateIsPersistedForRecovery() throws {
+    func testPausedStateIsPersistedForRecovery() async throws {
         let controller = makeController()
-        try controller.start()
+        try await controller.start()
         clock.advance(12)
         controller.togglePause()
 
@@ -242,11 +260,11 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertEqual(Set(marker?.sources ?? []), [.microphone, .system])
     }
 
-    func testDriverFailureLeavesFailedStatus() {
+    func testDriverFailureLeavesFailedStatus() async throws {
         driver.startError = NSError(domain: "prueba", code: 1)
         let controller = makeController()
 
-        XCTAssertThrowsError(try controller.start())
+        do { try await controller.start(); XCTFail("Debe propagar el fallo") } catch {}
 
         if case .failed = controller.status {} else {
             XCTFail("Se esperaba failed, llegó \(controller.status)")

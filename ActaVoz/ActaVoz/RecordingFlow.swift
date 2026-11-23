@@ -30,6 +30,8 @@ final class RecordingFlowModel: ObservableObject {
 
     private let repository: SessionRepository
     private let retentionPolicy: () -> AudioRetentionPolicy
+    private let driver = SystemCaptureDriver()
+    @Published var checkingPermissions = false
     private var controller: RecordingController?
     private var folder: URL?
     private var ticker: Task<Void, Never>?
@@ -43,9 +45,7 @@ final class RecordingFlowModel: ObservableObject {
     }
 
     var canStart: Bool {
-        !options.enabledSources
-            .filter { availability.permission(for: $0) == .granted }
-            .isEmpty
+        PermissionRequestPolicy.canAttemptStart(options: options, availability: availability)
     }
 
     var elapsedText: String {
@@ -66,6 +66,7 @@ final class RecordingFlowModel: ObservableObject {
     }
 
     func dismiss() {
+        guard !isStarting, phase != .recording, phase != .processing else { return }
         stopTicker()
         isPresented = false
         controller = nil
@@ -74,7 +75,9 @@ final class RecordingFlowModel: ObservableObject {
     }
 
     func refreshAvailability() {
-        availability = SystemCaptureDriver().availability()
+        availability = driver.availability()
+        // Consulta pasiva: SCShareableContent puede abrir un diálogo TCC.
+        // Nunca invocarlo al presentar el panel ni al volver de Ajustes.
         if !canStart {
             warning = "Concede permiso al micrófono o al audio del sistema para poder grabar."
         } else if warning != nil {
@@ -83,12 +86,20 @@ final class RecordingFlowModel: ObservableObject {
     }
 
     func requestPermissions() {
-        Task {
-            _ = await AVCaptureDevice.requestAccess(for: .audio)
-            _ = CGRequestScreenCaptureAccess()
-            await MainActor.run {
-                self.refreshAvailability()
+        guard !checkingPermissions else { return }
+        let snapshot = driver.availability()
+        checkingPermissions = true
+        Task { @MainActor in
+            defer { checkingPermissions = false }
+            if options.microphoneEnabled, snapshot.microphone == .undetermined {
+                _ = await AVCaptureDevice.requestAccess(for: .audio)
             }
+            if options.systemEnabled, PermissionRequestPolicy.shouldRequest(userInitiated: true, inFlight: false, state: snapshot.system) {
+                // Una sola vía: ScreenCaptureKit solicita/resuelve el permiso.
+                // No encadenar CGRequestScreenCaptureAccess y otra petición.
+                _ = await driver.checkSystemAccess()
+            }
+            refreshAvailability()
         }
     }
 
@@ -98,12 +109,18 @@ final class RecordingFlowModel: ObservableObject {
         NSWorkspace.shared.open(url)
     }
 
-    func start() {
+    func start() async {
         guard phase == .preparation, !isStarting else { return }
         isStarting = true
         defer { isStarting = false }
 
         do {
+            // El clic en Empezar autoriza la comprobación real; abrir el panel no.
+            if options.systemEnabled { _ = await driver.checkSystemAccess() }
+            refreshAvailability()
+            guard PermissionRequestPolicy.canAttemptStart(options: options, availability: availability) else {
+                throw CaptureError.noSourceAvailable
+            }
             let summary = try repository.createSession(in: .inbox, language: options.language)
             folder = summary.folderURL
             createdTitle = summary.title
@@ -111,12 +128,12 @@ final class RecordingFlowModel: ObservableObject {
             let controller = RecordingController(
                 folder: summary.folderURL,
                 options: options,
-                driver: SystemCaptureDriver(),
+                driver: driver,
                 finalizer: CompositionAudioFinalizer(),
                 retentionPolicy: retentionPolicy()
             )
             self.controller = controller
-            try controller.start()
+            try await controller.start()
             elapsed = controller.elapsed
             warning = controller.warning
             statusText = controller.status.displayName
@@ -128,20 +145,22 @@ final class RecordingFlowModel: ObservableObject {
         }
     }
 
-    func resumeInterruptedSession() {
-        guard let pending = pendingRecovery else { return }
+    func resumeInterruptedSession() async {
+        guard let pending = pendingRecovery, !isStarting else { return }
+        isStarting = true
+        defer { isStarting = false }
         do {
             let controller = RecordingController(
                 folder: pending.summary.folderURL,
                 options: options,
-                driver: SystemCaptureDriver(),
+                driver: driver,
                 finalizer: CompositionAudioFinalizer(),
                 retentionPolicy: retentionPolicy()
             )
             self.controller = controller
             self.folder = pending.summary.folderURL
             createdTitle = pending.summary.title
-            try controller.start()
+            try await controller.start()
             pendingRecovery = nil
             phase = .recording
             statusText = controller.status.displayName
@@ -164,12 +183,12 @@ final class RecordingFlowModel: ObservableObject {
         tick()
     }
 
-    func stop() {
+    func stop() async {
         guard let controller else { return }
         phase = .processing
         statusText = "Procesando la reunión"
         do {
-            _ = try controller.stop()
+            _ = try await controller.stop()
             if controller.status == .awaitingAudioDecision {
                 awaitingAudioDecision = true
                 phase = .finished
@@ -185,9 +204,9 @@ final class RecordingFlowModel: ObservableObject {
         stopTicker()
     }
 
-    func resolveAudio(keep: Bool) {
+    func resolveAudio(keep: Bool) async {
         do {
-            try controller?.resolveAudioDecision(keep: keep)
+            try await controller?.resolveAudioDecision(keep: keep)
             awaitingAudioDecision = false
             statusText = "Procesada"
         } catch {
@@ -255,6 +274,10 @@ struct RecordingFlowView: View {
             }
         }
         .frame(width: 540)
+        .interactiveDismissDisabled(model.isStarting || model.phase == .recording || model.phase == .processing)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            if model.phase == .preparation { model.refreshAvailability() }
+        }
         .alert("No se pudo completar", isPresented: errorBinding) {
             Button("Entendido", role: .cancel) { model.errorMessage = nil }
         } message: {
@@ -315,12 +338,13 @@ struct NewNotePanel: View {
             }
 
             HStack {
-                Button("Solicitar permisos") { model.requestPermissions() }
+                Button(model.checkingPermissions ? "Comprobando permisos…" : "Solicitar permisos") { model.requestPermissions() }
+                    .disabled(model.checkingPermissions || model.isStarting)
                 Spacer()
-                Button("Cancelar") { model.dismiss() }
-                Button("Empezar") { model.start() }
+                Button("Cancelar") { model.dismiss() }.disabled(model.isStarting)
+                Button("Empezar") { Task { await model.start() } }
                     .keyboardShortcut(.defaultAction)
-                    .disabled(!model.canStart || model.isStarting)
+                    .disabled(!model.canStart || model.isStarting || model.checkingPermissions)
             }
         }
         .padding(22)
@@ -334,8 +358,8 @@ struct NewNotePanel: View {
                     .font(.callout)
                     .foregroundStyle(.secondary)
                 HStack {
-                    Button("Reanudar") { model.resumeInterruptedSession() }
-                    Button("Dar por terminada") { model.finishInterruptedSession() }
+                    Button("Reanudar") { Task { await model.resumeInterruptedSession() } }.disabled(model.isStarting)
+                    Button("Dar por terminada") { model.finishInterruptedSession() }.disabled(model.isStarting)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -357,7 +381,7 @@ struct NewNotePanel: View {
                 Button("Abrir Ajustes") { model.openPrivacySettings(for: source) }
                     .font(.caption)
             case .undetermined:
-                Text("Sin solicitar").font(.caption).foregroundStyle(.secondary)
+                Text(source == .system ? "Sin verificar" : "Sin solicitar").font(.caption).foregroundStyle(.secondary)
             case .unavailable:
                 Text("No disponible").font(.caption).foregroundStyle(.secondary)
             }
@@ -405,7 +429,7 @@ struct RecordingPanel: View {
             case .recording:
                 HStack(spacing: 12) {
                     Button(model.statusText == "En pausa" ? "Reanudar" : "Pausar") { model.togglePause() }
-                    Button("Detener", role: .destructive) { model.stop() }
+                    Button("Detener", role: .destructive) { Task { await model.stop() } }
                 }
             case .processing:
                 ProgressView("Procesando la reunión…")
@@ -414,8 +438,8 @@ struct RecordingPanel: View {
                     VStack(spacing: 10) {
                         Text("¿Conservar el audio de esta sesión?").font(.headline)
                         HStack {
-                            Button("Borrar audio") { model.resolveAudio(keep: false) }
-                            Button("Guardar audio") { model.resolveAudio(keep: true) }
+                            Button("Borrar audio") { Task { await model.resolveAudio(keep: false) } }
+                            Button("Guardar audio") { Task { await model.resolveAudio(keep: true) } }
                                 .keyboardShortcut(.defaultAction)
                         }
                     }

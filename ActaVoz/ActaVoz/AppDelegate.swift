@@ -19,8 +19,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         alert.addButton(withTitle: "Detener y cerrar")
         let response = alert.runModal()
         if response == .alertSecondButtonReturn {
-            flow.stop()
-            return .terminateNow
+            Task { @MainActor in
+                await flow.stop()
+                sender.reply(toApplicationShouldTerminate: true)
+            }
+            return .terminateLater
         }
         return .terminateCancel
     }

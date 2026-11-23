@@ -7,7 +7,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | [0001](0001-sistema-sdd/spec.md) | Sistema SDD independiente del modelo | `done` | Revisar mejoras del piloto al usar la primera feature | Instalación inicial verificada |
 | [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Base de aplicación y configuración inicial | `done` | Mantener | Cerrada el 2026-11-23; macOS 26 no probado por falta de equipo |
 | [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `done` | Mantener | Cerrada el 2026-11-23 con pruebas y capturas en `docs/evidencia/0003` |
-| [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `build` | Conceder permisos y hacer una grabación real de 30 s | Núcleo con 54 pruebas; panel verificado; captura real pendiente |
+| [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `build` | Completar recuperación, sincronización y casos de error | 58 pruebas; captura dual, pausa y exportación m4a de 24 s verificadas |
 | [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0007](0007-chat-de-sesion-y-consultas/spec.md) | Chat de sesión y consultas | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |

@@ -1,8 +1,9 @@
 import Combine
 import Foundation
 
+@MainActor
 public protocol AudioFinalizing {
-    func combine(_ sources: [URL], to destination: URL) throws
+    func combine(_ sources: [URL], to destination: URL) async throws
 }
 
 /// Marca de grabación en curso para recuperarla tras un cierre inesperado.
@@ -91,16 +92,19 @@ public final class RecordingController: ObservableObject {
 
     /// Fuentes con permiso que se van a capturar.
     public func plannedSources() -> Set<CaptureSource> {
-        options.enabledSources.filter { availability.permission(for: $0) == .granted }
+        options.enabledSources.filter { source in
+            let state = availability.permission(for: source)
+            return state == .granted || (source == .system && state == .undetermined)
+        }
     }
 
     public var canStart: Bool {
-        !plannedSources().isEmpty
+        PermissionRequestPolicy.canAttemptStart(options: options, availability: driver.availability())
     }
 
     // MARK: - Grabación
 
-    public func start() throws {
+    public func start() async throws {
         guard !status.isActive, status != .processing else { throw CaptureError.alreadyRecording }
         refreshAvailability()
         let plan = plannedSources()
@@ -114,7 +118,7 @@ public final class RecordingController: ObservableObject {
             MainActor.assumeIsolated { self?.handle(event) }
         }
         do {
-            try driver.start(CapturePlan(sources: plan, microphoneDeviceID: options.microphoneDeviceID), folder: folder)
+            try await driver.start(CapturePlan(sources: plan, microphoneDeviceID: options.microphoneDeviceID), folder: folder)
         } catch {
             status = .failed(error.localizedDescription)
             throw CaptureError.driverFailed(error.localizedDescription)
@@ -124,6 +128,8 @@ public final class RecordingController: ObservableObject {
         elapsed = 0
         segmentStart = now()
         activeSources = plan
+        // El arranque real confirma la fuente; no avisar con el estado previo.
+        refreshAvailability()
         warning = warningIfMissing()
         status = .recording
         persistMarker()
@@ -169,7 +175,7 @@ public final class RecordingController: ObservableObject {
     }
 
     @discardableResult
-    public func stop() throws -> URL? {
+    public func stop() async throws -> URL? {
         guard status.isActive else { throw CaptureError.notRecording }
         if let segmentStart {
             accumulated += now().timeIntervalSince(segmentStart)
@@ -180,7 +186,7 @@ public final class RecordingController: ObservableObject {
 
         let files: [URL]
         do {
-            let captured = try driver.stop()
+            let captured = try await driver.stop()
             let onDisk = audioFragments()
             files = onDisk.isEmpty ? captured.values.sorted { $0.path < $1.path } : onDisk
         } catch {
@@ -189,16 +195,16 @@ public final class RecordingController: ObservableObject {
         }
         activeSources = []
         marker.clear()
-        return try applyPolicy(to: files)
+        return try await applyPolicy(to: files)
     }
 
     /// Resuelve el audio cuando la política es «preguntar» y la persona responde.
-    public func resolveAudioDecision(keep: Bool) throws {
+    public func resolveAudioDecision(keep: Bool) async throws {
         guard status == .awaitingAudioDecision else { return }
         let files = pendingSources
         defer { pendingSources = [] }
         if keep {
-            _ = try keepAudio(files)
+            _ = try await keepAudio(files)
         } else {
             remove(files)
         }
@@ -238,14 +244,14 @@ public final class RecordingController: ObservableObject {
 
     // MARK: - Política de audio
 
-    private func applyPolicy(to files: [URL]) throws -> URL? {
+    private func applyPolicy(to files: [URL]) async throws -> URL? {
         switch retentionPolicy {
         case .alwaysDelete:
             remove(files)
             status = .finished
             return nil
         case .alwaysKeep:
-            let destination = try keepAudio(files)
+            let destination = try await keepAudio(files)
             status = .finished
             return destination
         case .askEachTime:
@@ -256,11 +262,11 @@ public final class RecordingController: ObservableObject {
         }
     }
 
-    private func keepAudio(_ files: [URL]) throws -> URL? {
+    private func keepAudio(_ files: [URL]) async throws -> URL? {
         guard !files.isEmpty else { return nil }
         let destination = folder.appendingPathComponent("audio.m4a")
         do {
-            try finalizer.combine(files, to: destination)
+            try await finalizer.combine(files, to: destination)
         } catch {
             status = .failed("No se pudo combinar el audio: \(error.localizedDescription)")
             throw error

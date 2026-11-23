@@ -14,7 +14,7 @@ CaptureCoordinator coordina estado idle, preparación, grabación, pausa, proces
 
 ## Contratos, datos y errores
 
-La selección definitiva entre ScreenCaptureKit y Core Audio taps depende de 0012; no se presume detección de permisos fiable. Persistir progreso por fragmentos en sesión y recuperar lo efectivamente escrito; avisar en fallos. El cierre y la política de audio se resuelven como estados persistidos, sin borrar texto.
+Se adopta Core Audio Process Taps para audio del sistema, sin enumerar pantallas (ADR 0003). La prueba audio-only del bundle ad hoc abierto por LaunchServices produjo señal no nula y se repitió tras reabrir. Crear el tap no demuestra autorización: se mantiene el estado sin verificar hasta la acción explícita. La sincronización dual, reconexión y robustez de sesiones largas no se dan por validadas. Persistir progreso por fragmentos en sesión y recuperar lo efectivamente escrito; avisar en fallos. El cierre y la política de audio se resuelven como estados persistidos, sin borrar texto.
 
 ## Seguridad, compatibilidad y reversión
 

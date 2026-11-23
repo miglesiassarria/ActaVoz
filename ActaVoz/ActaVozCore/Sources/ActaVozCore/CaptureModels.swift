@@ -150,13 +150,14 @@ public enum CaptureEvent: Equatable, Sendable {
     case failed(CaptureSource, String)
 }
 
+@MainActor
 public protocol CaptureDriver: AnyObject {
     var onEvent: ((CaptureEvent) -> Void)? { get set }
     func availability() -> CaptureAvailability
-    func start(_ plan: CapturePlan, folder: URL) throws
+    func start(_ plan: CapturePlan, folder: URL) async throws
     func pause()
     func resume()
-    func stop() throws -> [CaptureSource: URL]
+    func stop() async throws -> [CaptureSource: URL]
 }
 
 /// Estado escrito en `grabacion.json` para poder recuperar tras un cierre inesperado.
