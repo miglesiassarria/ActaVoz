@@ -10,7 +10,7 @@ Estado: `build`. T1 y T2 están verificadas; T3 tiene la lógica y la compilaci�
     - Método: `xcodebuild -project ActaVoz/ActaVoz.xcodeproj -scheme ActaVoz -configuration Debug -derivedDataPath build/DerivedData -destination 'platform=macOS,arch=arm64' build`; ejecución del binario `ActaVoz.app/Contents/MacOS/ActaVoz` y consulta de `CGWindowListCopyWindowInfo` filtrada por el proceso.
     - Resultado: BUILD SUCCEEDED. Bundle `app.actavoz.ActaVoz`, Mach-O thin arm64, firma ad-hoc, `MACOSX_DEPLOYMENT_TARGET = 26.0`. Una ventana on-screen de 1078×706. No se inspeccionó visualmente ni se interactuó con ella.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 0276b39.
 - [x] **T2. Preparar ubicaciones sin pérdida de datos**
   - Objetivo: inicializar `~/.ActaVoz` y subcarpetas con rutas inyectables; resolver Library y Caches.
   - Archivos: `ActaVozCore/Sources/ActaVozCore/StorageLocations.swift`, `AppSettings.swift`, `Bootstrap.swift`; pruebas en `ActaVozCore/Tests/ActaVozCoreTests/`.
@@ -19,7 +19,7 @@ Estado: `build`. T1 y T2 están verificadas; T3 tiene la lógica y la compilaci�
     - Método: `./scripts/test-core.sh`; casos `testPrepareCreatesSessionsConfigurationAndCaches`, `testPrepareIsIdempotentAndKeepsExistingContent`, `testRootThatIsAFileIsRejectedWithoutDeletingIt`, `testUnwritableParentIsReportedAsCannotCreateDirectory`, `testSaveAndLoadRoundTrip`, `testCorruptedFileIsReportedInsteadOfSilentlyResetting`.
     - Resultado: 13 pruebas, 0 fallos. Creación repetida sin borrar el centinela; raíz que es un archivo rechazada como `pathIsNotDirectory` conservando su contenido; padre no escribible informado como `cannotCreateDirectory`; configuración guardada con reemplazo atómico y recuperada en un arranque nuevo.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 0276b39.
   - Límite: las pruebas usan raíces temporales. La app lanzada desde esta sesión no pudo escribir en el home real porque la jaula del agente lo impide; falta comprobarlo abriéndola fuera de la jaula y en una cuenta distinta.
 - [ ] **T3. Primer inicio opcional**
   - Objetivo: ofrecer configuración sin proveedor y permitir omitirla, con punto de integración para 0006.
@@ -29,7 +29,7 @@ Estado: `build`. T1 y T2 están verificadas; T3 tiene la lógica y la compilaci�
     - Método: `BootstrapTests.testConfigurationSurvivesARelaunch` y compilación del flujo; no se pulsó el botón en la interfaz.
     - Resultado: 3 pruebas correctas; `hasCompletedFirstRun` persiste y un arranque nuevo lo recupera. El botón «Continuar sin proveedor» está conectado a ese mismo camino, pero el clic real no se comprobó.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 0276b39.
 - [ ] **T4. Verificar plataforma de entrega**
   - Objetivo: comprobar funcionamiento en macOS 26 sobre Apple Silicon; registrar límites de distribución.
   - Archivos: documentación de evidencia y configuración del proyecto.
@@ -38,7 +38,7 @@ Estado: `build`. T1 y T2 están verificadas; T3 tiene la lógica y la compilaci�
     - Método: build con `MACOSX_DEPLOYMENT_TARGET = 26.0` y ejecución en macOS 27.2.1 arm64; no hay equipo con macOS 26 disponible en esta sesión.
     - Resultado: compila y abre ventana en macOS 27.2.1/arm64; falta la ejecución en macOS 26, por lo que AC5 no se cierra.
     - Fecha: 2026-11-23.
-    - Commit: sin commit.
+    - Commit: 0276b39.
 
 ## Cierre
 
