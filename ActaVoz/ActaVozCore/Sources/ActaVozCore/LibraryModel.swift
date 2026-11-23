@@ -24,6 +24,7 @@ final class LibraryModel: ObservableObject {
     @Published var deletion: Deletion?
     @Published var isNamingDirectory = false
     @Published var newDirectoryName = ""
+    @Published var showsNewNoteNotice = false
 
     let repository: SessionRepository
     private let search = LibrarySearch()
@@ -119,6 +120,11 @@ final class LibraryModel: ObservableObject {
 
     func cancelDeletion() {
         deletion = nil
+    }
+
+    /// Punto de entrada de «Nueva nota». La grabación real llega en 0004.
+    func requestNewNote() {
+        showsNewNoteNotice = true
     }
 
     func moveSelectedSession(to selection: Selection) {

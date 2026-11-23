@@ -5,7 +5,7 @@ import SwiftUI
 /// abajo a la derecha y delega en el flujo de grabación.
 struct LibraryView: View {
     @ObservedObject var model: LibraryModel
-    var onNewNote: () -> Void = {}
+    var onNewNote: (() -> Void)?
 
     var body: some View {
         NavigationSplitView {
@@ -18,7 +18,13 @@ struct LibraryView: View {
             detailColumn
         }
         .overlay(alignment: .bottomTrailing) {
-            Button(action: onNewNote) {
+            Button {
+                if let onNewNote {
+                    onNewNote()
+                } else {
+                    model.requestNewNote()
+                }
+            } label: {
                 Label("Nueva nota", systemImage: "record.circle")
                     .padding(.horizontal, 14)
                     .padding(.vertical, 9)
@@ -28,6 +34,18 @@ struct LibraryView: View {
             .help("Inicia el flujo de grabación")
         }
         .task { model.reload() }
+        .sheet(isPresented: newNoteNoticeBinding) {
+            VStack(spacing: 14) {
+                Text("Nueva nota").font(.headline)
+                Text("La grabación con micrófono y audio del sistema llega en la unidad 0004. Este botón ya es el punto de entrada que la abrirá.")
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.secondary)
+                    .frame(width: 360)
+                Button("Entendido") { model.showsNewNoteNotice = false }
+                    .keyboardShortcut(.defaultAction)
+            }
+            .padding(24)
+        }
     }
 
     // MARK: - Barra lateral
@@ -222,6 +240,10 @@ struct LibraryView: View {
 
     private var newDirectoryBinding: Binding<String> {
         Binding(get: { model.newDirectoryName }, set: { model.newDirectoryName = $0 })
+    }
+
+    private var newNoteNoticeBinding: Binding<Bool> {
+        Binding(get: { model.showsNewNoteNotice }, set: { model.showsNewNoteNotice = $0 })
     }
 
     private var namingBinding: Binding<Bool> {
