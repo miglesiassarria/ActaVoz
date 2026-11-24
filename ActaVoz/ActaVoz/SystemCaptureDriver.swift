@@ -344,8 +344,17 @@ private final class CaptureAudioWriter: @unchecked Sendable {
             }
             let file = files[source]!
             for slice in slices {
-                let first = Int((slice.bufferOffset * rate).rounded())
-                let count = min(Int(buffer.frameLength) - first, Int((slice.duration * rate).rounded()))
+                let originalFirst = Int((slice.bufferOffset * rate).rounded())
+                var first = originalFirst
+                var count = min(Int(buffer.frameLength) - first, Int((slice.duration * rate).rounded()))
+                // Los timestamps del micrófono pueden solaparse unos samples.
+                // Se recorta el solape en lugar de abortar toda la captura.
+                let previousSessionEnd = metadata[source]!.end
+                if slice.sessionStart < previousSessionEnd {
+                    let skip = min(count, max(0, Int(((previousSessionEnd - slice.sessionStart) * rate).rounded())))
+                    first += skip
+                    count -= skip
+                }
                 guard count > 0, let trimmed = AVAudioPCMBuffer(pcmFormat: buffer.format, frameCapacity: AVAudioFrameCount(count)) else { continue }
                 trimmed.frameLength = AVAudioFrameCount(count)
                 let input = UnsafeMutableAudioBufferListPointer(buffer.mutableAudioBufferList)
@@ -358,23 +367,20 @@ private final class CaptureAudioWriter: @unchecked Sendable {
                     memcpy(dst, src.advanced(by: first * stride), count * stride)
                 }
                 let actualFileStart = Double(file.length) / rate
+                let placedStart = slice.sessionStart + Double(first - originalFirst) / rate
                 try file.write(from: trimmed)
                 lastWrite[source] = Date()
                 if let last = metadata[source]!.spans.last,
                    abs(last.fileStart + last.duration - actualFileStart) < 1 / rate,
-                   abs(last.sessionStart + last.duration - slice.sessionStart) < 2 / rate {
+                   abs(last.sessionStart + last.duration - placedStart) < 2 / rate {
                     metadata[source]!.spans[metadata[source]!.spans.count - 1].duration += Double(count) / rate
                 } else {
-                    // Frame rounding cannot create overlapping placements.
                     let previousEnd = metadata[source]!.end
-                    guard slice.sessionStart >= previousEnd - 2 / rate else {
-                        throw CaptureError.driverFailed("Audio recibido fuera de orden. Se conservan los fragmentos originales.")
-                    }
                     // El sidecar exige continuidad exacta; el redondeo de frames
                     // no debe convertirse en un AudioTimelineError al guardarlo.
                     let previousFileEnd = metadata[source]!.spans.last.map { $0.fileStart + $0.duration } ?? actualFileStart
                     metadata[source]!.spans.append(.init(fileStart: previousFileEnd,
-                                                          sessionStart: max(previousEnd, slice.sessionStart),
+                                                          sessionStart: max(previousEnd, placedStart),
                                                           duration: Double(count) / rate))
                 }
                 // Atomic checkpoint after every successfully written buffer.
