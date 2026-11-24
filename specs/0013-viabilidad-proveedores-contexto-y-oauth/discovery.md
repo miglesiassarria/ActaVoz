@@ -41,6 +41,22 @@ Determinar la viabilidad de la capacidad y registrar evidencia para el diseño d
 - **Fecha:** 2026-11-22.
 - **Commit:** sin commit.
 
+## Evidencia: OAuth de terceros (2026-11-24)
+
+- **Método:** revisar la documentación de OpenAI sobre facturación ChatGPT/API y uso del plan ChatGPT en otras aplicaciones; contrastar con la ausencia de un flujo OAuth público autorizado para una app de escritorio de terceros.
+- **Resultado:** no hay un flujo OAuth público que ActaVoz pueda ofrecer con garantías. La integración de ChatGPT con otras apps es para aplicaciones participantes y no autoriza a ActaVoz. No se usaron cuentas ni credenciales.
+- **Decisión:** 0006 ofrecerá API key para OpenAI, Claude, OpenCode Go, Ollama y proveedor genérico; OAuth quedará visible como no disponible, desactivado y explicado. No se promete OAuth.
+- **Fecha:** 2026-11-24.
+- **Commit:** pendiente.
+
+## Evidencia: contratos y contexto (2026-11-24)
+
+- **Método:** revisar endpoints de OpenAI-compatible, Anthropic Messages, Ollama y el contrato Go; ejecutar `experimentos/contexto.py`.
+- **Resultado:** los proveedores por clave encajan en un contrato común de mensajes; el proveedor genérico exige URL, token y modelo. La división recursiva cubrió exactamente la entrada en 16 partes y propagó el rechazo irreducible. No se probó semántica, streaming ni tokens reales.
+- **Consecuencia:** 0006 implementará clientes por clave, selección de modelo y división solo tras rechazo por longitud; los resultados parciales se combinarán localmente y se probarán con servidor simulado.
+- **Fecha:** 2026-11-24.
+- **Commit:** pendiente.
+
 ## Resultado y siguiente paso
 
-Bloquea el cierre de compatibilidad y validación de la estrategia de contexto en 0006. Las decisiones ante fallos están acordadas en AC11–AC12; faltan pruebas de su viabilidad y de sus efectos sobre el resultado.
+La viabilidad queda resuelta: OAuth no está disponible para esta app; API key, Ollama y proveedor genérico sí son viables. 0013 se cierra como superseded por 0006; la implementación y las pruebas de contexto pertenecen a 0006.

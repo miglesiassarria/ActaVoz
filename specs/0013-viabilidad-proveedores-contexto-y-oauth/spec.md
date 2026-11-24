@@ -1,6 +1,6 @@
 # 0013 · Viabilidad proveedores contexto y OAuth
 
-- **Estado:** discovery
+- **Estado:** superseded
 - **Creada:** 2026-11-22
 - **Aprobación:** no aplica
 - **Aprobada por:** —
@@ -12,13 +12,13 @@ Proveedores, OAuth y contexto. Registrar evidencia y resolver incógnitas antes 
 
 ## Comportamiento esperado
 
-Consultar el plan y los hechos de discovery.md. Existe evidencia parcial; los experimentos restantes siguen pendientes y no se afirma viabilidad completa.
+La viabilidad quedó resuelta: OAuth de terceros no está disponible; API key, Ollama y proveedor genérico son viables. La implementación pasa a 0006.
 
 ## Criterios de aceptación
 
 | # | Criterio observable | Verificación reproducible | Resultado final |
 | --- | --- | --- | --- |
-| AC1 | Registrar fuentes, pruebas, resultados y límites de la investigación. | Inspeccionar discovery.md y reproducir cada experimento con datos controlados. | pendiente |
+| AC1 | Registrar fuentes, pruebas, resultados y límites de la investigación. | Inspeccionar discovery.md y reproducir cada experimento con datos controlados. | cumplido (2026-11-24): OAuth descartado; contratos y contexto documentados |
 
 ## Fuera de alcance
 
@@ -26,7 +26,7 @@ Consultar el plan y los hechos de discovery.md. Existe evidencia parcial; los ex
 
 ## Supuestos
 
-- La viabilidad aún no está demostrada.
+- OAuth de terceros no está disponible; API key, Ollama y proveedor genérico son viables.
 
 ## Riesgos
 
