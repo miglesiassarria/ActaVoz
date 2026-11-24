@@ -31,6 +31,22 @@ El mapa describe requisitos de integración: un agente puede adelantar pruebas c
 - **Persistencia segura:** definir escrituras y recuperación ante fallo, migraciones, colisiones y validación de rutas. Borrados y reemplazos siguen las confirmaciones acordadas. El audio puede borrarse sin eliminar la transcripción y los datos de voz temporales tienen la retención acordada.
 - **Privacidad:** audio y procesamiento de voz locales; secretos en Llavero; no imprimir credenciales o contenido sensible en evidencias. La transcripción puede enviarse al proveedor seleccionado.
 
+## Ramas, pull request y limpieza
+
+El trabajo se integra con trunk-based sobre `main`. Antes de empezar una unidad:
+
+```bash
+git switch main
+git pull --ff-only
+git switch -c spec/NNNN-slug
+```
+
+- Una rama por spec o funcionalidad; `fix/slug` para un fallo y `chore/slug` para mantenimiento. Si una spec grande se entrega por partes, usar `spec/NNNN-slug-<porcion>`.
+- Mantener la rama al día con rebase sobre `origin/main`; no hacer force-push a `main`.
+- Integrar solo con tareas y AC verificados, evidencia, validadores y diff revisado. Pull request con contexto y **squash merge**.
+- Tras el merge, borrar la rama en local y en GitHub y ejecutar `git fetch --prune`. No reutilizar la rama.
+- Si se cierra una pull request sin fusionar, borrar también la rama. El detalle está en `docs/sdd.md`.
+
 ## Comprobación de cobertura y cierre
 
 Cada `tasks.md` relaciona tareas con criterios AC; el responsable de cada unidad debe comprobar esa cobertura al comenzar y añadir tareas si falta alguna, sin marcarlas como realizadas. Cada criterio necesita evidencia individual: método reproducible, resultado, fecha y commit. Al terminar: ejecutar las pruebas reales disponibles, `python3 scripts/validate_sdd.py --strict`, `python3 scripts/audit_sdd.py`, revisar el diff y actualizar documentación y ADR. No declarar una spec `done` por pasar únicamente los validadores estructurales.
