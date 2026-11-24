@@ -1,26 +1,23 @@
-# 0013 · Tareas
+# 0013 · Tareas: Proveedores, contexto y OAuth
 
-- [ ] **T1. Resultado pequeño y observable**
-  - Objetivo: Pendiente.
-  - Archivos: Pendiente.
-  - Verificación: Pendiente.
+Estado: superseded por 0006.
+
+- [x] **T1. OAuth y catálogo**
+  - Objetivo: determinar si existe un flujo OAuth autorizado para ActaVoz.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: revisión de la documentación de OpenAI y de integración de terceros.
+    - Resultado: no hay flujo OAuth público autorizado; se descarta para la primera versión.
+    - Fecha: 2026-11-24.
+    - Commit: 3ef4091 y posteriores.
 
-## Cierre
+- [x] **T2. Contexto y contratos**
+  - Objetivo: validar cobertura ante rechazo por longitud y contratos de proveedores.
+  - Evidencia:
+    - Método: experimento de división recursiva y revisión de endpoints OpenAI-compatible, Anthropic, Ollama y Go.
+    - Resultado: cobertura exacta en 16 partes y rechazo irreducible propagado; contratos por clave viables; OAuth no.
+    - Fecha: 2026-11-24.
+    - Commit: 3ef4091 y posteriores.
 
-- [ ] Todas las tareas tienen verificación y evidencia ejecutada.
-- [ ] Pasa la verificación completa de `docs/verification.md`.
-- [ ] Cada criterio de `spec.md` tiene resultado y evidencia.
-- [ ] Se revisó el diff contra el alcance y se preservaron cambios ajenos.
-- [ ] Se actualizó documentación estable y ADR cuando correspondía.
-- [ ] `spec.md` y el índice muestran el mismo estado.
+## Resultado
 
-## Resultado de criterios de aceptación
-
-| Criterio | Resultado | Evidencia |
-| --- | --- | --- |
-| AC1 | pendiente | pendiente |
+La implementación y las pruebas de proveedores pasan a 0006. Esta unidad no produce código de producción.
