@@ -47,7 +47,7 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | AC3 | cumplido (2026-11-24) | Captura real de 16 s con CAF separados; correlación de envolventes 0,8946 y desfase micrófono-sistema de +51,1 ms (trayecto acústico). |
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
 | AC5 | cumplido con matiz | Pausa real: contador 00:20 y CAF sin crecer; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante la pausa. |
-| AC6 | parcial | Detección y política con 4 pruebas deterministas. La rotación automática se desactivó al comprobar que un micrófono que entrega un solo búfer genera tramos parciales y rompe la exportación; falta corregirla y probarla con hardware. |
+| AC6 | parcial | Detección verificada con cambio real de entrada: aviso «Se perdió la fuente: Micrófono.» y continuación con el sistema. La recuperación automática al volver el dispositivo sigue sin implementarse; no se rota el archivo. |
 | AC7 | cumplido (2026-11-24) | Caída real con dos tramos: aviso automático, reanudación, terminación con exportación de 21,89 s y tramos en orden; corregidos cola CAF y orden por UUID. |
 | AC8 | cumplido | Grabación real de 105,7 s: estado Procesada y botón Generar resumen; m4a estéreo con RMS 0,1411. |
 | AC9 | cumplido | Tres políticas probadas con datos temporales; por defecto guardar. |

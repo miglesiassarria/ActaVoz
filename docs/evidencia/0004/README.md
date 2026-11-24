@@ -137,3 +137,11 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Tras «Guardar audio», se generó un único audio.m4a de 15,838 s, 2 canales, RMS 0,1431.
 - AC3 y AC11 cumplidos. Solo queda AC6 (recuperación física de fuentes).
 - Fecha: 2026-11-24. Commit: pendiente.
+
+## Detección real de pérdida de fuente (2026-11-24, 22:03)
+
+- Grabando con micrófono USB y sistema, se cambió el dispositivo de entrada predeterminado al micrófono integrado mediante CoreAudio.
+- A los pocos segundos la app mostró «Se perdió la fuente: Micrófono.» y siguió grabando con el audio del sistema. Al restaurar la entrada USB, el aviso permaneció y el micrófono no se recuperó automáticamente.
+- Por tanto AC6 queda parcial: la detección y la continuación con la otra fuente están verificadas; falta reiniciar la captura del micrófono al volver el dispositivo.
+- La rotación automática de archivos sigue desactivada para no generar tramos parciales.
+- Fecha: 2026-11-24. Commit: pendiente.

@@ -28,9 +28,9 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     private var pausedByUser = false
     private var recovering: Set<CaptureSource> = []
     private var health = CaptureHealthMonitor()
-    // La rotación automática aún no está verificada con hardware y puede
-    // generar tramos parciales; no se activa en producción.
-    private let automaticRecoveryEnabled = false
+    // Detección de pérdida sin rotar archivos: si la fuente vuelve, se reanuda
+    // sobre el mismo CAF. La rotación automática sigue desactivada.
+    private let automaticRecoveryEnabled = true
 
     func availability() -> CaptureAvailability {
         let microphone: PermissionState
@@ -242,9 +242,6 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
                 recovering.insert(source)
                 onEvent?(.sourceLost(source))
             }
-            await recoverSources()
-        } else if health.shouldRetry(sources: sources, recovering: recovering, now: now) {
-            await recoverSources()
         }
     }
 
