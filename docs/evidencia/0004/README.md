@@ -89,3 +89,10 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Suite: 84 pruebas, 0 fallos. Build Debug correcto.
 - Límites: la sincronización de dos dispositivos físicos no se ha medido; AC6 nativo (reconexión automática) sigue sin implementar; AC10 sin verificar; AC14 solo con dobles.
 - Fecha: 2026-11-24. Commit: d051cac.
+
+## Captura sin internet (2026-11-24, 19:53)
+
+- Método: app abierta con sandbox-exec y perfil que deniega toda salida de red; se comprobó en el mismo perfil que una conexión TCP a 1.1.1.1:443 devuelve PermissionError.
+- Resultado: grabación solo de sistema con tono 440 Hz; estado «Procesada»; audio.m4a de 11,6920 s, 2 canales, RMS 0,104774 y pico 0,832068.
+- Límite: se bloquea la salida de red del proceso, no se apaga la interfaz del Mac; demuestra que captura y exportación no dependen de internet.
+- Fecha: 2026-11-24. Commit: pendiente.
