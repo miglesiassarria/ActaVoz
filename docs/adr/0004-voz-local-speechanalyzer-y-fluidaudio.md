@@ -1,6 +1,6 @@
 # ADR 0004: Transcripción y diarización locales
 
-- **Estado:** proposed
+- **Estado:** accepted
 - **Fecha:** 2026-11-24
 - **Spec relacionada:** 0005 y 0012
 

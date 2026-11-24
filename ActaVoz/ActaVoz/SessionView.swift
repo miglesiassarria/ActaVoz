@@ -104,7 +104,7 @@ struct SessionView: View {
                             .font(.caption)
                             .disabled(session.summary.metadata.participants.count < 2)
                         }
-                        ForEach(model.nameSuggestions.filter { $0.speakerId == participant.id }) { suggestion in
+                        ForEach(model.nameSuggestions.filter { $0.speakerId == participant.id && !participant.isConfirmed }) { suggestion in
                             Button("Usar «\(suggestion.name)»") {
                                 model.confirmParticipant(id: participant.id, name: suggestion.name)
                             }
