@@ -291,6 +291,17 @@ final class RecordingControllerTests: XCTestCase {
         XCTAssertEqual(controller.activeSources, [.system])
     }
 
+    func testRecoveredSourceClearsWarningWhenAllSourcesReturn() async throws {
+        let controller = makeController()
+        try await controller.start()
+        driver.emit(.sourceLost(.microphone))
+        XCTAssertNotNil(controller.warning)
+
+        driver.emit(.sourceRecovered(.microphone))
+        XCTAssertNil(controller.warning)
+        XCTAssertEqual(controller.activeSources, [.microphone, .system])
+    }
+
     func testStopKeepsCombinedAudioAndClearsMarker() async throws {
         let controller = makeController()
         try await controller.start()

@@ -145,3 +145,11 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Por tanto AC6 queda parcial: la detección y la continuación con la otra fuente están verificadas; falta reiniciar la captura del micrófono al volver el dispositivo.
 - La rotación automática de archivos sigue desactivada para no generar tramos parciales.
 - Fecha: 2026-11-24. Commit: pendiente.
+
+## AC6: pérdida y recuperación real (2026-11-24, 22:06)
+
+- Grabando con micrófono USB AB17X y audio del sistema, se cambió la entrada predeterminada al micrófono integrado. A los 4 s apareció «Se perdió la fuente: Micrófono.» y la grabación siguió con el sistema.
+- Al restaurar AB17X, el observador de Core Audio reinició el tap solo porque el formato coincidía con el CAF abierto. El aviso desapareció y el micrófono volvió a escribir en el mismo archivo.
+- El sidecar muestra un hueco de sesión real entre 8,11 s y 18,79 s, y el CAF continúa hasta 22,10 s. El audio final combinado duró 32,8124 s, 2 canales, RMS 0,0928.
+- Prueba de regresión añadida: al recuperar todas las fuentes se limpia el aviso. Suite: 89 pruebas, 0 fallos.
+- Fecha: 2026-11-24. Commit: pendiente.

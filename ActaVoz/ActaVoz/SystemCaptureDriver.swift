@@ -23,6 +23,11 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     private var generation: UInt64 = 0
     private var activePlan: CapturePlan?
     private var folderURL: URL?
+    private var microphoneURL: URL?
+    private var systemURL: URL?
+    private var inputListener: AudioObjectPropertyListenerBlock?
+    private var inputListenerAddress = AudioObjectPropertyAddress(mSelector: kAudioHardwarePropertyDefaultInputDevice, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+    private var lastRestartAttempt = Date.distantPast
     private var healthTask: Task<Void, Never>?
     private var restarting = false
     private var pausedByUser = false
@@ -67,6 +72,10 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         let audioFolder = folder.appendingPathComponent("AudioFuentes", isDirectory: true)
         try FileManager.default.createDirectory(at: audioFolder, withIntermediateDirectories: true)
         let fragment = UUID()
+        let micURL = audioFolder.appendingPathComponent("microfono-\(fragment).caf")
+        let sysURL = audioFolder.appendingPathComponent("sistema-\(fragment).caf")
+        microphoneURL = micURL
+        systemURL = sysURL
         // Recovery starts after the last persisted sample, never at zero.
         let existing = try FileManager.default.contentsOfDirectory(at: audioFolder, includingPropertiesForKeys: nil)
             .filter { $0.pathExtension == "caf" }
@@ -82,7 +91,7 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         var failures: [String] = []
         if plan.sources.contains(.microphone) {
             do {
-                try startMicrophone(at: audioFolder.appendingPathComponent("microfono-\(fragment).caf"), deviceUID: plan.microphoneDeviceID)
+                try startMicrophone(at: micURL, deviceUID: plan.microphoneDeviceID)
                 sources.insert(.microphone)
             } catch { failures.append("Micrófono: \(error.localizedDescription)") }
         }
@@ -107,7 +116,10 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         activePlan = plan
         folderURL = folder
         health.beginSegment(at: Date())
-        if automaticRecoveryEnabled { startHealthMonitoring() }
+        if automaticRecoveryEnabled {
+            startHealthMonitoring()
+            installInputListener()
+        }
     }
 
     func pause() {
@@ -128,8 +140,11 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         generation &+= 1
         healthTask?.cancel()
         healthTask = nil
+        removeInputListener()
         activePlan = nil
         folderURL = nil
+        microphoneURL = nil
+        systemURL = nil
         pausedByUser = false
         recovering = []
         if microphoneTapInstalled {
@@ -282,6 +297,47 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         }
     }
 
+    private func installInputListener() {
+        removeInputListener()
+        var address = inputListenerAddress
+        let block: AudioObjectPropertyListenerBlock = { [weak self] _, _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self?.restartMicrophoneIfNeeded()
+            }
+        }
+        let status = AudioObjectAddPropertyListenerBlock(AudioObjectID(kAudioObjectSystemObject), &address, DispatchQueue.main, block)
+        if status == noErr { inputListener = block }
+    }
+
+    private func removeInputListener() {
+        guard let block = inputListener else { return }
+        var address = inputListenerAddress
+        AudioObjectRemovePropertyListenerBlock(AudioObjectID(kAudioObjectSystemObject), &address, DispatchQueue.main, block)
+        inputListener = nil
+    }
+
+    /// Reinicia solo el micrófono cuando vuelve un dispositivo compatible.
+    /// No toca el archivo abierto: el nuevo tap sigue escribiendo en el mismo CAF.
+    private func restartMicrophoneIfNeeded() {
+        guard automaticRecoveryEnabled, !pausedByUser, !stopping, !starting,
+              let url = microphoneURL, let plan = activePlan,
+              recovering.contains(.microphone), !sources.contains(.microphone) else { return }
+        guard Date().timeIntervalSince(lastRestartAttempt) > 1 else { return }
+        lastRestartAttempt = Date()
+        let current = engine.inputNode.inputFormat(forBus: 0)
+        if let recorded = writer.format(for: .microphone) {
+            guard abs(recorded.sampleRate - current.sampleRate) < 1,
+                  recorded.channelCount == current.channelCount else { return }
+        }
+        if microphoneTapInstalled {
+            engine.inputNode.removeTap(onBus: 0)
+            microphoneTapInstalled = false
+        }
+        engine.stop()
+        engine.reset()
+        do { try startMicrophone(at: url, deviceUID: plan.microphoneDeviceID) } catch {}
+    }
+
     private func persistedSessionEnd() -> Double {
         guard let folderURL else { return 0 }
         let directory = folderURL.appendingPathComponent("AudioFuentes", isDirectory: true)
@@ -320,6 +376,7 @@ private final class CaptureAudioWriter: @unchecked Sendable {
     }
     func currentEpoch() -> Int { lock.lock(); defer { lock.unlock() }; return epoch }
     func lastWriteAt(_ source: CaptureSource) -> Date? { lock.lock(); defer { lock.unlock() }; return lastWrite[source] }
+    func format(for source: CaptureSource) -> AVAudioFormat? { lock.lock(); defer { lock.unlock() }; return files[source]?.processingFormat }
     func write(_ buffer: AVAudioPCMBuffer, source: CaptureSource, url: URL, hostTime: UInt64, epoch expected: Int) throws -> Bool {
         lock.lock(); defer { lock.unlock() }
         guard !closed, epoch == expected else { return false }

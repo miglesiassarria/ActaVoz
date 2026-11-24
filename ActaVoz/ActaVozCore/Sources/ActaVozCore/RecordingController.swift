@@ -271,6 +271,10 @@ public final class RecordingController: ObservableObject {
             sourceUnavailable(source, message: "Se perdió la fuente: \(source.displayName).")
         case .sourceRecovered(let source):
             activeSources.insert(source)
+            // El aviso de la fuente perdida deja de ser cierto al volver todas.
+            if activeSources == options.enabledSources {
+                warning = warningIfMissing()
+            }
             if case .paused(.sourcesLost) = status {
                 resume()
             }
