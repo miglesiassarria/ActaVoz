@@ -27,8 +27,7 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     private var restarting = false
     private var pausedByUser = false
     private var recovering: Set<CaptureSource> = []
-    private var segmentStartedAt = Date()
-    private var lastRecoveryAttempt = Date.distantPast
+    private var health = CaptureHealthMonitor()
 
     func availability() -> CaptureAvailability {
         let microphone: PermissionState
@@ -103,8 +102,7 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         }
         activePlan = plan
         folderURL = folder
-        segmentStartedAt = Date()
-        lastRecoveryAttempt = Date()
+        health.beginSegment(at: Date())
         startHealthMonitoring()
     }
 
@@ -230,10 +228,10 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     private func checkHealth() async {
         guard !pausedByUser, !starting, !stopping, !restarting, !sources.isEmpty || !recovering.isEmpty else { return }
         let now = Date()
-        let stalled = sources.filter { source in
-            if let last = writer.lastWriteAt(source) { return now.timeIntervalSince(last) > 4 }
-            return now.timeIntervalSince(segmentStartedAt) > 4
-        }
+        let lastWrite = Dictionary(uniqueKeysWithValues: sources.compactMap { source in
+            writer.lastWriteAt(source).map { (source, $0) }
+        })
+        let stalled = health.stalled(sources: sources, lastWrite: lastWrite, now: now)
         if !stalled.isEmpty {
             for source in stalled {
                 sources.remove(source)
@@ -241,8 +239,7 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
                 onEvent?(.sourceLost(source))
             }
             await recoverSources()
-        } else if sources.isEmpty, !recovering.isEmpty,
-                  now.timeIntervalSince(lastRecoveryAttempt) > 5 {
+        } else if health.shouldRetry(sources: sources, recovering: recovering, now: now) {
             await recoverSources()
         }
     }
@@ -254,7 +251,7 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         let attemptGeneration = generation
         defer {
             restarting = false
-            lastRecoveryAttempt = Date()
+            health.recordAttempt(at: Date())
         }
         if microphoneTapInstalled {
             engine.inputNode.removeTap(onBus: 0)
@@ -267,7 +264,7 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         let offset = persistedSessionEnd()
         let fragment = UUID()
         writer.begin(segmentID: fragment, sessionStart: offset, hostStart: Self.hostSeconds())
-        segmentStartedAt = Date()
+        health.beginSegment(at: Date())
         let audioFolder = folder.appendingPathComponent("AudioFuentes", isDirectory: true)
         sources = []
         recovering.formUnion(plan.sources)

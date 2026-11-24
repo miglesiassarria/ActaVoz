@@ -112,3 +112,11 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Verificación real: se pulsó «Solicitar permisos»; a los 10 s los botones «Solicitar permisos», «Cancelar» y «Empezar» estaban habilitados y el estado seguía «Sin solicitar». No se concedió ningún permiso.
 - Límite: no se confirmó el diálogo TCC ni se pudo validar la reconexión física de AC6.
 - Fecha: 2026-11-24. Commit: pendiente.
+
+## Política de salud extraída y probada (2026-11-24)
+
+- CaptureHealthMonitor decide pérdida por ausencia de búferes escritos (no por amplitud), permite que cada fuente se evalúe por separado y solo reintenta cuando no queda ninguna fuente sana.
+- Cuatro pruebas deterministas cubren silencio válido, vencimiento del plazo, independencia entre fuentes y retraso de reintento.
+- El driver nativo usa esa misma política; suite total 88 pruebas, 0 fallos; composición de 5 s sigue pasando.
+- Límite: sigue sin verificarse la desconexión física porque TCC no mostró diálogo y el agente no puede concederlo.
+- Fecha: 2026-11-24. Commit: pendiente.

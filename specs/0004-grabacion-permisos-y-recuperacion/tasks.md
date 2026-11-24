@@ -1,6 +1,6 @@
 # 0004 · Tareas: Captura y recuperación
 
-Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y audio pendiente verificados en la app real. Suite: 84 pruebas, 0 fallos. Quedan AC2, AC3 (sincronización física), AC6 nativo y AC14. Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
+Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y audio pendiente verificados en la app real. Suite: 88 pruebas, 0 fallos. Quedan AC2, AC3 (sincronización física), AC6 nativo y AC14. Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
 
 - [ ] **T1. Preparación y permisos**
   - Objetivo: cumplir AC1–AC4 de la spec.
@@ -47,7 +47,7 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | AC3 | parcial | Captura dual real verificada; faltan selección efectiva de micrófono y precisión de sincronización. |
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
 | AC5 | cumplido con matiz | Pausa real: contador 00:20 y CAF sin crecer; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante la pausa. |
-| AC6 | parcial | Monitor nativo: 4 s sin buffers marca pérdida, cierra el tramo, reinicia fuentes y solo anuncia recuperación tras un búfer válido; probado a nivel de controlador y compilación. Falta desconexión física real. |
+| AC6 | parcial | Monitor nativo y CaptureHealthMonitor con 4 pruebas deterministas: 4 s sin buffers, independencia por fuente y reintento solo sin fuentes sanas. Falta desconexión física real. |
 | AC7 | cumplido (2026-11-24) | Caída real con dos tramos: aviso automático, reanudación, terminación con exportación de 21,89 s y tramos en orden; corregidos cola CAF y orden por UUID. |
 | AC8 | cumplido | Grabación real de 105,7 s: estado Procesada y botón Generar resumen; m4a estéreo con RMS 0,1411. |
 | AC9 | cumplido | Tres políticas probadas con datos temporales; por defecto guardar. |
