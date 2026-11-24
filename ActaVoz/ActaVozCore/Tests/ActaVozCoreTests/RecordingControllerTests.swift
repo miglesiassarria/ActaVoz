@@ -149,6 +149,93 @@ final class RecordingControllerTests: XCTestCase {
         }
     }
 
+    func testPendingAudioRoundTripsNestedFragmentPaths() async throws {
+        let controller = makeController(policy: .askEachTime)
+        try await controller.start()
+        let fragments = folder.appendingPathComponent("AudioFuentes")
+        try FileManager.default.createDirectory(at: fragments, withIntermediateDirectories: true)
+        let caf = fragments.appendingPathComponent("sistema-test.caf")
+        try Data("audio".utf8).write(to: caf)
+        _ = try await controller.stop()
+        XCTAssertEqual(RecordingController.pendingAudioFiles(in: folder), [caf])
+    }
+
+    func testFinishedInterruptedRecordingCreatesPendingDecision() async throws {
+        let controller = makeController(policy: .askEachTime)
+        let audio = folder.appendingPathComponent("AudioFuentes")
+        try FileManager.default.createDirectory(at: audio, withIntermediateDirectories: true)
+        let caf = audio.appendingPathComponent("sistema.caf")
+        try Data("audio".utf8).write(to: caf)
+        try await controller.finishInterruptedRecording()
+        XCTAssertEqual(controller.status, .awaitingAudioDecision)
+        XCTAssertTrue(RecordingController.pendingAudioFiles(in: folder).contains { $0.lastPathComponent == caf.lastPathComponent })
+        XCTAssertTrue(FileManager.default.fileExists(atPath: caf.path))
+    }
+
+    func testExportFailureKeepsRecoveryMarkerAndSources() async throws {
+        let controller = makeController()
+        try await controller.start()
+        finalizer.error = CaptureError.driverFailed("Disco no disponible")
+        do { _ = try await controller.stop(); XCTFail("Debe fallar") } catch {}
+        XCTAssertNotNil(PendingRecordingStore(folder: folder).load())
+        XCTAssertTrue(driver.files.values.allSatisfy { FileManager.default.fileExists(atPath: $0.path) })
+    }
+
+    func testPendingDecisionCanRetryExportWithoutLosingFiles() async throws {
+        let controller = makeController(policy: .askEachTime)
+        try await controller.start()
+        _ = try await controller.stop()
+        finalizer.error = CaptureError.driverFailed("Error temporal")
+        do { try await controller.resolveAudioDecision(keep: true); XCTFail("Debe fallar") } catch {}
+        XCTAssertEqual(controller.status, .awaitingAudioDecision)
+        finalizer.error = nil
+        try await controller.resolveAudioDecision(keep: true)
+        XCTAssertEqual(controller.status, .finished)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: folder.appendingPathComponent("audio.m4a").path))
+    }
+
+    func testFinishInterruptedWithoutStartingCapture() async throws {
+        let controller = makeController()
+        let fragments = folder.appendingPathComponent("AudioFuentes")
+        try FileManager.default.createDirectory(at: fragments, withIntermediateDirectories: true)
+        let caf = fragments.appendingPathComponent("sistema-test.caf")
+        try Data("audio".utf8).write(to: caf)
+        try await controller.finishInterruptedRecording()
+        XCTAssertNil(driver.startedPlan)
+        XCTAssertEqual(controller.status, .finished)
+        XCTAssertEqual(finalizer.calls.last?.map { $0.path.replacingOccurrences(of: "/private/var/", with: "/var/") }, [caf.path.replacingOccurrences(of: "/private/var/", with: "/var/")])
+    }
+
+    func testPendingMarkerRejectsSymlinkedDirectory() throws {
+        let external = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: external, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: external) }
+        let outside = external.appendingPathComponent("outside.caf")
+        try Data("outside".utf8).write(to: outside)
+        try FileManager.default.createSymbolicLink(at: folder.appendingPathComponent("AudioFuentes"), withDestinationURL: external)
+        try Data(#"{"files":["AudioFuentes/outside.caf"]}"#.utf8).write(to: folder.appendingPathComponent("audio-pendiente.json"))
+        XCTAssertTrue(RecordingController.pendingAudioFiles(in: folder).isEmpty)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: outside.path))
+    }
+
+    func testLegacyPendingMarkerResolvesAudioFuentes() throws {
+        let audio = folder.appendingPathComponent("AudioFuentes")
+        try FileManager.default.createDirectory(at: audio, withIntermediateDirectories: true)
+        let caf = audio.appendingPathComponent("legacy.caf")
+        try Data("audio".utf8).write(to: caf)
+        try Data(#"{"files":["legacy.caf"]}"#.utf8).write(to: folder.appendingPathComponent("audio-pendiente.json"))
+        XCTAssertEqual(RecordingController.pendingAudioFiles(in: folder).first?.lastPathComponent, "legacy.caf")
+        XCTAssertTrue(FileManager.default.fileExists(atPath: RecordingController.pendingAudioFiles(in: folder)[0].path))
+    }
+
+    func testPendingMarkerCannotEscapeSession() throws {
+        let marker = folder.appendingPathComponent("audio-pendiente.json")
+        try Data(#"{"files":["../outside.caf","/tmp/outside.caf","AudioFuentes/valid.caf"]}"#.utf8).write(to: marker)
+        let files = RecordingController.pendingAudioFiles(in: folder)
+        XCTAssertEqual(files.count, 1)
+        XCTAssertEqual(files.first?.lastPathComponent, "valid.caf")
+    }
+
     func testRecoveredRecordingKeepsElapsedTime() async throws {
         let controller = makeController(restoredElapsed: 12)
 

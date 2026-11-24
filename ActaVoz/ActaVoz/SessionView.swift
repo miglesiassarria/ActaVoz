@@ -22,7 +22,14 @@ struct SessionView: View {
             Text(model.errorMessage ?? "")
         }
         .alert("Audio pendiente de decisión", isPresented: audioPromptBinding) {
-            Button("Guardar audio") { Task { await model.keepPendingAudio() } }
+            Button("Guardar audio") {
+                let flow = AppBootstrap.shared.recordingFlow
+                flow.beginExternalOperation()
+                Task { @MainActor in
+                    await model.keepPendingAudio()
+                    flow.endExternalOperation(succeeded: model.errorMessage == nil)
+                }
+            }
             Button("Borrar audio", role: .destructive) { model.discardPendingAudio() }
         } message: {
             Text("Esta sesión cerró sin decidir si conservar el audio. Puedes guardarlo como archivo combinado o borrarlo; las notas y el texto no se tocan.")

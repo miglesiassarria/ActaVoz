@@ -11,6 +11,10 @@ struct ActaVozApp: App {
         .defaultSize(width: 1100, height: 720)
         .commands {
             CommandGroup(replacing: .newItem) {}
+            CommandGroup(replacing: .appTermination) {
+                Button("Salir de ActaVoz") { AppBootstrap.shared.recordingFlow.requestQuit() }
+                    .keyboardShortcut("q", modifiers: .command)
+            }
         }
     }
 }

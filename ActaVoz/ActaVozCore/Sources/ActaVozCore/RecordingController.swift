@@ -206,21 +206,52 @@ public final class RecordingController: ObservableObject {
             throw error
         }
         activeSources = []
+        let result = try await applyPolicy(to: files)
+        marker.clear() // Solo tras exportar o persistir la decisión pendiente.
+        try AudioCleanupTransaction(folder: folder).finish()
+        return result
+    }
+
+    /// Finaliza los fragmentos persistidos sin abrir micrófono ni tap.
+    public func finishInterruptedRecording() async throws {
+        guard !status.isActive, status != .processing else { throw CaptureError.alreadyRecording }
+        let cleanup = AudioCleanupTransaction(folder: folder)
+        if FileManager.default.fileExists(atPath: cleanup.journalURL.path) {
+            try cleanup.complete()
+            try removePendingMarker()
+            marker.clear()
+            try cleanup.finish()
+            status = .finished
+            return
+        }
+        status = .processing
+        _ = try await applyPolicy(to: audioFragments())
         marker.clear()
-        return try await applyPolicy(to: files)
+        try cleanup.finish()
     }
 
     /// Resuelve el audio cuando la política es «preguntar» y la persona responde.
     public func resolveAudioDecision(keep: Bool) async throws {
-        guard status == .awaitingAudioDecision else { return }
+        guard status == .awaitingAudioDecision else { throw CaptureError.notRecording }
         let files = pendingSources
-        defer { pendingSources = [] }
+        let cleanup = AudioCleanupTransaction(folder: folder)
+        if FileManager.default.fileExists(atPath: cleanup.journalURL.path) {
+            try cleanup.complete()
+            try removePendingMarker()
+            try cleanup.finish()
+            pendingSources = []
+            status = .finished
+            return
+        }
         if keep {
-            _ = try await keepAudio(files)
+            do { _ = try await keepAudio(files) }
+            catch { status = .awaitingAudioDecision; throw error }
         } else {
-            remove(files)
+            try remove(files)
         }
         try removePendingMarker()
+        try cleanup.finish()
+        pendingSources = []
         status = .finished
     }
 
@@ -259,7 +290,7 @@ public final class RecordingController: ObservableObject {
     private func applyPolicy(to files: [URL]) async throws -> URL? {
         switch retentionPolicy {
         case .alwaysDelete:
-            remove(files)
+            try remove(files)
             status = .finished
             return nil
         case .alwaysKeep:
@@ -277,13 +308,16 @@ public final class RecordingController: ObservableObject {
     private func keepAudio(_ files: [URL]) async throws -> URL? {
         guard !files.isEmpty else { return nil }
         let destination = folder.appendingPathComponent("audio.m4a")
+        let cleanup = AudioCleanupTransaction(folder: folder)
+        try cleanup.prepare(files)
         do {
             try await finalizer.combine(files, to: destination)
         } catch {
             status = .failed("No se pudo combinar el audio: \(error.localizedDescription)")
             throw error
         }
-        remove(files)
+        try cleanup.commit()
+        try cleanup.complete()
         return destination
     }
 
@@ -294,14 +328,20 @@ public final class RecordingController: ObservableObject {
             at: folder,
             includingPropertiesForKeys: nil
         ) else { return [] }
+        let realRoot = self.folder.resolvingSymlinksInPath().standardizedFileURL.path + "/"
         return contents
-            .filter { $0.pathExtension.lowercased() == "caf" }
+            .filter { $0.pathExtension.lowercased() == "caf" && $0.resolvingSymlinksInPath().standardizedFileURL.path.hasPrefix(realRoot) }
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
     }
 
-    private func remove(_ files: [URL]) {
+    private func remove(_ files: [URL]) throws {
         for file in files {
-            try? FileManager.default.removeItem(at: file)
+            if FileManager.default.fileExists(atPath: file.path) { try FileManager.default.removeItem(at: file) }
+            let sidecar = AudioTimelineFragment.sidecarURL(for: file)
+            if FileManager.default.fileExists(atPath: sidecar.path) { try FileManager.default.removeItem(at: sidecar) }
+            let prefix = sidecar.lastPathComponent + ".sb-"
+            let siblings = (try? FileManager.default.contentsOfDirectory(at: sidecar.deletingLastPathComponent(), includingPropertiesForKeys: nil)) ?? []
+            for sibling in siblings where sibling.lastPathComponent.hasPrefix(prefix) { try FileManager.default.removeItem(at: sibling) }
         }
     }
 
@@ -322,7 +362,8 @@ public final class RecordingController: ObservableObject {
     private var pendingAudioURL: URL { folder.appendingPathComponent("audio-pendiente.json") }
 
     private func writePendingMarker(_ files: [URL]) throws {
-        let paths = files.map(\.lastPathComponent)
+        let root = folder.standardizedFileURL.path + "/"
+        let paths = files.map { $0.standardizedFileURL.path.replacingOccurrences(of: root, with: "", options: .anchored) }
         let data = try JSONSerialization.data(withJSONObject: ["files": paths], options: [.prettyPrinted, .sortedKeys])
         try data.write(to: pendingAudioURL, options: .atomic)
     }
@@ -333,8 +374,9 @@ public final class RecordingController: ObservableObject {
     }
 
     /// Elimina el marcador de audio pendiente sin tocar los archivos.
-    public static func clearPendingAudioMarker(in folder: URL) {
-        try? FileManager.default.removeItem(at: folder.appendingPathComponent("audio-pendiente.json"))
+    public static func clearPendingAudioMarker(in folder: URL) throws {
+        let url = folder.appendingPathComponent("audio-pendiente.json")
+        if FileManager.default.fileExists(atPath: url.path) { try FileManager.default.removeItem(at: url) }
     }
 
     /// Archivos de audio pendientes de decisión, si el marcador existe.
@@ -343,7 +385,19 @@ public final class RecordingController: ObservableObject {
         guard let data = try? Data(contentsOf: marker),
               let object = try? JSONSerialization.jsonObject(with: data) as? [String: [String]],
               let names = object["files"] else { return [] }
-        return names.map { folder.appendingPathComponent($0) }
+        let root = folder.standardizedFileURL.path + "/"
+        return names.compactMap { name in
+            guard !name.hasPrefix("/"), !name.split(separator: "/").contains("..") else { return nil }
+            let candidate = folder.appendingPathComponent(name).standardizedFileURL
+            let realRoot = folder.resolvingSymlinksInPath().standardizedFileURL.path + "/"
+            guard candidate.path.hasPrefix(root), candidate.resolvingSymlinksInPath().standardizedFileURL.path.hasPrefix(realRoot) else { return nil }
+            // Compatibilidad con marcadores anteriores que guardaban solo basename.
+            if !name.contains("/"), !FileManager.default.fileExists(atPath: candidate.path) {
+                let legacy = folder.appendingPathComponent("AudioFuentes").appendingPathComponent(name)
+                if FileManager.default.fileExists(atPath: legacy.path), legacy.resolvingSymlinksInPath().standardizedFileURL.path.hasPrefix(realRoot) { return legacy }
+            }
+            return candidate
+        }
     }
 
     private func warningIfMissing() -> String? {

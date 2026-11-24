@@ -168,6 +168,7 @@ final class SessionModel: ObservableObject {
     @Published var tab: Tab = .notes
     /// Audio que quedó sin decidir al cerrar; se vuelve a preguntar al abrir.
     @Published private(set) var pendingAudio: [URL] = []
+    @Published private(set) var resolvingAudio = false
 
     let folderURL: URL
     private let repository: SessionRepository
@@ -190,24 +191,41 @@ final class SessionModel: ObservableObject {
     }
 
     func keepPendingAudio() async {
-        guard !pendingAudio.isEmpty, let finalizer else { return }
+        guard !pendingAudio.isEmpty, !resolvingAudio, let finalizer else { return }
+        resolvingAudio = true
+        errorMessage = nil
+        defer { resolvingAudio = false }
         do {
-            try await finalizer.combine(pendingAudio, to: folderURL.appendingPathComponent("audio.m4a"))
-            removePendingFiles()
+            let cleanup = AudioCleanupTransaction(folder: folderURL)
+            if !FileManager.default.fileExists(atPath: cleanup.journalURL.path) {
+                try cleanup.prepare(pendingAudio)
+                try await finalizer.combine(pendingAudio, to: folderURL.appendingPathComponent("audio.m4a"))
+                try cleanup.commit()
+            }
+            try cleanup.complete()
+            try RecordingController.clearPendingAudioMarker(in: folderURL)
+            try cleanup.finish()
+            pendingAudio = []
+            load()
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
     func discardPendingAudio() {
-        removePendingFiles()
+        guard !resolvingAudio else { return }
+        errorMessage = nil
+        do { try removePendingFiles() }
+        catch { errorMessage = error.localizedDescription }
     }
 
-    private func removePendingFiles() {
+    private func removePendingFiles() throws {
         for file in pendingAudio {
-            try? FileManager.default.removeItem(at: file)
+            if FileManager.default.fileExists(atPath: file.path) { try FileManager.default.removeItem(at: file) }
+            let sidecar = AudioTimelineFragment.sidecarURL(for: file)
+            if FileManager.default.fileExists(atPath: sidecar.path) { try FileManager.default.removeItem(at: sidecar) }
         }
-        RecordingController.clearPendingAudioMarker(in: folderURL)
+        try RecordingController.clearPendingAudioMarker(in: folderURL)
         pendingAudio = []
         load()
     }

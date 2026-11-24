@@ -76,6 +76,16 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - AC13 Guardar: sesión temporal con audio-pendiente.json y sistema-prueba.caf. Al abrir apareció «Audio pendiente de decisión». Guardar produjo audio.m4a de 3,0 s (2 canales, RMS 0,12945) y eliminó marcador y CAF.
 - AC13 Borrar: segundo CAF pendiente. Borrar eliminó marcador y CAF, no creó m4a y conservó sesion.json.
 - AC8: grabación real con solo audio del sistema, detenida a 01:46; estado «Procesada», botón «Generar resumen» y audio.m4a de 105,696 s (2 canales, RMS 0,14106, pico 0,63126).
-- AC12: implementado el NSAlert de cierre, pero no se pudo automatizar Cmd+Q ni AppleScript: macOS devuelve -10004 (Automatización/Accesibilidad). Queda prueba manual.
+- AC12 (histórico): el intento por AppleScript devolvió -10004, pero eso no demuestra que falte permiso. El 2026-11-24 se comprobó que DeepSeek Harness → System Events ya estaba activado. Queda validar Cmd+Q y las dos respuestas de cierre sobre la integración actual.
 - Suite: 66 pruebas, 0 fallos; build correcto.
+- Fecha: 2026-11-24. Commit: pendiente al escribir esta línea.
+
+## Recuperación con tramos y cierre (2026-11-24, 19:42–19:52)
+
+- AC12: Cmd+Q real mostró «Se está grabando»; «Seguir grabando» mantuvo el contador. «Detener y cerrar» exportó audio de 19,3725 s (2 canales, RMS 0,050947) y terminó el proceso. Repetido en pausa: exportó 11,4288 s (RMS 0,066328) y también terminó.
+- AC7 con motor temporal: grabación de sistema, tono 440 Hz, kill -9; al reabrir apareció «Recuperar grabación»; «Reanudar» capturó un segundo tramo; tras corregir la planificación, «Dar por terminada» exportó audio.m4a de 21,8888 s con el primer tramo (2,9055–10,0095 s) y el segundo (12,7901–21,8888 s) en orden, separados por el hueco real de la caída.
+- Fallo encontrado y corregido: el sidecar podía quedar una muestra por detrás del CAF tras la caída y los fragmentos se ordenaban por UUID, no por tiempo. Se incorpora la cola realmente presente y se ordena por sessionStart, validando solapes por fuente.
+- AC11: prueba reproducible scripts/test-audio-composition.sh; 5,0 s con 440 y 880 Hz simultáneos y 1320 Hz posterior; amplitudes 0,2 cada uno y fuga tardía de 440 Hz 3e-9.
+- Suite: 84 pruebas, 0 fallos. Build Debug correcto.
+- Límites: la sincronización de dos dispositivos físicos no se ha medido; AC6 nativo (reconexión automática) sigue sin implementar; AC10 sin verificar; AC14 solo con dobles.
 - Fecha: 2026-11-24. Commit: pendiente al escribir esta línea.

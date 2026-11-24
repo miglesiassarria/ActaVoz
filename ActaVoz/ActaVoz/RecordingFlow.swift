@@ -24,6 +24,8 @@ final class RecordingFlowModel: ObservableObject {
     @Published var awaitingAudioDecision = false
     @Published var isStarting = false
     @Published var createdTitle: String?
+    @Published var showsQuitConfirmation = false
+    @Published var waitingToQuit = false
     @Published var pendingRecovery: (summary: SessionSummary, marker: PendingRecording)?
 
     var onOpenSession: ((URL) -> Void)?
@@ -35,6 +37,9 @@ final class RecordingFlowModel: ObservableObject {
     private var controller: RecordingController?
     private var folder: URL?
     private var ticker: Task<Void, Never>?
+    private var externalOperations = 0
+    private var quitAfterStart = false
+    private var terminationScheduled = false
 
     init(
         repository: SessionRepository,
@@ -119,7 +124,8 @@ final class RecordingFlowModel: ObservableObject {
     func start() async {
         guard phase == .preparation, !isStarting else { return }
         isStarting = true
-        defer { isStarting = false }
+        errorMessage = nil
+        defer { finishStarting() }
 
         do {
             // El clic en Empezar autoriza la comprobación real; abrir el panel no.
@@ -155,7 +161,8 @@ final class RecordingFlowModel: ObservableObject {
     func resumeInterruptedSession() async {
         guard let pending = pendingRecovery, !isStarting else { return }
         isStarting = true
-        defer { isStarting = false }
+        errorMessage = nil
+        defer { finishStarting() }
         do {
             var resumed = options
             resumed.microphoneEnabled = pending.marker.sources.contains(.microphone)
@@ -190,12 +197,100 @@ final class RecordingFlowModel: ObservableObject {
         }
     }
 
-    func finishInterruptedSession() {
-        guard let pending = pendingRecovery else { return }
-        PendingRecordingStore(folder: pending.summary.folderURL).clear()
-        pendingRecovery = nil
-        onOpenSession?(pending.summary.folderURL)
-        dismiss()
+    func finishInterruptedSession() async {
+        guard let pending = pendingRecovery, !isStarting else { return }
+        isStarting = true
+        errorMessage = nil
+        defer { finishStarting() }
+        folder = pending.summary.folderURL
+        createdTitle = pending.summary.title
+        let recovered = RecordingController(folder: pending.summary.folderURL,
+            options: options, driver: driver, finalizer: CompositionAudioFinalizer(),
+            retentionPolicy: retentionPolicy(), restoredElapsed: pending.marker.elapsed)
+        controller = recovered
+        phase = .processing
+        statusText = "Procesando la reunión"
+        do {
+            try await recovered.finishInterruptedRecording()
+            pendingRecovery = nil
+            elapsed = recovered.elapsed
+            awaitingAudioDecision = recovered.hasPendingAudioDecision
+            statusText = recovered.status.displayName
+            phase = .finished
+        } catch {
+            errorMessage = error.localizedDescription
+            phase = .preparation
+        }
+    }
+
+    var blocksTermination: Bool {
+        isStarting || phase == .recording || phase == .processing || externalOperations > 0
+    }
+
+    func beginExternalOperation() { externalOperations += 1 }
+
+    func endExternalOperation(succeeded: Bool) {
+        externalOperations = max(0, externalOperations - 1)
+        completeDeferredQuit(succeeded: succeeded)
+    }
+
+    private func finishStarting() {
+        isStarting = false
+        guard quitAfterStart else {
+            completeDeferredQuit(succeeded: errorMessage == nil)
+            return
+        }
+        quitAfterStart = false
+        guard errorMessage == nil else { waitingToQuit = false; return }
+        if phase == .recording {
+            Task { await stopAndQuit() }
+        } else {
+            completeDeferredQuit(succeeded: true)
+        }
+    }
+
+    private func completeDeferredQuit(succeeded: Bool) {
+        guard waitingToQuit else { return }
+        guard succeeded else { waitingToQuit = false; return }
+        guard !blocksTermination, !terminationScheduled else { return }
+        waitingToQuit = false
+        terminationScheduled = true
+        // La terminación se solicita desde el onDismiss del sheet, una vez que
+        // AppKit ha terminado realmente la animación y liberado la modalidad.
+        if isPresented {
+            isPresented = false
+        } else {
+            finishQuitAfterDismissal()
+        }
+    }
+
+    func finishQuitAfterDismissal() {
+        guard terminationScheduled else { return }
+        terminationScheduled = false
+        NSApplication.shared.terminate(nil)
+    }
+
+    func requestQuit() {
+        guard !terminationScheduled else { return }
+        if phase == .processing || externalOperations > 0 {
+            waitingToQuit = true
+        } else if phase == .recording || isStarting {
+            showsQuitConfirmation = true
+        } else {
+            NSApplication.shared.terminate(nil)
+        }
+    }
+
+    func stopAndQuit() async {
+        showsQuitConfirmation = false
+        waitingToQuit = true
+        if isStarting { quitAfterStart = true; return }
+        if phase == .processing { return }
+        if phase == .recording {
+            _ = await stop()
+        } else {
+            completeDeferredQuit(succeeded: errorMessage == nil)
+        }
     }
 
     func togglePause() {
@@ -203,8 +298,10 @@ final class RecordingFlowModel: ObservableObject {
         tick()
     }
 
-    func stop() async {
-        guard let controller else { return }
+    @discardableResult
+    func stop() async -> Bool {
+        guard let controller, phase == .recording else { return false }
+        errorMessage = nil
         phase = .processing
         statusText = "Procesando la reunión"
         do {
@@ -222,16 +319,23 @@ final class RecordingFlowModel: ObservableObject {
             phase = .finished
         }
         stopTicker()
+        completeDeferredQuit(succeeded: errorMessage == nil)
+        return errorMessage == nil
     }
 
     func resolveAudio(keep: Bool) async {
+        guard let controller, !isStarting, phase == .finished else { return }
+        errorMessage = nil
+        phase = .processing
+        defer { completeDeferredQuit(succeeded: errorMessage == nil) }
         do {
-            try await controller?.resolveAudioDecision(keep: keep)
+            try await controller.resolveAudioDecision(keep: keep)
             awaitingAudioDecision = false
             statusText = "Procesada"
         } catch {
             errorMessage = error.localizedDescription
         }
+        phase = .finished
     }
 
     func showSession() {
@@ -297,6 +401,15 @@ struct RecordingFlowView: View {
         .interactiveDismissDisabled(model.isStarting || model.phase == .recording || model.phase == .processing)
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             if model.phase == .preparation { model.refreshAvailability() }
+        }
+        .alert("Se está grabando", isPresented: Binding(
+            get: { model.showsQuitConfirmation },
+            set: { model.showsQuitConfirmation = $0 }
+        )) {
+            Button("Seguir grabando", role: .cancel) { model.showsQuitConfirmation = false }
+            Button("Detener y cerrar", role: .destructive) { Task { await model.stopAndQuit() } }
+        } message: {
+            Text("Puedes seguir grabando o detener la sesión y cerrar ActaVoz.")
         }
         .alert("No se pudo completar", isPresented: errorBinding) {
             Button("Entendido", role: .cancel) { model.errorMessage = nil }
@@ -383,7 +496,7 @@ struct NewNotePanel: View {
                     .foregroundStyle(.secondary)
                 HStack {
                     Button("Reanudar") { Task { await model.resumeInterruptedSession() } }.disabled(model.isStarting)
-                    Button("Dar por terminada") { model.finishInterruptedSession() }.disabled(model.isStarting)
+                    Button("Dar por terminada") { Task { await model.finishInterruptedSession() } }.disabled(model.isStarting)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -454,6 +567,7 @@ struct RecordingPanel: View {
                 HStack(spacing: 12) {
                     Button(model.statusText == "En pausa" ? "Reanudar" : "Pausar") { model.togglePause() }
                     Button("Detener", role: .destructive) { Task { await model.stop() } }
+                    Button("Salir de ActaVoz") { model.requestQuit() }
                 }
             case .processing:
                 ProgressView("Procesando la reunión…")

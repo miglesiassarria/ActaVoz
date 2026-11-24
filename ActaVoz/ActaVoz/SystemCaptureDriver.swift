@@ -3,6 +3,8 @@ import CoreGraphics
 import CoreMedia
 import Foundation
 import CoreAudio
+import AudioToolbox
+import Darwin
 
 /// Captura de micrófono y audio-only con Core Audio taps, sin pedir pantalla.
 @MainActor
@@ -15,6 +17,10 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     private var sources: Set<CaptureSource> = []
     private var startedAt = Date()
     private var probe: SystemAudioPermission.Probe = .notChecked
+    // El actor puede reentrar mientras Core Audio espera a TCC.
+    private var starting = false
+    private var stopping = false
+    private var generation: UInt64 = 0
 
     func availability() -> CaptureAvailability {
         let microphone: PermissionState
@@ -32,7 +38,7 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
 
     func checkSystemAccess() async -> PermissionState {
         do {
-            try CoreAudioSystemTap.requestAccess()
+            try await CoreAudioSystemTap.requestAccess()
             // Crear el objeto tap no demuestra autorización ni llegada de audio.
             probe = .notChecked
         } catch {
@@ -42,24 +48,42 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     }
 
     func start(_ plan: CapturePlan, folder: URL) async throws {
+        guard !starting, !stopping, sources.isEmpty else { throw CaptureError.alreadyRecording }
+        starting = true
+        generation &+= 1
+        let thisGeneration = generation
+        defer { starting = false }
         let audioFolder = folder.appendingPathComponent("AudioFuentes", isDirectory: true)
         try FileManager.default.createDirectory(at: audioFolder, withIntermediateDirectories: true)
-        writer.begin()
-        let fragment = UUID().uuidString
+        let fragment = UUID()
+        // Recovery starts after the last persisted sample, never at zero.
+        let existing = try FileManager.default.contentsOfDirectory(at: audioFolder, includingPropertiesForKeys: nil)
+            .filter { $0.pathExtension == "caf" }
+        let prior = try existing.map { url -> AudioTimelinePlanner.Input in
+            let file = try AVAudioFile(forReading: url)
+            return .init(url: url, duration: Double(file.length) / file.processingFormat.sampleRate,
+                         metadata: try AudioTimelineFragment.load(for: url))
+        }
+        let offset = try AudioTimelinePlanner.plan(prior).map { $0.sessionStart + $0.duration }.max() ?? 0
+        writer.begin(segmentID: fragment, sessionStart: offset, hostStart: Self.hostSeconds())
         startedAt = Date()
         sources = []
         var failures: [String] = []
         if plan.sources.contains(.microphone) {
             do {
-                try startMicrophone(at: audioFolder.appendingPathComponent("microfono-\(fragment).caf"))
+                try startMicrophone(at: audioFolder.appendingPathComponent("microfono-\(fragment).caf"), deviceUID: plan.microphoneDeviceID)
                 sources.insert(.microphone)
             } catch { failures.append("Micrófono: \(error.localizedDescription)") }
         }
         if plan.sources.contains(.system) {
             do {
                 try await startSystemAudio(at: audioFolder.appendingPathComponent("sistema-\(fragment).caf"))
+                guard generation == thisGeneration else { throw CancellationError() }
                 sources.insert(.system)
-            } catch { failures.append("Audio del sistema: \(error.localizedDescription)") }
+            } catch {
+                if generation != thisGeneration { throw CancellationError() }
+                failures.append("Audio del sistema: \(error.localizedDescription)")
+            }
         }
         guard !sources.isEmpty else { throw CaptureError.driverFailed(failures.joined(separator: "\n")) }
         // El controlador recibe el estado de las fuentes cuando ya terminó start().
@@ -75,26 +99,57 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     func resume() { writer.setPaused(false) }
 
     func stop() async throws -> [CaptureSource: URL] {
+        guard !stopping else { throw CaptureError.driverFailed("La captura ya se está deteniendo.") }
+        stopping = true
+        defer { stopping = false }
+        // Invalida el start suspendido antes de esperar al cleanup serializado.
+        generation &+= 1
         if microphoneTapInstalled {
             engine.inputNode.removeTap(onBus: 0)
             microphoneTapInstalled = false
         }
         engine.stop()
-        systemTap.stop()
+        await systemTap.stop()
         sources = []
-        return writer.finish()
+        return try writer.finish()
     }
 
-    private func startMicrophone(at url: URL) throws {
+    private static func hostSeconds() -> Double { AVAudioTime.seconds(forHostTime: mach_absolute_time()) }
+
+    private func startMicrophone(at url: URL, deviceUID: String?) throws {
         let input = engine.inputNode
+        if let deviceUID {
+            var address = AudioObjectPropertyAddress(mSelector: kAudioHardwarePropertyDevices,
+                mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+            var size: UInt32 = 0
+            var status = AudioObjectGetPropertyDataSize(AudioObjectID(kAudioObjectSystemObject), &address, 0, nil, &size)
+            guard status == noErr else { throw CaptureError.driverFailed("No se pueden enumerar micrófonos: \(status)") }
+            var devices = [AudioDeviceID](repeating: 0, count: Int(size) / MemoryLayout<AudioDeviceID>.size)
+            status = devices.withUnsafeMutableBytes { AudioObjectGetPropertyData(AudioObjectID(kAudioObjectSystemObject), &address, 0, nil, &size, $0.baseAddress!) }
+            guard status == noErr else { throw CaptureError.driverFailed("No se pueden leer micrófonos: \(status)") }
+            let selected = devices.first { device in
+                var uidAddress = AudioObjectPropertyAddress(mSelector: kAudioDevicePropertyDeviceUID,
+                    mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+                var uid: CFString = "" as CFString
+                var uidSize = UInt32(MemoryLayout<CFString>.size)
+                return AudioObjectGetPropertyData(device, &uidAddress, 0, nil, &uidSize, &uid) == noErr && uid as String == deviceUID
+            }
+            guard var device = selected, let unit = input.audioUnit else {
+                throw CaptureError.driverFailed("El micrófono seleccionado ya no está disponible.")
+            }
+            status = AudioUnitSetProperty(unit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0,
+                                          &device, UInt32(MemoryLayout<AudioDeviceID>.size))
+            guard status == noErr else { throw CaptureError.driverFailed("No se puede seleccionar el micrófono: \(status)") }
+        }
         let format = input.outputFormat(forBus: 0)
         guard format.sampleRate > 0, format.channelCount > 0 else {
             throw CaptureError.driverFailed("El micrófono no ofrece un formato válido.")
         }
         let writer = self.writer
-        input.installTap(onBus: 0, bufferSize: 2048, format: format) { [weak self] buffer, _ in
+        input.installTap(onBus: 0, bufferSize: 2048, format: format) { [weak self] buffer, time in
             do {
-                if try writer.write(buffer, source: .microphone, url: url) {
+                guard time.isHostTimeValid else { throw CaptureError.driverFailed("El micrófono no proporciona hostTime.") }
+                if try writer.write(buffer, source: .microphone, url: url, hostTime: time.hostTime) {
                     DispatchQueue.main.async { self?.onEvent?(.chunk(.microphone, start: 0, end: 0)) }
                 }
             } catch {
@@ -113,9 +168,9 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
 
     private func startSystemAudio(at url: URL) async throws {
         let writer = self.writer
-        try systemTap.start { [weak self] pcm in
+        try await systemTap.start { [weak self] pcm, hostTime in
             do {
-                if try writer.write(pcm, source: .system, url: url) {
+                if try writer.write(pcm, source: .system, url: url, hostTime: hostTime) {
                     DispatchQueue.main.async { self?.onEvent?(.chunk(.system, start: 0, end: 0)) }
                 }
             } catch {
@@ -133,25 +188,86 @@ private final class CaptureAudioWriter: @unchecked Sendable {
     private let lock = NSLock()
     private var files: [CaptureSource: AVAudioFile] = [:]
     private var urls: [CaptureSource: URL] = [:]
-    private var paused = false
-    private var closed = false
-    func begin() { lock.lock(); defer { lock.unlock() }; paused = false; closed = false }
-    func setPaused(_ paused: Bool) { lock.lock(); defer { lock.unlock() }; self.paused = paused }
-    func write(_ buffer: AVAudioPCMBuffer, source: CaptureSource, url: URL) throws -> Bool {
+    private var metadata: [CaptureSource: AudioTimelineFragment] = [:]
+    private var segmentID = UUID()
+    private var clock = AudioTimelineClock(hostStart: 0, sessionStart: 0)
+    private var closed = true
+    private var failures: [CaptureSource: Error] = [:]
+    func begin(segmentID: UUID, sessionStart: Double, hostStart: Double) {
         lock.lock(); defer { lock.unlock() }
-        guard !paused, !closed else { return false }
-        if files[source] == nil {
-            files[source] = try AVAudioFile(forWriting: url, settings: buffer.format.settings,
-                commonFormat: buffer.format.commonFormat, interleaved: buffer.format.isInterleaved)
-            urls[source] = url
-        }
-        try files[source]!.write(from: buffer)
-        return true
+        files.removeAll(); urls.removeAll(); metadata.removeAll()
+        self.segmentID = segmentID
+        clock = AudioTimelineClock(hostStart: hostStart, sessionStart: sessionStart)
+        closed = false; failures.removeAll()
     }
-    func finish() -> [CaptureSource: URL] {
+    func setPaused(_ paused: Bool) {
+        lock.lock(); defer { lock.unlock() }
+        let host = AVAudioTime.seconds(forHostTime: mach_absolute_time())
+        if paused { clock.pause(at: host) } else { clock.resume(at: host) }
+    }
+    func write(_ buffer: AVAudioPCMBuffer, source: CaptureSource, url: URL, hostTime: UInt64) throws -> Bool {
+        lock.lock(); defer { lock.unlock() }
+        guard !closed else { return false }
+        if let failure = failures[source] { throw failure }
+        let rate = buffer.format.sampleRate
+        let slices = clock.slices(hostStart: AVAudioTime.seconds(forHostTime: hostTime),
+                                  duration: Double(buffer.frameLength) / rate)
+        guard !slices.isEmpty else { return false }
+        do {
+            if files[source] == nil {
+                // Publish even an empty sidecar before creating audio: a crash must
+                // never make a new timed CAF look like an old zero-origin file.
+                let initial = AudioTimelineFragment(source: source, segmentID: segmentID)
+                try initial.save(for: url)
+                metadata[source] = initial
+                files[source] = try AVAudioFile(forWriting: url, settings: buffer.format.settings,
+                    commonFormat: buffer.format.commonFormat, interleaved: buffer.format.isInterleaved)
+                urls[source] = url
+            }
+            let file = files[source]!
+            for slice in slices {
+                let first = Int((slice.bufferOffset * rate).rounded())
+                let count = min(Int(buffer.frameLength) - first, Int((slice.duration * rate).rounded()))
+                guard count > 0, let trimmed = AVAudioPCMBuffer(pcmFormat: buffer.format, frameCapacity: AVAudioFrameCount(count)) else { continue }
+                trimmed.frameLength = AVAudioFrameCount(count)
+                let input = UnsafeMutableAudioBufferListPointer(buffer.mutableAudioBufferList)
+                let output = UnsafeMutableAudioBufferListPointer(trimmed.mutableAudioBufferList)
+                let stride = Int(buffer.format.streamDescription.pointee.mBytesPerFrame)
+                for index in 0..<input.count {
+                    guard let src = input[index].mData, let dst = output[index].mData else {
+                        throw CaptureError.driverFailed("Búfer de audio no válido.")
+                    }
+                    memcpy(dst, src.advanced(by: first * stride), count * stride)
+                }
+                let fileStart = Double(file.length) / rate
+                try file.write(from: trimmed)
+                if let last = metadata[source]!.spans.last,
+                   abs(last.fileStart + last.duration - fileStart) < 1 / rate,
+                   abs(last.sessionStart + last.duration - slice.sessionStart) < 2 / rate {
+                    metadata[source]!.spans[metadata[source]!.spans.count - 1].duration += Double(count) / rate
+                } else {
+                    // Frame rounding cannot create overlapping placements.
+                    let previousEnd = metadata[source]!.end
+                    guard slice.sessionStart >= previousEnd - 2 / rate else {
+                        throw CaptureError.driverFailed("Audio recibido fuera de orden. Se conservan los fragmentos originales.")
+                    }
+                    metadata[source]!.spans.append(.init(fileStart: fileStart, sessionStart: max(previousEnd, slice.sessionStart),
+                                                          duration: Double(count) / rate))
+                }
+                // Atomic checkpoint after every successfully written buffer.
+                try metadata[source]!.save(for: url)
+            }
+            return true
+        } catch {
+            failures[source] = error // Un fallo de una fuente no bloquea la otra.
+            throw error
+        }
+    }
+    func finish() throws -> [CaptureSource: URL] {
         lock.lock(); defer { lock.unlock() }
         closed = true
-        files.removeAll() // Cierra cabeceras CAF antes de exportar.
+        files.removeAll() // Close CAF headers, preserving every original on failure.
+        if let failure = failures.values.first { throw failure }
         let result = urls
         urls.removeAll()
         return result
@@ -161,13 +277,35 @@ private final class CaptureAudioWriter: @unchecked Sendable {
 struct CompositionAudioFinalizer: AudioFinalizing {
     func combine(_ sources: [URL], to destination: URL) async throws {
         let composition = AVMutableComposition()
+        var assets: [AVURLAsset] = [] // Retener cada asset durante toda la exportación asíncrona.
+        var inputs: [AudioTimelinePlanner.Input] = []
+        var audioTracks: [URL: AVAssetTrack] = [:]
         for url in sources {
             let asset = AVURLAsset(url: url)
+            assets.append(asset)
             let tracks = try await asset.loadTracks(withMediaType: .audio)
             let duration = try await asset.load(.duration)
-            guard let track = tracks.first, duration.seconds > 0,
-                  let composed = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) else { continue }
-            try composed.insertTimeRange(CMTimeRange(start: .zero, duration: duration), of: track, at: .zero)
+            guard let track = tracks.first, duration.seconds.isFinite, duration.seconds > 0 else {
+                throw CaptureError.driverFailed("Un fragmento no contiene audio válido. Se conservan todos los originales.")
+            }
+            audioTracks[url] = track
+            inputs.append(.init(url: url, duration: duration.seconds, metadata: try AudioTimelineFragment.load(for: url)))
+        }
+        let placements = try AudioTimelinePlanner.plan(inputs)
+        for url in sources {
+            guard let track = audioTracks[url],
+                  let composed = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) else {
+                throw CaptureError.driverFailed("No se puede crear la pista de audio. Se conservan los fragmentos.")
+            }
+            for placement in placements.filter({ $0.url == url }).sorted(by: { $0.sessionStart < $1.sessionStart }) {
+                let target = CMTime(seconds: placement.sessionStart, preferredTimescale: 1_000_000_000)
+                if CMTimeCompare(target, composed.timeRange.duration) > 0 {
+                    composed.insertEmptyTimeRange(CMTimeRange(start: composed.timeRange.duration, duration: CMTimeSubtract(target, composed.timeRange.duration)))
+                }
+                try composed.insertTimeRange(CMTimeRange(start: CMTime(seconds: placement.fileStart, preferredTimescale: 1_000_000_000),
+                    duration: CMTime(seconds: placement.duration, preferredTimescale: 1_000_000_000)), of: track,
+                    at: CMTime(seconds: placement.sessionStart, preferredTimescale: 1_000_000_000))
+            }
         }
         guard !composition.tracks(withMediaType: .audio).isEmpty,
               let export = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetAppleM4A) else {
@@ -176,6 +314,7 @@ struct CompositionAudioFinalizer: AudioFinalizing {
         let temporary = destination.deletingLastPathComponent().appendingPathComponent("audio-\(UUID().uuidString).m4a")
         do {
             try await export.export(to: temporary, as: .m4a)
+            withExtendedLifetime(assets) {}
             if FileManager.default.fileExists(atPath: destination.path) {
                 _ = try FileManager.default.replaceItemAt(destination, withItemAt: temporary)
             } else { try FileManager.default.moveItem(at: temporary, to: destination) }

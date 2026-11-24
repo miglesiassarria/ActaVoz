@@ -33,7 +33,7 @@ struct RootView: View {
                         onNewNote: { recording.present() }
                     )
                     .task { recording.presentRecoveryIfNeeded() }
-                    .sheet(isPresented: recordingBinding) {
+                    .sheet(isPresented: recordingBinding, onDismiss: { recording.finishQuitAfterDismissal() }) {
                         RecordingFlowView(model: recording)
                             .onAppear {
                                 recording.onOpenSession = { folder in
