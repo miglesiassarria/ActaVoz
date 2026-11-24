@@ -96,3 +96,11 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Resultado: grabación solo de sistema con tono 440 Hz; estado «Procesada»; audio.m4a de 11,6920 s, 2 canales, RMS 0,104774 y pico 0,832068.
 - Límite: se bloquea la salida de red del proceso, no se apaga la interfaz del Mac; demuestra que captura y exportación no dependen de internet.
 - Fecha: 2026-11-24. Commit: pendiente.
+
+## Monitor nativo de fuentes (2026-11-24)
+
+- Implementado en SystemCaptureDriver: si una fuente activa no entrega búferes durante 4 s, se emite sourceLost, se cierra el tramo, se crea uno nuevo con sessionStart posterior al último sample persistido y se reinician las fuentes. sourceRecovered solo se emite tras un búfer escrito con la época vigente.
+- La pausa por pérdida ya no pausa el escritor, para permitir confirmar el primer búfer y reanudar.
+- Pruebas: 84 con 0 fallos, incluida la semántica de pausa por pérdida; BUILD SUCCEEDED.
+- Límite: no se pudo verificar con desconexión física. Al recompilar cambia el cdhash de la firma ad hoc y TCC volvió a «Sin solicitar»; la ventana quedó bloqueada esperando permisos.
+- Fecha: 2026-11-24. Commit: pendiente.

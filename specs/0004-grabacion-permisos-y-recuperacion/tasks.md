@@ -47,7 +47,7 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | AC3 | parcial | Captura dual real verificada; faltan selección efectiva de micrófono y precisión de sincronización. |
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
 | AC5 | cumplido con matiz | Pausa real: contador 00:20 y CAF sin crecer; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante la pausa. |
-| AC6 | parcial | Los dobles cubren estados del controlador; el driver nativo todavía no detecta/reconecta fuentes automáticamente. |
+| AC6 | parcial | Monitor nativo: 4 s sin buffers marca pérdida, cierra el tramo, reinicia fuentes y solo anuncia recuperación tras un búfer válido; probado a nivel de controlador y compilación. Falta desconexión física real. |
 | AC7 | cumplido (2026-11-24) | Caída real con dos tramos: aviso automático, reanudación, terminación con exportación de 21,89 s y tramos en orden; corregidos cola CAF y orden por UUID. |
 | AC8 | cumplido | Grabación real de 105,7 s: estado Procesada y botón Generar resumen; m4a estéreo con RMS 0,1411. |
 | AC9 | cumplido | Tres políticas probadas con datos temporales; por defecto guardar. |

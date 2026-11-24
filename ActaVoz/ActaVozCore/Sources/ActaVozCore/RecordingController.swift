@@ -172,7 +172,9 @@ public final class RecordingController: ObservableObject {
             self.segmentStart = nil
         }
         elapsed = accumulated
-        driver.pause()
+        // La pérdida de fuentes no pausa el escritor: el driver debe poder
+        // confirmar el primer búfer de recuperación y reanudar después.
+        if reason == .user { driver.pause() }
         status = .paused(reason)
         persistMarker()
     }

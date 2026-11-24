@@ -21,6 +21,14 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     private var starting = false
     private var stopping = false
     private var generation: UInt64 = 0
+    private var activePlan: CapturePlan?
+    private var folderURL: URL?
+    private var healthTask: Task<Void, Never>?
+    private var restarting = false
+    private var pausedByUser = false
+    private var recovering: Set<CaptureSource> = []
+    private var segmentStartedAt = Date()
+    private var lastRecoveryAttempt = Date.distantPast
 
     func availability() -> CaptureAvailability {
         let microphone: PermissionState
@@ -93,10 +101,22 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
                 for source in failedSources { self?.onEvent?(.failed(source, failures.joined(separator: "\n"))) }
             }
         }
+        activePlan = plan
+        folderURL = folder
+        segmentStartedAt = Date()
+        lastRecoveryAttempt = Date()
+        startHealthMonitoring()
     }
 
-    func pause() { writer.setPaused(true) }
-    func resume() { writer.setPaused(false) }
+    func pause() {
+        pausedByUser = true
+        writer.setPaused(true)
+    }
+
+    func resume() {
+        pausedByUser = false
+        writer.setPaused(false)
+    }
 
     func stop() async throws -> [CaptureSource: URL] {
         guard !stopping else { throw CaptureError.driverFailed("La captura ya se está deteniendo.") }
@@ -104,6 +124,12 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         defer { stopping = false }
         // Invalida el start suspendido antes de esperar al cleanup serializado.
         generation &+= 1
+        healthTask?.cancel()
+        healthTask = nil
+        activePlan = nil
+        folderURL = nil
+        pausedByUser = false
+        recovering = []
         if microphoneTapInstalled {
             engine.inputNode.removeTap(onBus: 0)
             microphoneTapInstalled = false
@@ -146,11 +172,12 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
             throw CaptureError.driverFailed("El micrófono no ofrece un formato válido.")
         }
         let writer = self.writer
+        let epoch = writer.currentEpoch()
         input.installTap(onBus: 0, bufferSize: 2048, format: format) { [weak self] buffer, time in
             do {
                 guard time.isHostTimeValid else { throw CaptureError.driverFailed("El micrófono no proporciona hostTime.") }
-                if try writer.write(buffer, source: .microphone, url: url, hostTime: time.hostTime) {
-                    DispatchQueue.main.async { self?.onEvent?(.chunk(.microphone, start: 0, end: 0)) }
+                if try writer.write(buffer, source: .microphone, url: url, hostTime: time.hostTime, epoch: epoch) {
+                    DispatchQueue.main.async { self?.didReceive(.microphone) }
                 }
             } catch {
                 DispatchQueue.main.async { self?.onEvent?(.failed(.microphone, error.localizedDescription)) }
@@ -168,10 +195,11 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
 
     private func startSystemAudio(at url: URL) async throws {
         let writer = self.writer
+        let epoch = writer.currentEpoch()
         try await systemTap.start { [weak self] pcm, hostTime in
             do {
-                if try writer.write(pcm, source: .system, url: url, hostTime: hostTime) {
-                    DispatchQueue.main.async { self?.onEvent?(.chunk(.system, start: 0, end: 0)) }
+                if try writer.write(pcm, source: .system, url: url, hostTime: hostTime, epoch: epoch) {
+                    DispatchQueue.main.async { self?.didReceive(.system) }
                 }
             } catch {
                 DispatchQueue.main.async { self?.onEvent?(.failed(.system, error.localizedDescription)) }
@@ -180,6 +208,90 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         probe = .accessible
     }
 
+    private func startHealthMonitoring() {
+        healthTask?.cancel()
+        healthTask = Task { @MainActor [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                guard !Task.isCancelled, let self else { return }
+                await self.checkHealth()
+            }
+        }
+    }
+
+    private func didReceive(_ source: CaptureSource) {
+        guard !stopping else { return }
+        if !sources.contains(source) { sources.insert(source) }
+        if recovering.remove(source) != nil {
+            onEvent?(.sourceRecovered(source))
+        }
+    }
+
+    private func checkHealth() async {
+        guard !pausedByUser, !starting, !stopping, !restarting, !sources.isEmpty || !recovering.isEmpty else { return }
+        let now = Date()
+        let stalled = sources.filter { source in
+            if let last = writer.lastWriteAt(source) { return now.timeIntervalSince(last) > 4 }
+            return now.timeIntervalSince(segmentStartedAt) > 4
+        }
+        if !stalled.isEmpty {
+            for source in stalled {
+                sources.remove(source)
+                recovering.insert(source)
+                onEvent?(.sourceLost(source))
+            }
+            await recoverSources()
+        } else if sources.isEmpty, !recovering.isEmpty,
+                  now.timeIntervalSince(lastRecoveryAttempt) > 5 {
+            await recoverSources()
+        }
+    }
+
+    /// Reabre un tramo nuevo tras una pérdida. No borra archivos previos.
+    private func recoverSources() async {
+        guard !restarting, !stopping, let plan = activePlan, let folder = folderURL else { return }
+        restarting = true
+        let attemptGeneration = generation
+        defer {
+            restarting = false
+            lastRecoveryAttempt = Date()
+        }
+        if microphoneTapInstalled {
+            engine.inputNode.removeTap(onBus: 0)
+            microphoneTapInstalled = false
+        }
+        engine.stop()
+        await systemTap.stop()
+        guard !stopping, generation == attemptGeneration else { return }
+        _ = try? writer.finish()
+        let offset = persistedSessionEnd()
+        let fragment = UUID()
+        writer.begin(segmentID: fragment, sessionStart: offset, hostStart: Self.hostSeconds())
+        segmentStartedAt = Date()
+        let audioFolder = folder.appendingPathComponent("AudioFuentes", isDirectory: true)
+        sources = []
+        recovering.formUnion(plan.sources)
+        if plan.sources.contains(.microphone) {
+            do {
+                try startMicrophone(at: audioFolder.appendingPathComponent("microfono-\(fragment).caf"),
+                                    deviceUID: plan.microphoneDeviceID)
+            } catch {}
+        }
+        if plan.sources.contains(.system) {
+            do {
+                try await startSystemAudio(at: audioFolder.appendingPathComponent("sistema-\(fragment).caf"))
+            } catch {}
+        }
+    }
+
+    private func persistedSessionEnd() -> Double {
+        guard let folderURL else { return 0 }
+        let directory = folderURL.appendingPathComponent("AudioFuentes", isDirectory: true)
+        let files = (try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)) ?? []
+        return files.filter { $0.pathExtension == "caf" }
+            .compactMap { try? AudioTimelineFragment.load(for: $0)?.end }
+            .max() ?? 0
+    }
 }
 
 /// Serializa escrituras y cierre; el archivo adopta el formato real del primer
@@ -193,9 +305,12 @@ private final class CaptureAudioWriter: @unchecked Sendable {
     private var clock = AudioTimelineClock(hostStart: 0, sessionStart: 0)
     private var closed = true
     private var failures: [CaptureSource: Error] = [:]
+    private var lastWrite: [CaptureSource: Date] = [:]
+    private var epoch = 0
     func begin(segmentID: UUID, sessionStart: Double, hostStart: Double) {
         lock.lock(); defer { lock.unlock() }
-        files.removeAll(); urls.removeAll(); metadata.removeAll()
+        files.removeAll(); urls.removeAll(); metadata.removeAll(); lastWrite.removeAll()
+        epoch &+= 1
         self.segmentID = segmentID
         clock = AudioTimelineClock(hostStart: hostStart, sessionStart: sessionStart)
         closed = false; failures.removeAll()
@@ -205,9 +320,11 @@ private final class CaptureAudioWriter: @unchecked Sendable {
         let host = AVAudioTime.seconds(forHostTime: mach_absolute_time())
         if paused { clock.pause(at: host) } else { clock.resume(at: host) }
     }
-    func write(_ buffer: AVAudioPCMBuffer, source: CaptureSource, url: URL, hostTime: UInt64) throws -> Bool {
+    func currentEpoch() -> Int { lock.lock(); defer { lock.unlock() }; return epoch }
+    func lastWriteAt(_ source: CaptureSource) -> Date? { lock.lock(); defer { lock.unlock() }; return lastWrite[source] }
+    func write(_ buffer: AVAudioPCMBuffer, source: CaptureSource, url: URL, hostTime: UInt64, epoch expected: Int) throws -> Bool {
         lock.lock(); defer { lock.unlock() }
-        guard !closed else { return false }
+        guard !closed, epoch == expected else { return false }
         if let failure = failures[source] { throw failure }
         let rate = buffer.format.sampleRate
         let slices = clock.slices(hostStart: AVAudioTime.seconds(forHostTime: hostTime),
@@ -241,6 +358,7 @@ private final class CaptureAudioWriter: @unchecked Sendable {
                 }
                 let fileStart = Double(file.length) / rate
                 try file.write(from: trimmed)
+                lastWrite[source] = Date()
                 if let last = metadata[source]!.spans.last,
                    abs(last.fileStart + last.duration - fileStart) < 1 / rate,
                    abs(last.sessionStart + last.duration - slice.sessionStart) < 2 / rate {

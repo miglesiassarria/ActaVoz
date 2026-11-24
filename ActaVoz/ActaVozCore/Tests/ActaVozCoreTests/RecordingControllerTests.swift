@@ -281,6 +281,9 @@ final class RecordingControllerTests: XCTestCase {
 
         driver.emit(.sourceLost(.system))
         XCTAssertEqual(controller.status, .paused(.sourcesLost))
+        // La pausa por pérdida no debe bloquear el escritor: el driver necesita
+        // confirmar el primer búfer y reanudar al recuperar la fuente.
+        XCTAssertFalse(driver.paused)
         XCTAssertTrue(controller.activeSources.isEmpty)
 
         driver.emit(.sourceRecovered(.system))
