@@ -28,6 +28,9 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
     private var pausedByUser = false
     private var recovering: Set<CaptureSource> = []
     private var health = CaptureHealthMonitor()
+    // La rotación automática aún no está verificada con hardware y puede
+    // generar tramos parciales; no se activa en producción.
+    private let automaticRecoveryEnabled = false
 
     func availability() -> CaptureAvailability {
         let microphone: PermissionState
@@ -45,9 +48,10 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
 
     func checkSystemAccess() async -> PermissionState {
         do {
-            try await CoreAudioSystemTap.requestAccess()
-            // Crear el objeto tap no demuestra autorización ni llegada de audio.
-            probe = .notChecked
+            // Iniciar y parar un tap real dispara la comprobación TCC; crear el
+            // objeto sin arrancarlo no solicita nada y dejaba el botón inerte.
+            try await systemTap.probeAccess()
+            probe = .accessible
         } catch {
             probe = .unavailable
         }
@@ -103,7 +107,7 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         activePlan = plan
         folderURL = folder
         health.beginSegment(at: Date())
-        startHealthMonitoring()
+        if automaticRecoveryEnabled { startHealthMonitoring() }
     }
 
     func pause() {

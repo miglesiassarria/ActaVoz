@@ -34,6 +34,23 @@ final class CoreAudioSystemTap {
         description.bundleIDs = [Bundle.main.bundleIdentifier ?? "app.actavoz.ActaVoz"]
         return description
     }
+    /// Arranca y detiene un tap real: `AudioDeviceStart` es lo que hace que
+    /// macOS evalúe y solicite el permiso de audio del sistema.
+    func probeAccess() async throws {
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            lifecycleQueue.async {
+                do {
+                    try self.startSync(handler: { _, _ in })
+                    self.stopSync()
+                    continuation.resume()
+                } catch {
+                    self.stopSync()
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
     func start(handler: @escaping (AVAudioPCMBuffer, UInt64) -> Void) async throws {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             lifecycleQueue.async {

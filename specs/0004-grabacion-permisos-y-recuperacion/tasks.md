@@ -43,11 +43,11 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | Criterio | Resultado | Evidencia |
 | --- | --- | --- |
 | AC1 | cumplido | Panel con idioma, perfiles, fuentes, dispositivo y «Empezar»; captura 01. |
-| AC2 | parcial | Explicación y solicitud lanzadas; el diálogo de macOS no se confirma. Si TCC no responde, la interfaz se libera a los 8 s en vez de quedar bloqueada (verificado en app real). |
+| AC2 | parcial | «Solicitar permisos» ahora arranca un tap real: verificado que audio del sistema pasa de «Sin verificar» a «Permitido» (micrófono ya estaba Permitido). Si TCC no responde, la interfaz se libera a los 8 s. Falta confirmar el diálogo de primera vez. |
 | AC3 | parcial | Captura dual real verificada; faltan selección efectiva de micrófono y precisión de sincronización. |
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
 | AC5 | cumplido con matiz | Pausa real: contador 00:20 y CAF sin crecer; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante la pausa. |
-| AC6 | parcial | Monitor nativo y CaptureHealthMonitor con 4 pruebas deterministas: 4 s sin buffers, independencia por fuente y reintento solo sin fuentes sanas. Falta desconexión física real. |
+| AC6 | parcial | Detección y política con 4 pruebas deterministas. La rotación automática se desactivó al comprobar que un micrófono que entrega un solo búfer genera tramos parciales y rompe la exportación; falta corregirla y probarla con hardware. |
 | AC7 | cumplido (2026-11-24) | Caída real con dos tramos: aviso automático, reanudación, terminación con exportación de 21,89 s y tramos en orden; corregidos cola CAF y orden por UUID. |
 | AC8 | cumplido | Grabación real de 105,7 s: estado Procesada y botón Generar resumen; m4a estéreo con RMS 0,1411. |
 | AC9 | cumplido | Tres políticas probadas con datos temporales; por defecto guardar. |
