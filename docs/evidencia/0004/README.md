@@ -104,3 +104,11 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Pruebas: 84 con 0 fallos, incluida la semántica de pausa por pérdida; BUILD SUCCEEDED.
 - Límite: no se pudo verificar con desconexión física. Al recompilar cambia el cdhash de la firma ad hoc y TCC volvió a «Sin solicitar»; la ventana quedó bloqueada esperando permisos.
 - Fecha: 2026-11-24. Commit: pendiente.
+
+## TCC sin diálogo y bloqueo de interfaz (2026-11-24)
+
+- Tras recompilar (nuevo cdhash ad hoc), micrófono y audio del sistema vuelven a «Sin solicitar». Al pulsar «Solicitar permisos», macOS no mostró diálogo y la app quedó indefinidamente en «Comprobando permisos…», con todos los botones deshabilitados.
+- Corrección: la solicitud de micrófono y la comprobación de audio del sistema tienen un límite de 8 s. Al vencer, se refresca la disponibilidad y la interfaz vuelve a permitir Cancelar, Empezar o Solicitar de nuevo.
+- Verificación real: se pulsó «Solicitar permisos»; a los 10 s los botones «Solicitar permisos», «Cancelar» y «Empezar» estaban habilitados y el estado seguía «Sin solicitar». No se concedió ningún permiso.
+- Límite: no se confirmó el diálogo TCC ni se pudo validar la reconexión física de AC6.
+- Fecha: 2026-11-24. Commit: pendiente.

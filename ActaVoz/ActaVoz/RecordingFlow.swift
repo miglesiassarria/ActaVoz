@@ -3,6 +3,24 @@ import AppKit
 import Combine
 import SwiftUI
 
+/// Resuelve una continuación una sola vez, aunque TCC responda tarde.
+private final class OnceContinuation<T>: @unchecked Sendable {
+    private let lock = NSLock()
+    private var continuation: CheckedContinuation<T, Never>?
+
+    init(_ continuation: CheckedContinuation<T, Never>) {
+        self.continuation = continuation
+    }
+
+    func resume(_ value: T) {
+        lock.lock()
+        let pending = continuation
+        continuation = nil
+        lock.unlock()
+        pending?.resume(returning: value)
+    }
+}
+
 /// Flujo de «Nueva nota»: panel previo, grabación, procesado y política de audio.
 @MainActor
 final class RecordingFlowModel: ObservableObject {
@@ -104,14 +122,26 @@ final class RecordingFlowModel: ObservableObject {
         Task { @MainActor in
             defer { checkingPermissions = false }
             if options.microphoneEnabled, snapshot.microphone == .undetermined {
-                _ = await AVCaptureDevice.requestAccess(for: .audio)
+                // TCC puede no mostrar diálogo con una firma ad hoc nueva y dejar
+                // la espera abierta para siempre. La interfaz no debe bloquearse.
+                _ = await Self.withTimeout(seconds: 8, fallback: false) {
+                    await AVCaptureDevice.requestAccess(for: .audio)
+                }
             }
             if options.systemEnabled, PermissionRequestPolicy.shouldRequest(userInitiated: true, inFlight: false, state: snapshot.system) {
-                // Una sola vía: ScreenCaptureKit solicita/resuelve el permiso.
-                // No encadenar CGRequestScreenCaptureAccess y otra petición.
-                _ = await driver.checkSystemAccess()
+                _ = await Self.withTimeout(seconds: 8, fallback: PermissionState.undetermined) {
+                    await self.driver.checkSystemAccess()
+                }
             }
             refreshAvailability()
+        }
+    }
+
+    private static func withTimeout<T>(seconds: Double, fallback: T, operation: @escaping () async -> T) async -> T {
+        await withCheckedContinuation { continuation in
+            let once = OnceContinuation(continuation)
+            Task { once.resume(await operation()) }
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { once.resume(fallback) }
         }
     }
 

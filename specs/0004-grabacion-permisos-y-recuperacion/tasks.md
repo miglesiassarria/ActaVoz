@@ -43,7 +43,7 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | Criterio | Resultado | Evidencia |
 | --- | --- | --- |
 | AC1 | cumplido | Panel con idioma, perfiles, fuentes, dispositivo y «Empezar»; captura 01. |
-| AC2 | parcial | Explicación y solicitud lanzadas; el diálogo de macOS no se pudo confirmar. |
+| AC2 | parcial | Explicación y solicitud lanzadas; el diálogo de macOS no se confirma. Si TCC no responde, la interfaz se libera a los 8 s en vez de quedar bloqueada (verificado en app real). |
 | AC3 | parcial | Captura dual real verificada; faltan selección efectiva de micrófono y precisión de sincronización. |
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
 | AC5 | cumplido con matiz | Pausa real: contador 00:20 y CAF sin crecer; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante la pausa. |
