@@ -78,7 +78,7 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - AC8: grabación real con solo audio del sistema, detenida a 01:46; estado «Procesada», botón «Generar resumen» y audio.m4a de 105,696 s (2 canales, RMS 0,14106, pico 0,63126).
 - AC12 (histórico): el intento por AppleScript devolvió -10004, pero eso no demuestra que falte permiso. El 2026-11-24 se comprobó que DeepSeek Harness → System Events ya estaba activado. Queda validar Cmd+Q y las dos respuestas de cierre sobre la integración actual.
 - Suite: 66 pruebas, 0 fallos; build correcto.
-- Fecha: 2026-11-24. Commit: pendiente al escribir esta línea.
+- Fecha: 2026-11-24. Commit: d051cac.
 
 ## Recuperación con tramos y cierre (2026-11-24, 19:42–19:52)
 
@@ -88,4 +88,4 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - AC11: prueba reproducible scripts/test-audio-composition.sh; 5,0 s con 440 y 880 Hz simultáneos y 1320 Hz posterior; amplitudes 0,2 cada uno y fuga tardía de 440 Hz 3e-9.
 - Suite: 84 pruebas, 0 fallos. Build Debug correcto.
 - Límites: la sincronización de dos dispositivos físicos no se ha medido; AC6 nativo (reconexión automática) sigue sin implementar; AC10 sin verificar; AC14 solo con dobles.
-- Fecha: 2026-11-24. Commit: pendiente al escribir esta línea.
+- Fecha: 2026-11-24. Commit: d051cac.
