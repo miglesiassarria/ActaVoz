@@ -47,9 +47,11 @@ final class RecordingFlowModel: ObservableObject {
     @Published var pendingRecovery: (summary: SessionSummary, marker: PendingRecording)?
 
     var onOpenSession: ((URL) -> Void)?
+    let liveTranscript = LiveTranscriptModel()
 
     private let repository: SessionRepository
     private let retentionPolicy: () -> AudioRetentionPolicy
+    private let profileStore: SpeakerProfileStore
     private let driver = SystemCaptureDriver()
     @Published var checkingPermissions = false
     private var controller: RecordingController?
@@ -61,10 +63,12 @@ final class RecordingFlowModel: ObservableObject {
 
     init(
         repository: SessionRepository,
-        retentionPolicy: @escaping () -> AudioRetentionPolicy = { .alwaysKeep }
+        retentionPolicy: @escaping () -> AudioRetentionPolicy = { .alwaysKeep },
+        profileStore: SpeakerProfileStore? = nil
     ) {
         self.repository = repository
         self.retentionPolicy = retentionPolicy
+        self.profileStore = profileStore ?? SpeakerProfileStore(fileURL: StorageLocations.production().profilesFile)
     }
 
     var canStart: Bool {
@@ -83,6 +87,7 @@ final class RecordingFlowModel: ObservableObject {
         elapsed = 0
         awaitingAudioDecision = false
         options = RecordingOptions()
+        liveTranscript.close()
         pendingRecovery = findPendingRecording()
         refreshAvailability()
         isPresented = true
@@ -173,9 +178,14 @@ final class RecordingFlowModel: ObservableObject {
                 options: options,
                 driver: driver,
                 finalizer: CompositionAudioFinalizer(),
-                retentionPolicy: retentionPolicy()
+                retentionPolicy: retentionPolicy(),
+                preserveSourceAudio: true
             )
             self.controller = controller
+            driver.onAudioBuffer = { [weak self] buffer, source in
+                self?.liveTranscript.consume(buffer, source: source)
+            }
+            liveTranscript.begin(language: options.language)
             try await controller.start()
             elapsed = controller.elapsed
             warning = controller.warning
@@ -211,7 +221,8 @@ final class RecordingFlowModel: ObservableObject {
                 driver: driver,
                 finalizer: CompositionAudioFinalizer(),
                 retentionPolicy: retentionPolicy(),
-                restoredElapsed: pending.marker.elapsed
+                restoredElapsed: pending.marker.elapsed,
+                preserveSourceAudio: true
             )
             self.controller = controller
             self.folder = pending.summary.folderURL
@@ -236,15 +247,18 @@ final class RecordingFlowModel: ObservableObject {
         createdTitle = pending.summary.title
         let recovered = RecordingController(folder: pending.summary.folderURL,
             options: options, driver: driver, finalizer: CompositionAudioFinalizer(),
-            retentionPolicy: retentionPolicy(), restoredElapsed: pending.marker.elapsed)
+            retentionPolicy: retentionPolicy(), restoredElapsed: pending.marker.elapsed,
+            preserveSourceAudio: true)
         controller = recovered
         phase = .processing
         statusText = "Procesando la reunión"
         do {
             try await recovered.finishInterruptedRecording()
+            liveTranscript.finish()
             pendingRecovery = nil
             elapsed = recovered.elapsed
             awaitingAudioDecision = recovered.hasPendingAudioDecision
+            await processSession()
             statusText = recovered.status.displayName
             phase = .finished
         } catch {
@@ -336,6 +350,8 @@ final class RecordingFlowModel: ObservableObject {
         statusText = "Procesando la reunión"
         do {
             _ = try await controller.stop()
+            liveTranscript.finish()
+            await processSession()
             if controller.status == .awaitingAudioDecision {
                 awaitingAudioDecision = true
                 phase = .finished
@@ -361,6 +377,7 @@ final class RecordingFlowModel: ObservableObject {
         do {
             try await controller.resolveAudioDecision(keep: keep)
             awaitingAudioDecision = false
+            await processSession()
             statusText = "Procesada"
         } catch {
             errorMessage = error.localizedDescription
@@ -373,6 +390,33 @@ final class RecordingFlowModel: ObservableObject {
             onOpenSession?(folder)
         }
         dismiss()
+    }
+
+    /// Transcripción y diarización locales sobre los CAF, una vez cerrada la captura.
+    private func processSession() async {
+        guard let folder else { return }
+        statusText = "Transcribiendo y separando voces…"
+        do {
+            let service = SessionProcessingService(
+                repository: repository,
+                diarizer: FluidAudioDiarizer(),
+                profileStore: profileStore
+            )
+            let result = try await service.process(
+                folder: folder,
+                options: SessionProcessingOptions(
+                    language: options.language,
+                    savesVoiceProfiles: options.savesVoiceProfiles,
+                    labelsMicrophoneAsMe: options.labelsMicrophoneAsMe
+                )
+            )
+            if let first = result.warnings.first {
+                warning = first
+            }
+            statusText = "Transcripción lista"
+        } catch {
+            warning = "No se pudo transcribir: \(error.localizedDescription)"
+        }
     }
 
     private func tick() {
@@ -480,6 +524,7 @@ struct NewNotePanel: View {
             }
 
             Toggle("Guardar perfiles de voz al confirmar nombres", isOn: profilesBinding)
+            Toggle("Etiquetar el micrófono como «Yo»", isOn: labelsMeBinding)
 
             GroupBox("Fuentes") {
                 VStack(alignment: .leading, spacing: 10) {
@@ -561,6 +606,9 @@ struct NewNotePanel: View {
     private var profilesBinding: Binding<Bool> {
         Binding(get: { model.options.savesVoiceProfiles }, set: { model.options.savesVoiceProfiles = $0 })
     }
+    private var labelsMeBinding: Binding<Bool> {
+        Binding(get: { model.options.labelsMicrophoneAsMe }, set: { model.options.labelsMicrophoneAsMe = $0 })
+    }
     private var micBinding: Binding<Bool> {
         Binding(get: { model.options.microphoneEnabled }, set: { model.options.microphoneEnabled = $0 })
     }
@@ -620,5 +668,49 @@ struct RecordingPanel: View {
             }
         }
         .padding(26)
+        .overlay(alignment: .bottomLeading) {
+            if model.liveTranscript.isVisible {
+                LiveTranscriptPanel(model: model.liveTranscript)
+                    .padding(16)
+                    .padding(.bottom, 90)
+            }
+        }
+    }
+}
+
+struct LiveTranscriptPanel: View {
+    @ObservedObject var model: LiveTranscriptModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Label("Transcripción en directo", systemImage: "waveform")
+                    .font(.caption.bold())
+                Spacer()
+                Button {
+                    model.close()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                }
+                .buttonStyle(.plain)
+                .help("Cerrar la transcripción en directo")
+            }
+            ScrollView {
+                Text(model.text)
+                    .font(.callout)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .textSelection(.enabled)
+            }
+            .frame(maxHeight: 130)
+            if let error = model.errorMessage {
+                Text(error)
+                    .font(.caption2)
+                    .foregroundStyle(.orange)
+            }
+        }
+        .padding(10)
+        .frame(width: 360, alignment: .leading)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(.quaternary))
     }
 }

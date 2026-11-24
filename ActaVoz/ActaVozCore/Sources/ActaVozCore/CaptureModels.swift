@@ -73,19 +73,23 @@ public struct RecordingOptions: Equatable, Sendable {
     public var microphoneEnabled: Bool
     public var systemEnabled: Bool
     public var microphoneDeviceID: String?
+    /// El micrófono se etiqueta «Yo» por defecto; se puede desactivar.
+    public var labelsMicrophoneAsMe: Bool
 
     public init(
         language: SessionLanguage = .spanish,
         savesVoiceProfiles: Bool = true,
         microphoneEnabled: Bool = true,
         systemEnabled: Bool = true,
-        microphoneDeviceID: String? = nil
+        microphoneDeviceID: String? = nil,
+        labelsMicrophoneAsMe: Bool = true
     ) {
         self.language = language
         self.savesVoiceProfiles = savesVoiceProfiles
         self.microphoneEnabled = microphoneEnabled
         self.systemEnabled = systemEnabled
         self.microphoneDeviceID = microphoneDeviceID
+        self.labelsMicrophoneAsMe = labelsMicrophoneAsMe
     }
 
     public var enabledSources: Set<CaptureSource> {

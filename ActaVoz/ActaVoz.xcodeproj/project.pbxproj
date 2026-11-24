@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AC7A000000000000000000A3 /* FluidAudio in Frameworks */ = {isa = PBXBuildFile; productRef = AC7A000000000000000000A2 /* FluidAudio */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		AC7A00000000000000000020 /* ActaVoz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActaVoz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -28,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC7A000000000000000000A3 /* FluidAudio in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +71,9 @@
 			);
 			dependencies = (
 			);
+			packageProductDependencies = (
+				AC7A000000000000000000A2 /* FluidAudio */,
+			);
 			fileSystemSynchronizedGroups = (
 				AC7A00000000000000000030 /* ActaVoz */,
 				AC7A00000000000000000031 /* ActaVozCore */,
@@ -91,6 +99,9 @@
 				};
 			};
 			buildConfigurationList = AC7A00000000000000000070 /* Build configuration list for PBXProject "ActaVoz" */;
+			packageReferences = (
+				AC7A000000000000000000A1 /* XCRemoteSwiftPackageReference "FluidAudio" */,
+			);
 			developmentRegion = es;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -109,6 +120,25 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AC7A000000000000000000A1 /* XCRemoteSwiftPackageReference "FluidAudio" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FluidInference/FluidAudio.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.18.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AC7A000000000000000000A2 /* FluidAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AC7A000000000000000000A1 /* XCRemoteSwiftPackageReference "FluidAudio" */;
+			productName = FluidAudio;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AC7A00000000000000000044 /* Resources */ = {

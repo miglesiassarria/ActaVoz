@@ -34,10 +34,28 @@ public enum SessionLanguage: String, Codable, Sendable, CaseIterable {
 public struct Participant: Codable, Equatable, Sendable, Identifiable {
     public var id: String
     public var name: String
+    /// Verdadero solo cuando la persona usuaria confirmó el nombre.
+    public var isConfirmed: Bool
+    /// Perfil de voz asociado, si existe.
+    public var profileID: String?
 
-    public init(id: String, name: String) {
+    public init(id: String, name: String, isConfirmed: Bool = false, profileID: String? = nil) {
         self.id = id
         self.name = name
+        self.isConfirmed = isConfirmed
+        self.profileID = profileID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id, name, isConfirmed, profileID
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        isConfirmed = try container.decodeIfPresent(Bool.self, forKey: .isConfirmed) ?? false
+        profileID = try container.decodeIfPresent(String.self, forKey: .profileID)
     }
 }
 
@@ -76,19 +94,33 @@ public struct TranscriptSegment: Codable, Equatable, Sendable, Identifiable {
     public var end: Double
     public var speakerId: String
     public var text: String
+    /// Fuente de captura que originó el segmento, si se conoce.
+    public var source: CaptureSource?
+    /// Confianza media del reconocedor, entre 0 y 1, si está disponible.
+    public var confidence: Double?
 
-    public init(id: String, start: Double, end: Double, speakerId: String, text: String) {
+    public init(
+        id: String,
+        start: Double,
+        end: Double,
+        speakerId: String,
+        text: String,
+        source: CaptureSource? = nil,
+        confidence: Double? = nil
+    ) {
         self.id = id
         self.start = start
         self.end = end
         self.speakerId = speakerId
         self.text = text
+        self.source = source
+        self.confidence = confidence
     }
 }
 
 /// Contenido de `transcripcion.json`.
 public struct Transcript: Codable, Equatable, Sendable {
-    public static let currentSchemaVersion = 1
+    public static let currentSchemaVersion = 2
 
     public var schemaVersion: Int
     public var language: SessionLanguage

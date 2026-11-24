@@ -79,11 +79,37 @@ struct SessionView: View {
             .foregroundStyle(.secondary)
 
             if !session.summary.metadata.participants.isEmpty {
-                HStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: 6) {
                     ForEach(session.summary.metadata.participants) { participant in
-                        TextField("Nombre", text: participantBinding(participant))
-                            .textFieldStyle(.roundedBorder)
-                            .frame(maxWidth: 170)
+                        HStack(spacing: 8) {
+                            TextField("Nombre", text: participantBinding(participant))
+                                .textFieldStyle(.roundedBorder)
+                                .frame(maxWidth: 170)
+                            if !participant.isConfirmed {
+                                Text("Sin confirmar")
+                                    .font(.caption)
+                                    .foregroundStyle(.orange)
+                                Button("Confirmar") {
+                                    model.confirmSpeaker(id: participant.id)
+                                }
+                                .font(.caption)
+                            }
+                            Menu("Fusionar") {
+                                ForEach(session.summary.metadata.participants.filter { $0.id != participant.id }) { other in
+                                    Button("Con \(other.name)") {
+                                        model.mergeSpeakers(source: participant.id, into: other.id)
+                                    }
+                                }
+                            }
+                            .font(.caption)
+                            .disabled(session.summary.metadata.participants.count < 2)
+                        }
+                        ForEach(model.nameSuggestions.filter { $0.speakerId == participant.id }) { suggestion in
+                            Button("Usar «\(suggestion.name)»") {
+                                model.confirmParticipant(id: participant.id, name: suggestion.name)
+                            }
+                            .font(.caption)
+                        }
                     }
                 }
             }
@@ -135,10 +161,31 @@ struct SessionView: View {
                                 .foregroundStyle(.secondary)
                             Text(speakerName(segment.speakerId, in: session))
                                 .font(.caption.bold())
+                            if let source = segment.source {
+                                Text(source.displayName)
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                         Text(segment.text).textSelection(.enabled)
                     }
                     .padding(.vertical, 3)
+                    .contextMenu {
+                        Menu("Reasignar a") {
+                            ForEach(session.summary.metadata.participants.filter { $0.id != segment.speakerId }) { participant in
+                                Button(participant.name) {
+                                    model.reassignSegment(id: segment.id, to: participant.id)
+                                }
+                            }
+                        }
+                        Menu("Fusionar interlocutor") {
+                            ForEach(session.summary.metadata.participants.filter { $0.id != segment.speakerId }) { participant in
+                                Button("Con \(participant.name)") {
+                                    model.mergeSpeakers(source: segment.speakerId, into: participant.id)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

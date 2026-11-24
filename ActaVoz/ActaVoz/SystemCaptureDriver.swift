@@ -10,6 +10,8 @@ import Darwin
 @MainActor
 final class SystemCaptureDriver: NSObject, CaptureDriver {
     var onEvent: ((CaptureEvent) -> Void)?
+    /// Copia de cada buffer válido para la vista previa en directo.
+    var onAudioBuffer: ((AVAudioPCMBuffer, CaptureSource) -> Void)?
     private let engine = AVAudioEngine()
     private let systemTap = CoreAudioSystemTap()
     private let writer = CaptureAudioWriter()
@@ -159,6 +161,19 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
 
     private static func hostSeconds() -> Double { AVAudioTime.seconds(forHostTime: mach_absolute_time()) }
 
+    private static func copyBuffer(_ buffer: AVAudioPCMBuffer) -> AVAudioPCMBuffer? {
+        guard let copy = AVAudioPCMBuffer(pcmFormat: buffer.format, frameCapacity: buffer.frameLength) else { return nil }
+        copy.frameLength = buffer.frameLength
+        let source = UnsafeMutableAudioBufferListPointer(buffer.mutableAudioBufferList)
+        let destination = UnsafeMutableAudioBufferListPointer(copy.mutableAudioBufferList)
+        for index in 0..<min(source.count, destination.count) {
+            guard let from = source[index].mData, let to = destination[index].mData else { continue }
+            memcpy(to, from, Int(source[index].mDataByteSize))
+            destination[index].mDataByteSize = source[index].mDataByteSize
+        }
+        return copy
+    }
+
     private func startMicrophone(at url: URL, deviceUID: String?) throws {
         let input = engine.inputNode
         if let deviceUID {
@@ -194,6 +209,9 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
             do {
                 guard time.isHostTimeValid else { throw CaptureError.driverFailed("El micrófono no proporciona hostTime.") }
                 if try writer.write(buffer, source: .microphone, url: url, hostTime: time.hostTime, epoch: epoch) {
+                    if let copy = Self.copyBuffer(buffer) {
+                        DispatchQueue.main.async { self?.onAudioBuffer?(copy, .microphone) }
+                    }
                     DispatchQueue.main.async { self?.didReceive(.microphone) }
                 }
             } catch {
@@ -216,6 +234,9 @@ final class SystemCaptureDriver: NSObject, CaptureDriver {
         try await systemTap.start { [weak self] pcm, hostTime in
             do {
                 if try writer.write(pcm, source: .system, url: url, hostTime: hostTime, epoch: epoch) {
+                    if let copy = Self.copyBuffer(pcm) {
+                        DispatchQueue.main.async { self?.onAudioBuffer?(copy, .system) }
+                    }
                     DispatchQueue.main.async { self?.didReceive(.system) }
                 }
             } catch {
