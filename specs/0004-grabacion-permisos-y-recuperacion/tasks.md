@@ -1,6 +1,6 @@
 # 0004 · Tareas: Captura y recuperación
 
-Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y audio pendiente verificados en la app real. Suite: 88 pruebas, 0 fallos. Quedan AC2, AC3 (sincronización física), AC6 nativo y AC14. Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
+Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y audio pendiente verificados en la app real. Suite: 88 pruebas, 0 fallos. Quedan AC3/AC11 (sincronización física) y AC6 (recuperación nativa). Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
 
 - [ ] **T1. Preparación y permisos**
   - Objetivo: cumplir AC1–AC4 de la spec.
@@ -43,7 +43,7 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | Criterio | Resultado | Evidencia |
 | --- | --- | --- |
 | AC1 | cumplido | Panel con idioma, perfiles, fuentes, dispositivo y «Empezar»; captura 01. |
-| AC2 | parcial | «Solicitar permisos» ahora arranca un tap real: verificado que audio del sistema pasa de «Sin verificar» a «Permitido» (micrófono ya estaba Permitido). Si TCC no responde, la interfaz se libera a los 8 s. Falta confirmar el diálogo de primera vez. |
+| AC2 | cumplido (2026-11-24) | Explicación visible; «Solicitar permisos» mostró el diálogo de micrófono y verificó audio del sistema; ambos Permitido. Con firma estable los permisos sobreviven a recompilar y volver a firmar. Si TCC no responde, la interfaz se libera a los 8 s. |
 | AC3 | parcial | Captura dual real verificada; faltan selección efectiva de micrófono y precisión de sincronización. |
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
 | AC5 | cumplido con matiz | Pausa real: contador 00:20 y CAF sin crecer; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante la pausa. |
@@ -55,4 +55,4 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | AC11 | parcial | Composición real reproducible: 5 s, 440+880 simultáneos y 1320 posterior, sin fuga (3e-9); recuperación real de 21,89 s. Falta medir desfase entre dos dispositivos físicos. |
 | AC12 | cumplido (2026-11-24) | Cmd+Q mostró confirmación y «Seguir grabando» mantuvo el contador; «Detener y cerrar» exportó 19,37 s y terminó el proceso; en pausa exportó 11,43 s y también cerró. |
 | AC13 | cumplido | Al reabrir: diálogo de audio pendiente; Guardar combinó un CAF de 3 s y eliminó marcador; Borrar eliminó CAF y marcador sin crear m4a. |
-| AC14 | parcial | Mensajes y acceso a Ajustes implementados; falta denegar y grabar con la otra fuente. |
+| AC14 | cumplido (2026-11-24) | Micrófono denegado con TCC real: aviso «Sin permiso para Micrófono. Se grabará con el resto.», botón Abrir Ajustes y exportación solo de sistema de 15,19 s. |

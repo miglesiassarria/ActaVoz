@@ -120,3 +120,12 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - El driver nativo usa esa misma política; suite total 88 pruebas, 0 fallos; composición de 5 s sigue pasando.
 - Límite: sigue sin verificarse la desconexión física porque TCC no mostró diálogo y el agente no puede concederlo.
 - Fecha: 2026-11-24. Commit: pendiente.
+
+## Firma local estable, permisos y AC14 (2026-11-24, 20:55–21:05)
+
+- Se creó el certificado autofirmado «ActaVoz Development» y se firmó el build Debug. Tras recompilar y volver a firmar, micrófono y audio del sistema conservaron «Permitido» sin nuevos avisos; el diálogo TCC de micrófono se observó y se concedió.
+- AC2 cumplido: explicación, solicitud explícita, diálogo real y persistencia con la identidad estable.
+- AC14 cumplido para micrófono: `tccutil reset Microphone`, solicitud, «No permitir»; la app mostró «Sin permiso para Micrófono. Se grabará con el resto.» y «Abrir Ajustes», grabó solo sistema y exportó 15,1897 s (RMS 0,0548).
+- Corrección del micrófono: sus timestamps pueden solaparse unos samples; ahora se recorta el solape en vez de abortar. Captura combinada verificada: 15,0755 s, 2 canales, RMS 0,0963, sin aviso.
+- Límite observado: tras denegar y volver a activar el interruptor en Ajustes, la app siguió mostrando «Abrir Ajustes»; la restauración fiable requiere que la persona vuelva a conceder el permiso en el diálogo o reinicie el estado TCC. No se ocultó este comportamiento.
+- Fecha: 2026-11-24. Commit: pendiente.
