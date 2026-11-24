@@ -357,11 +357,11 @@ private final class CaptureAudioWriter: @unchecked Sendable {
                     }
                     memcpy(dst, src.advanced(by: first * stride), count * stride)
                 }
-                let fileStart = Double(file.length) / rate
+                let actualFileStart = Double(file.length) / rate
                 try file.write(from: trimmed)
                 lastWrite[source] = Date()
                 if let last = metadata[source]!.spans.last,
-                   abs(last.fileStart + last.duration - fileStart) < 1 / rate,
+                   abs(last.fileStart + last.duration - actualFileStart) < 1 / rate,
                    abs(last.sessionStart + last.duration - slice.sessionStart) < 2 / rate {
                     metadata[source]!.spans[metadata[source]!.spans.count - 1].duration += Double(count) / rate
                 } else {
@@ -370,7 +370,11 @@ private final class CaptureAudioWriter: @unchecked Sendable {
                     guard slice.sessionStart >= previousEnd - 2 / rate else {
                         throw CaptureError.driverFailed("Audio recibido fuera de orden. Se conservan los fragmentos originales.")
                     }
-                    metadata[source]!.spans.append(.init(fileStart: fileStart, sessionStart: max(previousEnd, slice.sessionStart),
+                    // El sidecar exige continuidad exacta; el redondeo de frames
+                    // no debe convertirse en un AudioTimelineError al guardarlo.
+                    let previousFileEnd = metadata[source]!.spans.last.map { $0.fileStart + $0.duration } ?? actualFileStart
+                    metadata[source]!.spans.append(.init(fileStart: previousFileEnd,
+                                                          sessionStart: max(previousEnd, slice.sessionStart),
                                                           duration: Double(count) / rate))
                 }
                 // Atomic checkpoint after every successfully written buffer.
