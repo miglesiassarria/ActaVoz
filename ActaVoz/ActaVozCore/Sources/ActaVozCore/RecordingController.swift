@@ -332,6 +332,11 @@ public final class RecordingController: ObservableObject {
         try FileManager.default.removeItem(at: pendingAudioURL)
     }
 
+    /// Elimina el marcador de audio pendiente sin tocar los archivos.
+    public static func clearPendingAudioMarker(in folder: URL) {
+        try? FileManager.default.removeItem(at: folder.appendingPathComponent("audio-pendiente.json"))
+    }
+
     /// Archivos de audio pendientes de decisión, si el marcador existe.
     public static func pendingAudioFiles(in folder: URL) -> [URL] {
         let marker = folder.appendingPathComponent("audio-pendiente.json")

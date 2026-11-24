@@ -48,10 +48,10 @@ Estado: `build`. Corrección de permisos y captura real verificada el 2026-11-23
 | AC5 | parcial | Pausa real: contador 00:20 y tamaños CAF constantes; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante pausa. |
 | AC6 | cumplido | Pérdida y recuperación de una y ambas fuentes probadas. |
 | AC7 | cumplido | Caída real con kill -9; aviso automático al reabrir, reanudación con fuente y tiempo restaurados, y terminación que conserva y abre la sesión. |
-| AC8 | parcial | UI de procesado y botón implementados; no ejecutado de extremo a extremo. |
+| AC8 | cumplido | Grabación real de 105,7 s: estado Procesada y botón Generar resumen; m4a estéreo con RMS 0,1411. |
 | AC9 | cumplido | Tres políticas probadas con datos temporales; por defecto guardar. |
 | AC10 | sin verificar | Requiere red desconectada y captura real. |
 | AC11 | parcial | Exportación real de 24 s, 2 canales y RMS 0.0530095; falta medir sincronización de fuentes. |
-| AC12 | implementado | Aviso de cierre con dos opciones; falta comprobarlo con clic real. |
-| AC13 | parcial | Marcador de audio pendiente implementado; falta repreguntar al reabrir la sesión. |
+| AC12 | implementado, no verificado | La automatización de Cmd+Q y AppleScript está bloqueada por TCC de Accesibilidad/Automatización (-10004); requiere prueba manual o permiso concedido. |
+| AC13 | cumplido | Al reabrir: diálogo de audio pendiente; Guardar combinó un CAF de 3 s y eliminó marcador; Borrar eliminó CAF y marcador sin crear m4a. |
 | AC14 | parcial | Mensajes y acceso a Ajustes implementados; falta denegar y grabar con la otra fuente. |

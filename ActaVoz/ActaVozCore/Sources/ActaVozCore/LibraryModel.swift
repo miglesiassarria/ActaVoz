@@ -166,21 +166,50 @@ final class SessionModel: ObservableObject {
     @Published private(set) var session: Session?
     @Published var errorMessage: String?
     @Published var tab: Tab = .notes
+    /// Audio que quedó sin decidir al cerrar; se vuelve a preguntar al abrir.
+    @Published private(set) var pendingAudio: [URL] = []
 
     let folderURL: URL
     private let repository: SessionRepository
+    private let finalizer: (any AudioFinalizing)?
 
-    init(repository: SessionRepository, folderURL: URL) {
+    init(repository: SessionRepository, folderURL: URL, finalizer: (any AudioFinalizing)? = nil) {
         self.repository = repository
         self.folderURL = folderURL
+        self.finalizer = finalizer
+        self.pendingAudio = RecordingController.pendingAudioFiles(in: folderURL)
     }
 
     func load() {
         do {
             session = try repository.loadSession(at: folderURL)
+            pendingAudio = RecordingController.pendingAudioFiles(in: folderURL)
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+
+    func keepPendingAudio() async {
+        guard !pendingAudio.isEmpty, let finalizer else { return }
+        do {
+            try await finalizer.combine(pendingAudio, to: folderURL.appendingPathComponent("audio.m4a"))
+            removePendingFiles()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func discardPendingAudio() {
+        removePendingFiles()
+    }
+
+    private func removePendingFiles() {
+        for file in pendingAudio {
+            try? FileManager.default.removeItem(at: file)
+        }
+        RecordingController.clearPendingAudioMarker(in: folderURL)
+        pendingAudio = []
+        load()
     }
 
     func saveTitle(_ title: String) {

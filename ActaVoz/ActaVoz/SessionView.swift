@@ -21,6 +21,16 @@ struct SessionView: View {
         } message: {
             Text(model.errorMessage ?? "")
         }
+        .alert("Audio pendiente de decisión", isPresented: audioPromptBinding) {
+            Button("Guardar audio") { Task { await model.keepPendingAudio() } }
+            Button("Borrar audio", role: .destructive) { model.discardPendingAudio() }
+        } message: {
+            Text("Esta sesión cerró sin decidir si conservar el audio. Puedes guardarlo como archivo combinado o borrarlo; las notas y el texto no se tocan.")
+        }
+    }
+
+    private var audioPromptBinding: Binding<Bool> {
+        Binding(get: { !model.pendingAudio.isEmpty }, set: { _ in })
     }
 
     private func content(_ session: Session) -> some View {

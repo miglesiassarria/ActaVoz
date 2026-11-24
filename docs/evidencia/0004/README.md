@@ -70,3 +70,12 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Regresión: testRecoveredRecordingKeepsElapsedTime; suite de 66 pruebas con 0 fallos.
 - Límite: la caída fue kill -9, no un corte de energía; no se probó caída durante la exportación ni disco lleno. La transcripción no existe aún, así que «conservar lo transcrito» no aplica todavía.
 - Fecha: 2026-11-23. Commit: 3e976e6 (base) + este incremento.
+
+## Finalización y audio pendiente (2026-11-24, 19:08–19:11)
+
+- AC13 Guardar: sesión temporal con audio-pendiente.json y sistema-prueba.caf. Al abrir apareció «Audio pendiente de decisión». Guardar produjo audio.m4a de 3,0 s (2 canales, RMS 0,12945) y eliminó marcador y CAF.
+- AC13 Borrar: segundo CAF pendiente. Borrar eliminó marcador y CAF, no creó m4a y conservó sesion.json.
+- AC8: grabación real con solo audio del sistema, detenida a 01:46; estado «Procesada», botón «Generar resumen» y audio.m4a de 105,696 s (2 canales, RMS 0,14106, pico 0,63126).
+- AC12: implementado el NSAlert de cierre, pero no se pudo automatizar Cmd+Q ni AppleScript: macOS devuelve -10004 (Automatización/Accesibilidad). Queda prueba manual.
+- Suite: 66 pruebas, 0 fallos; build correcto.
+- Fecha: 2026-11-24. Commit: pendiente al escribir esta línea.
