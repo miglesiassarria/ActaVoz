@@ -129,3 +129,11 @@ El usuario reportó que build/DerivedData/Build/Products/Debug/ActaVoz.app segu�
 - Corrección del micrófono: sus timestamps pueden solaparse unos samples; ahora se recorta el solape en vez de abortar. Captura combinada verificada: 15,0755 s, 2 canales, RMS 0,0963, sin aviso.
 - Límite observado: tras denegar y volver a activar el interruptor en Ajustes, la app siguió mostrando «Abrir Ajustes»; la restauración fiable requiere que la persona vuelva a conceder el permiso en el diálogo o reinicie el estado TCC. No se ocultó este comportamiento.
 - Fecha: 2026-11-24. Commit: pendiente.
+
+## Sincronización real de fuentes (2026-11-24, 22:00)
+
+- Con micrófono y audio del sistema permitidos, se grabó un tono de 440 Hz reproducido por los altavoces; la política «preguntar» conservó los dos CAF (micrófono 15,700 s; sistema 15,680 s).
+- Las envolventes de 440 Hz se compararon por correlación cruzada: máximo 0,8946 con 8 ventanas de 10 ms. Orígenes de sesión 0,1291 s y 0,1580 s; desfase resultante +51,1 ms, coherente con el trayecto altavoz→aire→micrófono.
+- Tras «Guardar audio», se generó un único audio.m4a de 15,838 s, 2 canales, RMS 0,1431.
+- AC3 y AC11 cumplidos. Solo queda AC6 (recuperación física de fuentes).
+- Fecha: 2026-11-24. Commit: pendiente.

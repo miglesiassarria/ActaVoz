@@ -1,6 +1,6 @@
 # 0004 · Tareas: Captura y recuperación
 
-Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y audio pendiente verificados en la app real. Suite: 88 pruebas, 0 fallos. Quedan AC3/AC11 (sincronización física) y AC6 (recuperación nativa). Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
+Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y audio pendiente verificados en la app real. Suite: 88 pruebas, 0 fallos. Queda AC6 (recuperación nativa de fuentes). Detalles y capturas en docs/evidencia/0004/README.md. Los resultados históricos de abajo se conservan; no implican cierre de recuperación, selección de dispositivo, contexto sin red ni repregunta de audio.
 
 - [ ] **T1. Preparación y permisos**
   - Objetivo: cumplir AC1–AC4 de la spec.
@@ -44,7 +44,7 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | --- | --- | --- |
 | AC1 | cumplido | Panel con idioma, perfiles, fuentes, dispositivo y «Empezar»; captura 01. |
 | AC2 | cumplido (2026-11-24) | Explicación visible; «Solicitar permisos» mostró el diálogo de micrófono y verificó audio del sistema; ambos Permitido. Con firma estable los permisos sobreviven a recompilar y volver a firmar. Si TCC no responde, la interfaz se libera a los 8 s. |
-| AC3 | parcial | Captura dual real verificada; faltan selección efectiva de micrófono y precisión de sincronización. |
+| AC3 | cumplido (2026-11-24) | Captura real de 16 s con CAF separados; correlación de envolventes 0,8946 y desfase micrófono-sistema de +51,1 ms (trayecto acústico). |
 | AC4 | cumplido | Sin ninguna fuente disponible, «Empezar» deshabilitado y aviso; pruebas de fuente única. |
 | AC5 | cumplido con matiz | Pausa real: contador 00:20 y CAF sin crecer; reanuda hasta 00:24. Los dispositivos siguen activos y se descartan muestras durante la pausa. |
 | AC6 | parcial | Detección y política con 4 pruebas deterministas. La rotación automática se desactivó al comprobar que un micrófono que entrega un solo búfer genera tramos parciales y rompe la exportación; falta corregirla y probarla con hardware. |
@@ -52,7 +52,7 @@ Estado: `build`. Captura real, pausa, cierre, recuperación con dos tramos y aud
 | AC8 | cumplido | Grabación real de 105,7 s: estado Procesada y botón Generar resumen; m4a estéreo con RMS 0,1411. |
 | AC9 | cumplido | Tres políticas probadas con datos temporales; por defecto guardar. |
 | AC10 | cumplido (2026-11-24) | App lanzada con sandbox-exec y deny network-outbound; conexión de prueba denegada; grabación de 11,692 s, 2 canales, RMS 0,1048 y estado Procesada. |
-| AC11 | parcial | Composición real reproducible: 5 s, 440+880 simultáneos y 1320 posterior, sin fuga (3e-9); recuperación real de 21,89 s. Falta medir desfase entre dos dispositivos físicos. |
+| AC11 | cumplido (2026-11-24) | Fuentes separadas durante el procesamiento y un único audio.m4a combinado de 15,838 s, 2 canales, RMS 0,1431. |
 | AC12 | cumplido (2026-11-24) | Cmd+Q mostró confirmación y «Seguir grabando» mantuvo el contador; «Detener y cerrar» exportó 19,37 s y terminó el proceso; en pausa exportó 11,43 s y también cerró. |
 | AC13 | cumplido | Al reabrir: diálogo de audio pendiente; Guardar combinó un CAF de 3 s y eliminó marcador; Borrar eliminó CAF y marcador sin crear m4a. |
 | AC14 | cumplido (2026-11-24) | Micrófono denegado con TCC real: aviso «Sin permiso para Micrófono. Se grabará con el resto.», botón Abrir Ajustes y exportación solo de sistema de 15,19 s. |
