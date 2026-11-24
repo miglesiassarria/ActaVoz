@@ -42,7 +42,7 @@ final class SessionContentTests: XCTestCase {
         XCTAssertEqual(loaded.transcript, transcript)
         XCTAssertTrue(raw.contains("\"start\" : 2.5"))
         XCTAssertTrue(raw.contains("\"speakerId\" : \"p2\""))
-        XCTAssertTrue(raw.contains("\"schemaVersion\" : 1"))
+        XCTAssertTrue(raw.contains("\"schemaVersion\" : 2"))
     }
 
     func testNotesSummarySynthesisAndChatRoundTrip() throws {

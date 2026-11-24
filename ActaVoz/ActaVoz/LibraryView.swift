@@ -219,7 +219,12 @@ struct LibraryView: View {
     private var detailColumn: some View {
         Group {
             if let selected = model.selectedSession {
-                SessionView(model: SessionModel(repository: model.repository, folderURL: selected.folderURL, finalizer: CompositionAudioFinalizer()))
+                SessionView(model: SessionModel(
+                    repository: model.repository,
+                    folderURL: selected.folderURL,
+                    finalizer: CompositionAudioFinalizer(),
+                    profileStore: SpeakerProfileStore(fileURL: StorageLocations.production().profilesFile)
+                ))
                     .id(selected.id)
             } else {
                 ContentUnavailableView(

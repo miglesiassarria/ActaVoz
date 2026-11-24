@@ -173,11 +173,18 @@ final class SessionModel: ObservableObject {
     let folderURL: URL
     private let repository: SessionRepository
     private let finalizer: (any AudioFinalizing)?
+    private let profileStore: SpeakerProfileStore?
 
-    init(repository: SessionRepository, folderURL: URL, finalizer: (any AudioFinalizing)? = nil) {
+    init(
+        repository: SessionRepository,
+        folderURL: URL,
+        finalizer: (any AudioFinalizing)? = nil,
+        profileStore: SpeakerProfileStore? = nil
+    ) {
         self.repository = repository
         self.folderURL = folderURL
         self.finalizer = finalizer
+        self.profileStore = profileStore
         self.pendingAudio = RecordingController.pendingAudioFiles(in: folderURL)
     }
 
@@ -267,16 +274,65 @@ final class SessionModel: ObservableObject {
     }
 
     func renameParticipant(id: String, to name: String) {
+        confirmParticipant(id: id, name: name)
+    }
+
+    func confirmParticipant(id: String, name: String) {
         guard var current = session else { return }
-        var participants = current.summary.metadata.participants
-        guard let index = participants.firstIndex(where: { $0.id == id }) else { return }
-        participants[index].name = name
         do {
-            try repository.updateParticipants(participants, at: folderURL)
-            current.summary.metadata.participants = participants
+            if let profileStore {
+                current = try SpeakerProfileService.confirm(
+                    speakerId: id,
+                    name: name,
+                    session: current,
+                    profilesEnabled: true,
+                    store: profileStore,
+                    temporaryStore: TemporaryVoiceStore(sessionFolder: folderURL)
+                )
+            } else {
+                current = try TranscriptEditor.rename(speakerId: id, to: name, in: current)
+            }
+            try persist(current)
             session = current
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+
+    func confirmSpeaker(id: String) {
+        guard let name = session?.summary.metadata.participants.first(where: { $0.id == id })?.name else { return }
+        confirmParticipant(id: id, name: name)
+    }
+
+    func reassignSegment(id: String, to speakerId: String) {
+        guard var current = session else { return }
+        do {
+            current = try TranscriptEditor.reassign(segmentId: id, to: speakerId, in: current)
+            try persist(current)
+            session = current
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func mergeSpeakers(source: String, into target: String) {
+        guard var current = session else { return }
+        do {
+            current = try TranscriptEditor.merge(source: source, into: target, in: current)
+            try persist(current)
+            session = current
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    var nameSuggestions: [NameSuggestion] {
+        guard let session else { return [] }
+        return NameDeducer.suggestions(in: session.transcript)
+    }
+
+    private func persist(_ updated: Session) throws {
+        try repository.writeTranscript(updated.transcript, at: folderURL)
+        try repository.updateParticipants(updated.summary.metadata.participants, at: folderURL)
     }
 }

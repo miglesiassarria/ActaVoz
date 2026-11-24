@@ -1,40 +1,56 @@
-# 0005 · Tareas propuestas: Voz y participantes
+# 0005 · Tareas: Voz y participantes
 
-Dependencias: 0003, 0004, 0006 opcional y 0012. No se ha ejecutado ninguna tarea. Antes de build, resolver incógnitas técnicas pertinentes y reconciliar rutas y contratos con el proyecto existente.
+Estado: done.
 
-- [ ] **T1. Transcripción e identidades**
-  - Objetivo: cumplir AC1–AC4, AC12–AC15 de la spec.
-  - Archivos: `Speech/SpeechPipeline.swift`, `Speech/SpeakerRepository.swift`, `Speech/TranscriptView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Audio sintético y transcripciones con pistas; verificar turnos, Yo configurable, correcciones y persistencia.
+- [x] **T1. Modelos y edición de transcripción**
+  - Objetivo: AC3, AC4, AC12, AC13, AC14.
+  - Verificación: swift test (TranscriptEditingTests, SessionProcessingTests, SessionEditingPersistenceTests).
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: pruebas de renombrar, reasignar, fusionar, etiquetar «Yo» y persistir; UI con «Usar Ana».
+    - Resultado: edición y persistencia en verde; sugerencias Ana/Luis y confirmación observadas.
+    - Fecha: 2026-11-24.
+    - Commit: 3bf1dc2 y posteriores.
 
-- [ ] **T2. Perfiles y privacidad**
-  - Objetivo: cumplir AC5–AC8, AC10–AC11 de la spec.
-  - Archivos: `Speech/SpeechPipeline.swift`, `Speech/SpeakerRepository.swift`, `Speech/TranscriptView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Dos sesiones controladas, confirmación tardía sin audio, fusión y borrado; observar tráfico sin audio.
+- [x] **T2. Perfiles, retención y borrado**
+  - Objetivo: AC5, AC6, AC8, AC10, AC11.
+  - Verificación: swift test (SpeakerProfilesTests) y Ajustes reales.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: guardar, renombrar, eliminar, emparejar y confirmar tarde sin audio; operaciones en Ajustes.
+    - Resultado: consultar, renombrar y eliminar verificados; perfil tardío creado y temporal eliminado; propuesta no confirma sola.
+    - Fecha: 2026-11-24.
+    - Commit: 3bf1dc2 y posteriores.
 
-- [ ] **T3. Sin conexión**
-  - Objetivo: cumplir AC9 de la spec.
-  - Archivos: `Speech/SpeechPipeline.swift`, `Speech/SpeakerRepository.swift`, `Speech/TranscriptView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Con recursos instalados, desconectar red del equipo de prueba y procesar ambos idiomas; registrar limitaciones.
+- [x] **T3. ASR local y diarización**
+  - Objetivo: AC2, AC3, AC9.
+  - Verificación: swift test (SpeechRecognition, AutomaticLanguage, Diarization) y build de la app.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: frases sintéticas ES/EN; AMI real; sandbox-exec con deny network-outbound; app con FluidAudio 0.18.4.
+    - Resultado: ASR correcto; 116 pruebas con red saliente denegada; app compila y diariza.
+    - Fecha: 2026-11-24.
+    - Commit: 3bf1dc2.
 
-## Cierre
+- [x] **T4. Interfaz de sesión y vista previa**
+  - Objetivo: AC1, AC3, AC4, AC6, AC12, AC13, AC14, AC15.
+  - Verificación: build firmado y prueba manual de grabación.
+  - Evidencia:
+    - Método: grabación real, panel en directo, procesado, apertura de sesión y Ajustes.
+    - Resultado: panel con texto parcial y cierre X; sesión con «Yo» y system-S1; sugerencias y perfiles operativos.
+    - Fecha: 2026-11-24.
+    - Commit: 3bf1dc2 y posteriores.
 
-- [ ] Ejecutar cada tarea y registrar evidencia reproducible.
-- [ ] Verificar cada criterio de aceptación individualmente y revisar el diff y alcance.
-- [ ] Ejecutar verificaciones completas, validador SDD estricto y auditoría; actualizar documentación y ADR aplicables.
-- [ ] Actualizar estado de spec e índice solo tras el cierre efectivo.
+- [x] **T5. Verificación de aceptación**
+  - Objetivo: AC1, AC3, AC6, AC7, AC14 y AC15.
+  - Verificación: UI con fixture de nombres, Ajustes, lsof y suite con red denegada.
+  - Evidencia:
+    - Método: sesión controlada «Me llamo Ana»/«Soy Luis»; consultar, renombrar y eliminar perfiles; lsof -a -p PID -i.
+    - Resultado: sugerencias y confirmación visibles; perfiles gestionados; sin conexiones de ActaVoz; 116 pruebas con red denegada.
+    - Fecha: 2026-11-24.
+    - Commit: 3bf1dc2 y posteriores.
+
+- [x] **T6. Cierre**
+  - Objetivo: actualizar resultados, índice, verificación, ADR y ejecutar validadores.
+  - Evidencia:
+    - Método: validate_sdd --strict, audit_sdd, build firmado y revisión del diff.
+    - Resultado: instalación SDD válida; build correcto; spec e índice en done.
+    - Fecha: 2026-11-24.
+    - Commit: 3bf1dc2 y cierre de 0005.

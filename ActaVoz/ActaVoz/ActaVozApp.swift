@@ -16,5 +16,8 @@ struct ActaVozApp: App {
                     .keyboardShortcut("q", modifiers: .command)
             }
         }
+        Settings {
+            ProfilesSettingsView()
+        }
     }
 }

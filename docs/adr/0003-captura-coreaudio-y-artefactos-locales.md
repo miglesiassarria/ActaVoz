@@ -14,7 +14,8 @@ La persona requiere descarga por GitHub sin App Store ni cuenta Apple. La captur
 - Declarar NSAudioCaptureUsageDescription y NSMicrophoneUsageDescription en el Info.plist efectivo (ActaVozInfo.plist), no solo en opciones de generación.
 - Tap y agregado privados, salida sin silenciar, exclusión del propio bundle y limpieza de IO/agregado/tap al detener.
 - Abrir el panel y volver de Ajustes solo consulta estados pasivos. Crear un tap no acredita autorización; el estado previo puede ser «Sin verificar». Empezar realiza el intento explícito; el éxito requiere muestras y un archivo no vacío.
-- No crear certificados ni modificar Llavero. Mantener firma ad hoc y publicar artefactos fijos ZIP/DMG. scripts/package-local.sh crea ZIP local sin reemplazar una versión previa ni publicar en GitHub.
+- No crear certificados ni modificar Llavero para el artefacto de entrega. Mantener firma ad hoc y publicar artefactos fijos ZIP/DMG. scripts/package-local.sh crea ZIP local sin reemplazar una versión previa ni publicar en GitHub.
+- **Actualización 2026-11-24 (solo desarrollo):** se creó una identidad autofirmada local «ActaVoz Development» para mantener TCC entre recompilaciones en este Mac. No se distribuye, no se incluye en el DMG y no cambia la decisión de entrega: el artefacto público sigue siendo ad-hoc y sin certificado.
 - La versión de prueba validada se conserva sin recompilar en build/audio-only-v2/ActaVoz.app. Los cambios posteriores no deben presentarse como esa misma versión.
 
 ## Alternativas descartadas

@@ -56,6 +56,8 @@ public final class RecordingController: ObservableObject {
     private let finalizer: any AudioFinalizing
     private let marker: PendingRecordingStore
     private let now: () -> Date
+    /// Si es true, los CAF se conservan hasta que el pipeline de voz termina.
+    public let preserveSourceAudio: Bool
 
     private var accumulated: TimeInterval = 0
     private var startingElapsed: TimeInterval = 0
@@ -71,6 +73,7 @@ public final class RecordingController: ObservableObject {
         marker: PendingRecordingStore? = nil,
         retentionPolicy: AudioRetentionPolicy = .alwaysKeep,
         restoredElapsed: TimeInterval = 0,
+        preserveSourceAudio: Bool = false,
         now: @escaping () -> Date = Date.init
     ) {
         self.folder = folder
@@ -79,6 +82,7 @@ public final class RecordingController: ObservableObject {
         self.finalizer = finalizer
         self.marker = marker ?? PendingRecordingStore(folder: folder)
         self.retentionPolicy = retentionPolicy
+        self.preserveSourceAudio = preserveSourceAudio
         self.now = now
         self.startingElapsed = restoredElapsed
         self.elapsed = restoredElapsed
@@ -249,7 +253,7 @@ public final class RecordingController: ObservableObject {
             do { _ = try await keepAudio(files) }
             catch { status = .awaitingAudioDecision; throw error }
         } else {
-            try remove(files)
+            if !preserveSourceAudio { try remove(files) }
         }
         try removePendingMarker()
         try cleanup.finish()
@@ -296,7 +300,7 @@ public final class RecordingController: ObservableObject {
     private func applyPolicy(to files: [URL]) async throws -> URL? {
         switch retentionPolicy {
         case .alwaysDelete:
-            try remove(files)
+            if !preserveSourceAudio { try remove(files) }
             status = .finished
             return nil
         case .alwaysKeep:
@@ -323,7 +327,11 @@ public final class RecordingController: ObservableObject {
             throw error
         }
         try cleanup.commit()
-        try cleanup.complete()
+        if preserveSourceAudio {
+            try cleanup.complete(remove: { _ in })
+        } else {
+            try cleanup.complete()
+        }
         return destination
     }
 
