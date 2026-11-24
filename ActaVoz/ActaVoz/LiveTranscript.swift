@@ -1,111 +1,119 @@
 import AVFoundation
-import Speech
 import SwiftUI
 
-/// Vista previa en directo. Si el sistema no ofrece el conversor de entrada,
-/// se desactiva en vez de arriesgar un formato incompatible.
+/// Vista previa en directo: escribe fragmentos de 2 s y los transcribe localmente.
+/// El resultado definitivo se recalcula al cerrar la captura.
 @MainActor
 final class LiveTranscriptModel: ObservableObject {
     @Published private(set) var text = ""
     @Published var isVisible = false
     @Published var errorMessage: String?
 
-    private var transcriber: SpeechTranscriber?
-    private var analyzer: SpeechAnalyzer?
-    private var continuation: AsyncStream<AnalyzerInput>.Continuation?
-    private var converter: AnyObject?
-    private var reader: Task<Void, Never>?
-    private var finalText = ""
-    private var volatileText = ""
     private var active = false
+    private var language: SessionLanguage = .spanish
+    private var converter: AVAudioConverter?
+    private var targetFormat: AVAudioFormat?
+    private var writer: AVAudioFile?
+    private var chunkURL: URL?
+    private var chunkFrames: AVAudioFramePosition = 0
+    private var appendBuffer = ""
+    private let chunkTargetFrames: AVAudioFramePosition = 32_000 // 2 s a 16 kHz
 
     func begin(language: SessionLanguage) {
         guard !active else { return }
-        guard #available(macOS 27, *) else {
-            errorMessage = "La vista previa en directo requiere macOS 27; la transcripción final sigue disponible."
-            isVisible = false
-            return
-        }
         active = true
         isVisible = true
-        finalText = ""
-        volatileText = ""
+        self.language = language
         text = "Escuchando…"
-        let locale = language == .english ? "en_US" : "es_ES"
-        let transcriber = SpeechTranscriber(locale: Locale(identifier: locale), preset: .progressiveTranscription)
-        self.transcriber = transcriber
-        let stream = AsyncStream<AnalyzerInput> { continuation in
-            self.continuation = continuation
-        }
-        let analyzer = SpeechAnalyzer(inputSequence: stream, modules: [transcriber])
-        self.analyzer = analyzer
-        reader = Task { [weak self] in
-            guard let self else { return }
-            do {
-                for try await result in transcriber.results {
-                    let value = String(result.text.characters).trimmingCharacters(in: .whitespacesAndNewlines)
-                    await MainActor.run {
-                        guard !value.isEmpty else { return }
-                        if result.isFinal {
-                            self.finalText += value + " "
-                        } else {
-                            self.volatileText = value
-                        }
-                        self.text = (self.finalText + self.volatileText).trimmingCharacters(in: .whitespacesAndNewlines)
-                        if self.text.isEmpty { self.text = "Escuchando…" }
-                    }
-                }
-            } catch {
-                await MainActor.run { self.errorMessage = error.localizedDescription }
-            }
-        }
-        Task { [weak self] in
-            do {
-                try await analyzer.start(inputSequence: stream)
-            } catch {
-                await MainActor.run { self?.errorMessage = error.localizedDescription }
-            }
-        }
-        Task { [weak self] in
-            do {
-                let started = try await AnalyzerInputConverter.converter(compatibleWith: [transcriber])
-                await MainActor.run { self?.converter = started }
-            } catch {
-                await MainActor.run {
-                    self?.errorMessage = error.localizedDescription
-                    self?.active = false
-                    self?.isVisible = false
-                }
-            }
-        }
+        appendBuffer = ""
+        converter = nil
+        targetFormat = nil
+        writer = nil
+        chunkFrames = 0
     }
 
     func consume(_ buffer: AVAudioPCMBuffer, source: CaptureSource) {
-        guard active, #available(macOS 27, *), let continuation,
-              let converter = converter as? AnalyzerInputConverter else { return }
-        do {
-            for input in try converter.convert(buffer, at: nil) {
-                continuation.yield(input)
+        guard active else { return }
+        if converter == nil {
+            guard let target = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 16_000, channels: 1, interleaved: false),
+                  let created = AVAudioConverter(from: buffer.format, to: target) else {
+                errorMessage = "No se pudo preparar el audio en directo."
+                active = false
+                return
             }
+            targetFormat = target
+            converter = created
+            openChunk()
+        }
+        guard let converter, let targetFormat else { return }
+        let ratio = targetFormat.sampleRate / buffer.format.sampleRate
+        let capacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 4096
+        guard let converted = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: capacity) else { return }
+        var conversionError: NSError?
+        var supplied = false
+        let status = converter.convert(to: converted, error: &conversionError) { _, outStatus in
+            if supplied {
+                outStatus.pointee = .noDataNow
+                return nil
+            }
+            supplied = true
+            outStatus.pointee = .haveData
+            return buffer
+        }
+        if status == .error {
+            errorMessage = conversionError?.localizedDescription
+            return
+        }
+        guard converted.frameLength > 0 else { return }
+        do {
+            try writer?.write(from: converted)
+            chunkFrames += AVAudioFramePosition(converted.frameLength)
+            if chunkFrames >= chunkTargetFrames { flushChunk() }
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
+    private func openChunk() {
+        guard active, let targetFormat else { return }
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("actavoz-live-\(UUID().uuidString).caf")
+        do {
+            writer = try AVAudioFile(forWriting: url, settings: targetFormat.settings, commonFormat: .pcmFormatFloat32, interleaved: false)
+            chunkURL = url
+            chunkFrames = 0
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    private func flushChunk() {
+        writer = nil
+        guard let url = chunkURL else { return }
+        chunkURL = nil
+        chunkFrames = 0
+        let language = self.language
+        Task { [weak self] in
+            let result = try? await LocalSpeechRecognizer().transcribe(url: url, language: language)
+            try? FileManager.default.removeItem(at: url)
+            guard let self, let result else { return }
+            let fragment = result.utterances.map(\.text).joined(separator: " ")
+            await MainActor.run {
+                guard !fragment.isEmpty else { return }
+                self.appendBuffer += fragment + " "
+                self.text = self.appendBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+        }
+        if active { openChunk() }
+    }
+
     func finish() {
         guard active else { return }
         active = false
-        continuation?.finish()
-        continuation = nil
-        reader?.cancel()
-        reader = nil
-        let analyzer = self.analyzer
-        Task {
-            try? await analyzer?.finalizeAndFinishThroughEndOfInput()
-        }
-        self.analyzer = nil
+        if writer != nil { flushChunk() }
+        writer = nil
         converter = nil
-        transcriber = nil
+        targetFormat = nil
     }
 
     func close() {

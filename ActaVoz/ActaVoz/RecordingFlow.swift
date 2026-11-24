@@ -668,6 +668,10 @@ struct RecordingPanel: View {
             }
         }
         .padding(26)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if model.liveTranscript.isVisible { model.liveTranscript.close() }
+        }
         .overlay(alignment: .bottomLeading) {
             if model.liveTranscript.isVisible {
                 LiveTranscriptPanel(model: model.liveTranscript)
