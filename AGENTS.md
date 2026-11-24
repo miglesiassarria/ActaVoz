@@ -18,5 +18,5 @@ Usar `python3 scripts/validate_sdd.py --strict` antes de declarar una spec termi
 
 ### Git trunk-based
 
-`main` es la rama troncal y debe permanecer desplegable. Cada spec o funcionalidad se trabaja en una rama creada desde `main` actualizado, con nombre `spec/NNNN-slug` (o `fix/slug` para un fallo). Se integra mediante pull request y squash merge; no se hace commit directo a `main`. Tras el merge se elimina la rama en local y en GitHub, y no se reutiliza. El flujo completo, la limpieza y las excepciones están en `docs/sdd.md`.
+`main` es la rama troncal y debe permanecer desplegable. Cada spec o funcionalidad se trabaja **en local** en una rama creada desde `main` actualizado, con nombre `spec/NNNN-slug` (o `fix/slug` para un fallo). **No se publica en GitHub hasta que la entrega esté terminada y validada**; no se suben commits parciales, WIP ni PR en borrador salvo petición explícita. Al cerrar, se publica, se integra mediante pull request y squash merge —nunca commit directo a `main`— y se elimina la rama en local y en GitHub. No se reutiliza. El flujo completo y las excepciones están en `docs/sdd.md`.
 <!-- spec-driven-development:end -->

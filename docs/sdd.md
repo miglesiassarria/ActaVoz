@@ -56,12 +56,13 @@ git switch -c spec/NNNN-slug
 ```
 
 - Hacer commits pequeños y atómicos, en español y con el formato `tipo(NNNN): resumen`. El cuerpo debe referenciar los AC o tareas afectadas.
-- Publicar la rama pronto con `git push -u origin spec/NNNN-slug`.
+- Trabajar y commitear en local. **No publicar la rama hasta que la entrega esté terminada y validada.** No se suben commits parciales, trabajo en curso ni pull requests en borrador; GitHub no se usa como copia de seguridad.
+- Publicar solo al cerrar la entrega: AC y tareas con evidencia, validadores en verde y diff revisado. En ese momento, `git push -u origin spec/NNNN-slug` y abrir la pull request. La única excepción es una petición explícita de la persona usuaria para subir cambios antes de terminar.
 
 ### Integración
 
-- Mantener la rama al día con `git fetch origin && git rebase origin/main`; resolver conflictos y repetir la verificación. No reescribir ramas compartidas ni hacer force-push a `main`.
-- Antes de abrir la pull request: tareas y AC verificados, evidencia registrada, `python3 scripts/validate_sdd.py --strict`, `python3 scripts/audit_sdd.py` y revisión del diff contra el fuera de alcance.
+- Mantener la rama local al día con `git fetch origin && git rebase origin/main`; resolver conflictos y repetir la verificación. No reescribir ramas compartidas ni hacer force-push a `main`.
+- Antes de publicar: tareas y AC verificados, evidencia registrada, `python3 scripts/validate_sdd.py --strict`, `python3 scripts/audit_sdd.py` y revisión del diff contra el fuera de alcance. Si algo falla, se corrige en local; no se publica para «ver si pasa».
 - La pull request explica la spec, los AC cubiertos, los comandos de verificación, los resultados y los riesgos.
 - Estrategia por defecto: **squash merge** a `main`, para conservar un historial lineal y un commit por entrega. No se integra una rama con comprobaciones rojas ni una spec a medias.
 - Si una spec necesita varias entregas, cada porción debe ser verificable y dejar `main` desplegable; no se mezcla comportamiento parcialmente verificado.

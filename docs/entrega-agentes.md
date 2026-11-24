@@ -42,8 +42,9 @@ git switch -c spec/NNNN-slug
 ```
 
 - Una rama por spec o funcionalidad; `fix/slug` para un fallo y `chore/slug` para mantenimiento. Si una spec grande se entrega por partes, usar `spec/NNNN-slug-<porcion>`.
-- Mantener la rama al día con rebase sobre `origin/main`; no hacer force-push a `main`.
-- Integrar solo con tareas y AC verificados, evidencia, validadores y diff revisado. Pull request con contexto y **squash merge**.
+- La rama es **local** hasta el cierre. No subir commits parciales, WIP ni PR en borrador; GitHub no es la copia de seguridad del trabajo en curso.
+- Mantener la rama local al día con rebase sobre `origin/main`; no hacer force-push a `main`.
+- Publicar e integrar solo con tareas y AC verificados, evidencia, validadores y diff revisado. En ese momento, subir la rama, abrir pull request con contexto y hacer **squash merge**.
 - Tras el merge, borrar la rama en local y en GitHub y ejecutar `git fetch --prune`. No reutilizar la rama.
 - Si se cierra una pull request sin fusionar, borrar también la rama. El detalle está en `docs/sdd.md`.
 
