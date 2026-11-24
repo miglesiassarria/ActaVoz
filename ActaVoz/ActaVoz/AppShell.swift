@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 /// Estado del panel de primer inicio. Sin macros de SwiftUI para que el
@@ -10,6 +11,7 @@ final class FirstRunModel: ObservableObject {
 
     func requestProviderSetup() {
         showsProviderNotice = true
+        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
     }
 }
 

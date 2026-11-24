@@ -1,6 +1,6 @@
 # 0006 · Proveedores, modelos y credenciales
 
-- **Estado:** design
+- **Estado:** done
 - **Creada:** 2026-11-22
 - **Aprobación:** aprobada
 - **Aprobada por:** persona usuaria
@@ -18,18 +18,18 @@ La persona configura proveedores, credenciales y modelos; la aplicación usa la 
 
 | # | Criterio observable | Verificación reproducible | Resultado final |
 | --- | --- | --- | --- |
-| AC1 | **Catálogo:** Ofrecer OpenAI por clave y OAuth sujeto a compatibilidad, Claude, OpenCode Go, Ollama y proveedor genérico con URL, token y modelo. | Recorrer opciones con servicios simulados; contrastar OAuth con documentación y prueba autorizada. | pendiente |
-| AC2 | **Múltiples conexiones:** Configurar varias conexiones y seleccionar una activa sin introducir de nuevo datos. | Guardar dos conexiones ficticias, alternarlas y reabrir Ajustes. | pendiente |
-| AC3 | **Credenciales:** Guardar claves y credenciales OAuth en Llavero local, reutilizarlas y solicitar corrección cuando dejen de funcionar. | Configurar clave de prueba, reiniciar y simular rechazo sin registrar secretos. | pendiente |
-| AC4 | **Selección de modelo:** Elegir modelo principal y permitir asignar opcionalmente modelos específicos para preguntas y resúmenes. | Configurar opciones y verificar modelo recibido por proveedor simulado. | pendiente |
-| AC5 | **Conexión:** Permitir comprobar la conexión y mostrar errores comprensibles sin exponer credenciales. | Simular éxito, credencial inválida y servicio inaccesible. | pendiente |
-| AC6 | **OAuth:** Comprobar compatibilidad del flujo de terceros antes de prometerlo; si está disponible permitir conectar y desconectar en Ajustes. | Registrar evidencia de autorización y ejecutar conexión y revocación con cuenta de prueba si procede. | pendiente |
-| AC7 | **Contexto:** No imponer control o límite propio de contexto; utilizar toda la transcripción, con una o varias llamadas según corresponda. | Proveedor simulado registra solicitudes; verificar cobertura completa y comportamiento ante rechazo. | pendiente |
-| AC8 | **Sin proveedor:** permitir usar las funciones locales sin proveedor configurado y ofrecer configurarlo al intentar hacer preguntas o generar resultados que lo requieran. | Sin proveedor, probar funciones locales y solicitar pregunta, resumen y síntesis; comprobar la oferta de configuración sin perder datos. | pendiente |
-| AC9 | **Modelo para síntesis:** usar el modelo configurado para resúmenes o el principal si no se configuró uno específico. | Con proveedor simulado, generar síntesis con y sin modelo de resúmenes y comprobar el modelo solicitado. | pendiente |
-| AC10 | **Modelo para nombres:** cuando un LLM ayude a proponer nombres, usar el modelo principal configurado. | Con proveedor simulado y modelos distintos configurados, solicitar ayuda para nombres y comprobar que se usa el principal. | pendiente |
-| AC11 | **Rechazo de solicitud:** mostrar un error comprensible y permitir reintentar o cambiar de modelo, conservando la transcripción y los contenidos guardados. | Simular un rechazo del proveedor, comprobar el aviso y ambas opciones y verificar que los contenidos de la sesión permanecen. | pendiente |
-| AC12 | **Rechazo por longitud:** intentar procesar toda la transcripción mediante varias llamadas; si no se completa, mostrar error y ofrecer reintentar o cambiar de modelo, sin eliminar texto. | Con un proveedor simulado que rechace una solicitud larga, verificar cobertura íntegra en las llamadas posteriores; simular otro fallo y comprobar el error y conservación de datos. | pendiente |
+| AC1 | **Catálogo:** Ofrecer OpenAI por clave y OAuth sujeto a compatibilidad, Claude, OpenCode Go, Ollama y proveedor genérico con URL, token y modelo. | Recorrer opciones con servicios simulados; contrastar OAuth con documentación y prueba autorizada. | cumplido: catálogo en Ajustes; OpenAI/Claude/Ollama y genérico por clave; OAuth no disponible y explicado |
+| AC2 | **Múltiples conexiones:** Configurar varias conexiones y seleccionar una activa sin introducir de nuevo datos. | Guardar dos conexiones ficticias, alternarlas y reabrir Ajustes. | cumplido: dos conexiones y activa persistidas |
+| AC3 | **Credenciales:** Guardar claves y credenciales OAuth en Llavero local, reutilizarlas y solicitar corrección cuando dejen de funcionar. | Configurar clave de prueba, reiniciar y simular rechazo sin registrar secretos. | cumplido: clave en Llavero, JSON sin secretos y rechazo 401 |
+| AC4 | **Selección de modelo:** Elegir modelo principal y permitir asignar opcionalmente modelos específicos para preguntas y resúmenes. | Configurar opciones y verificar modelo recibido por proveedor simulado. | cumplido: principal, preguntas y resúmenes con modelo recibido |
+| AC5 | **Conexión:** Permitir comprobar la conexión y mostrar errores comprensibles sin exponer credenciales. | Simular éxito, credencial inválida y servicio inaccesible. | cumplido: éxito y errores comprensibles sin credenciales |
+| AC6 | **OAuth:** Comprobar compatibilidad del flujo de terceros antes de prometerlo; si está disponible permitir conectar y desconectar en Ajustes. | Registrar evidencia de autorización y ejecutar conexión y revocación con cuenta de prueba si procede. | cumplido: OAuth de terceros descartado por falta de flujo autorizado |
+| AC7 | **Contexto:** No imponer control o límite propio de contexto; utilizar toda la transcripción, con una o varias llamadas según corresponda. | Proveedor simulado registra solicitudes; verificar cobertura completa y comportamiento ante rechazo. | cumplido: transcripción completa y división solo tras rechazo, cobertura exacta |
+| AC8 | **Sin proveedor:** permitir usar las funciones locales sin proveedor configurado y ofrecer configurarlo al intentar hacer preguntas o generar resultados que lo requieran. | Sin proveedor, probar funciones locales y solicitar pregunta, resumen y síntesis; comprobar la oferta de configuración sin perder datos. | cumplido: sin proveedor se mantienen funciones locales y Ajustes ofrece configurar |
+| AC9 | **Modelo para síntesis:** usar el modelo configurado para resúmenes o el principal si no se configuró uno específico. | Con proveedor simulado, generar síntesis con y sin modelo de resúmenes y comprobar el modelo solicitado. | cumplido: resumen usa su modelo o el principal (prueba) |
+| AC10 | **Modelo para nombres:** cuando un LLM ayude a proponer nombres, usar el modelo principal configurado. | Con proveedor simulado y modelos distintos configurados, solicitar ayuda para nombres y comprobar que se usa el principal. | cumplido: nombres usan el modelo principal (prueba) |
+| AC11 | **Rechazo de solicitud:** mostrar un error comprensible y permitir reintentar o cambiar de modelo, conservando la transcripción y los contenidos guardados. | Simular un rechazo del proveedor, comprobar el aviso y ambas opciones y verificar que los contenidos de la sesión permanecen. | cumplido: error de proveedor conserva contenido y permite reintentar o cambiar modelo |
+| AC12 | **Rechazo por longitud:** intentar procesar toda la transcripción mediante varias llamadas; si no se completa, mostrar error y ofrecer reintentar o cambiar de modelo, sin eliminar texto. | Con un proveedor simulado que rechace una solicitud larga, verificar cobertura íntegra en las llamadas posteriores; simular otro fallo y comprobar el error y conservación de datos. | cumplido: división con cobertura íntegra; fallo irreducible se propaga sin borrar texto |
 
 ## Decisiones previas a aprobación
 

@@ -1,29 +1,32 @@
-# 0006 · Diseño: Proveedores y contexto
+# 0006 · Diseño: Proveedores, modelos y credenciales
 
 ## Estado y dependencias
 
-Diseño propuesto sobre spec aprobada; dependencias: 0002 y 0013. Las rutas siguientes son propuestas, no archivos existentes. Resolver las investigaciones y contratos compartidos antes de construir; si cambia comportamiento aprobado, volver a spec.
+Diseño implementado sobre spec aprobada; dependencias 0002 y 0013 cerradas. Decisión de OAuth en 0013: no hay flujo público autorizado para esta app.
 
 ## Enfoque
 
-ProviderRegistry mantiene conexiones y selección de modelo; cada adaptador implementa comprobación, catálogo y generación de texto. SecretStore encapsula Llavero.
+- Núcleo Providers.swift: catálogo de tipos, conexiones, configuración versionada, selección de modelos y Llavero.
+- ProviderHTTP.swift: contrato LanguageProvider, transporte inyectable y clientes OpenAI-compatible, Claude y Ollama.
+- ProviderContext.swift: envía la transcripción completa; solo divide si el proveedor rechaza por longitud y combina las partes.
+- App: ProvidersSettingsView para catálogo, conexiones, modelos y comprobación de conexión.
 
-## Superficies propuestas
+## Decisiones
 
-`Providers/ProviderRegistry.swift; Providers/LanguageProvider.swift; Providers/SecretStore.swift; Providers/ContextProcessor.swift` y pruebas correspondientes bajo `ActaVozTests/`. Ajustar rutas al proyecto real de 0002 sin alterar contratos aprobados.
+- OpenAI, Claude, OpenCode Go y genérico usan clave; Ollama no requiere clave; OAuth queda desactivado y explicado.
+- Secretos exclusivamente en Llavero (app.actavoz.providers); el JSON solo guarda id, nombre, tipo, URL, modelos y selección.
+- No se impone un límite propio de contexto. La división se activa tras rechazo y cubre la transcripción completa.
+- Una conexión activa define el modelo principal; preguntas y resúmenes pueden sobrescribirlo. Nombres y respaldo usan el principal.
+- Sin proveedor activo, las funciones locales siguen disponibles y Ajustes ofrece configurarlo.
 
-## Contratos, datos y errores
+## Contratos y errores
 
-Guardar secretos exclusivamente en Llavero y configuración sin secretos en Library; no registrar tokens. OAuth solo mediante vía oficial autorizada validada en 0013. Resolver solicitudes largas con estrategia de varias llamadas validada y preservar cobertura completa; si no se completa, error y datos previos intactos. No declarar equivalencia semántica entre una y varias llamadas.
+- ProviderConfiguration con schemaVersion, conexiones, activeConnectionID, chatModel y summaryModel.
+- Errores: credencial ausente o rechazada, longitud, no disponible, respuesta inválida y rechazo. Ningún mensaje incluye la clave.
+- Contexto: resultado con parts; si una parte no se puede procesar, se propaga el error y no se inventa cobertura.
 
-## Seguridad, compatibilidad y reversión
+## Seguridad y límites
 
-Audio y procesamiento de voz locales; credenciales únicamente en Llavero; pruebas en directorios temporales con datos ficticios. Preservar archivos ante errores y cancelar sin efectos destructivos. Versionar contratos persistidos y documentar migración y restauración antes de introducir cambios incompatibles. La compatibilidad macOS 26 y hardware requiere evidencia real.
-
-## Riesgos y validación
-
-La integración con las dependencias y el comportamiento en equipos reales requieren pruebas; dobles no sustituyen pruebas de extremo a extremo. Cada criterio de la spec conserva resultado pendiente hasta ejecutar y registrar método, resultado, fecha y commit. Evitar datos personales y claves en logs.
-
-## ADR
-
-Crear o actualizar ADR cuando el diseño cierre límites entre componentes, persistencia, seguridad o compatibilidad. No marcar decisiones de discovery como verificadas sin evidencia.
+- Pruebas con transporte simulado y servidor local; sin claves reales.
+- OAuth no se promete. macOS 26 no se ha probado.
+- No se declara equivalencia semántica entre una llamada y varias.

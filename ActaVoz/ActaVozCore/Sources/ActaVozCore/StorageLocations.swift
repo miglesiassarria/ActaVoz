@@ -39,6 +39,7 @@ public struct StorageLocations: Equatable, Sendable {
     public var userDirectoriesDirectory: URL { root.appendingPathComponent("Directorios", isDirectory: true) }
     public var settingsFile: URL { configurationDirectory.appendingPathComponent("config.json") }
     public var profilesFile: URL { configurationDirectory.appendingPathComponent("perfiles.json") }
+    public var providersFile: URL { configurationDirectory.appendingPathComponent("proveedores.json") }
 }
 
 public enum StorageError: Error, LocalizedError, Equatable {

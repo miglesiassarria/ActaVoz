@@ -17,7 +17,7 @@ struct ActaVozApp: App {
             }
         }
         Settings {
-            ProfilesSettingsView()
+            SettingsRootView()
         }
     }
 }

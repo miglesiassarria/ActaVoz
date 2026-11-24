@@ -24,7 +24,7 @@ struct FirstRunView: View {
             }
 
             if model.showsProviderNotice {
-                Text("La conexión de proveedores se implementará en la unidad 0006. Mientras tanto puedes usar las funciones locales.")
+                Text("Abre Ajustes → Proveedores para añadir una conexión. Sin proveedor puedes seguir usando las funciones locales.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)

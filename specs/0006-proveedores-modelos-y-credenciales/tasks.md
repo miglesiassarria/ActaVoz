@@ -1,30 +1,38 @@
-# 0006 · Tareas propuestas: Proveedores y contexto
+# 0006 · Tareas: Proveedores, modelos y credenciales
 
-Dependencias: 0002 y 0013. No se ha ejecutado ninguna tarea. Antes de build, resolver incógnitas técnicas pertinentes y reconciliar rutas y contratos con el proyecto existente.
+Estado: done.
 
-- [ ] **T1. Conexiones y credenciales**
-  - Objetivo: cumplir AC1–AC6 de la spec.
-  - Archivos: `Providers/ProviderRegistry.swift`, `Providers/LanguageProvider.swift`, `Providers/SecretStore.swift`, `Providers/ContextProcessor.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Servidor simulado; verificar catálogo, alternancia, selección, errores, Llavero y OAuth solo si se valida.
+- [x] **T1. Configuración, conexiones y Llavero**
+  - Objetivo: AC1, AC2, AC3, AC6, AC8.
+  - Verificación: swift test (ProviderTests) y UI de Ajustes.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: guardar dos conexiones, activar una, guardar clave en Llavero y comprobar éxito/errores con servidor local.
+    - Resultado: 11 pruebas de proveedores en verde; JSON sin secretos; Llavero con la clave; conexión simulada OK.
+    - Fecha: 2026-11-24.
+    - Commit: 3ef4091 y cierre de 0006.
 
-- [ ] **T2. Contexto, modelos y errores**
-  - Objetivo: cumplir AC7–AC12 de la spec.
-  - Archivos: `Providers/ProviderRegistry.swift`, `Providers/LanguageProvider.swift`, `Providers/SecretStore.swift`, `Providers/ContextProcessor.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Proveedor simulado con rechazo por longitud; verificar cobertura, reintento, selección y conservación de datos.
+- [x] **T2. Modelos, contexto y errores**
+  - Objetivo: AC4, AC5, AC7, AC9, AC10, AC11, AC12.
+  - Verificación: swift test (selección, Claude/Ollama/OpenAI, contexto y errores).
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: transporte simulado, selección principal/preguntas/resúmenes y división tras rechazo.
+    - Resultado: 11 pruebas en verde; cobertura exacta en partes; errores sin secretos.
+    - Fecha: 2026-11-24.
+    - Commit: 3ef4091 y cierre de 0006.
 
-## Cierre
+- [x] **T3. UI y evidencia**
+  - Objetivo: AC1–AC6 y AC8 visibles en Ajustes.
+  - Verificación: build firmado y prueba manual con servidor local.
+  - Evidencia:
+    - Método: app firmada, Ajustes → Proveedores, alta de Mock, comprobación y cierre.
+    - Resultado: catálogo, conexión activa, modelos y mensaje OK observados.
+    - Fecha: 2026-11-24.
+    - Commit: 3ef4091 y cierre de 0006.
 
-- [ ] Ejecutar cada tarea y registrar evidencia reproducible.
-- [ ] Verificar cada criterio de aceptación individualmente y revisar el diff y alcance.
-- [ ] Ejecutar verificaciones completas, validador SDD estricto y auditoría; actualizar documentación y ADR aplicables.
-- [ ] Actualizar estado de spec e índice solo tras el cierre efectivo.
+- [x] **T4. Cierre**
+  - Objetivo: actualizar resultados, índice, verificación y ADR.
+  - Evidencia:
+    - Método: validate_sdd --strict, audit_sdd y build.
+    - Resultado: instalación SDD válida; 127 pruebas.
+    - Fecha: 2026-11-24.
+    - Commit: 3ef4091 y cierre de 0006.
