@@ -15,7 +15,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
-| [0012](0012-viabilidad-captura-transcripcion-y-voz-local/spec.md) | Viabilidad captura transcripción y voz local | `discovery` | Cerrar decisión o crear una spec aprobable | |
+| [0012](0012-viabilidad-captura-transcripcion-y-voz-local/spec.md) | Viabilidad captura transcripción y voz local | `superseded` | — | Evidencia absorbida por 0004 y 0005; transcripción, diarización y perfiles verificados |
 | [0013](0013-viabilidad-proveedores-contexto-y-oauth/spec.md) | Viabilidad proveedores contexto y OAuth | `discovery` | Cerrar decisión o crear una spec aprobable | |
 <!-- spec-driven-development:index-end -->
 
@@ -23,7 +23,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 
 La [guía de entrega a agentes](../docs/entrega-agentes.md) reúne el orden de ejecución, las dependencias, los contratos transversales y las condiciones de verificación.
 
-Las unidades 0002–0011 fueron aprobadas por la persona usuaria el 2026-11-22. Los diseños deben resolver las dependencias técnicas aplicables. Las unidades 0012 y 0013 están en `discovery`: recogen evidencia parcial e hipótesis y experimentos todavía pendientes. Los criterios de las specs incluyen métodos de verificación futuros, no resultados observados. El orden siguiente expresa dependencias de capacidades, no autoriza el diseño ni la implementación:
+Las unidades 0002–0011 fueron aprobadas por la persona usuaria el 2026-11-22. Los diseños deben resolver las dependencias técnicas aplicables. La unidad 0012 quedó `superseded` con evidencia de captura, transcripción y diarización; 0013 sigue en `discovery` con hipótesis y experimentos de proveedores. Los criterios de las specs incluyen métodos de verificación futuros, no resultados observados. El orden siguiente expresa dependencias de capacidades, no autoriza el diseño ni la implementación:
 
 1. **0012 → 0002 → 0003:** investigar primero la versión mínima y el acceso a la carpeta del usuario; después refinar la base de aplicación y la persistencia. 0003 se verifica aisladamente con datos y puntos de entrada de prueba; las integraciones completas se comprueban en sus propias unidades. La conexión efectiva de proveedores pertenece a 0006.
 2. **0012 → 0004 y 0005:** investigar primero captura y voz local; después refinar las specs de captura, transcripción, atribuciones y perfiles con la evidencia.

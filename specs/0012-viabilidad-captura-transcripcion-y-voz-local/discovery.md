@@ -1,5 +1,7 @@
 # 0012 · Captura, transcripción y perfiles locales
 
+> **Estado:** superseded por 0004 (captura) y 0005 (voz). Evidencia conservada; decisiones pendientes de producto pasan a 0005.
+
 ## Pregunta o decisión
 
 Determinar la viabilidad de la capacidad y registrar evidencia para los diseños de las specs dependientes, aprobadas por la persona usuaria.
