@@ -15,7 +15,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
-| [0012](0012-viabilidad-captura-transcripcion-y-voz-local/spec.md) | Viabilidad captura transcripción y voz local | `superseded` | — | Evidencia absorbida por 0004 y 0005; transcripción, diarización y perfiles verificados |
+| [0012](0012-viabilidad-captura-transcripcion-y-voz-local/spec.md) | Viabilidad captura transcripción y voz local | `superseded` | — | Evidencia completa de captura, ASR, diarización y perfiles; límites de idioma/nombres pasan a 0005 |
 | [0013](0013-viabilidad-proveedores-contexto-y-oauth/spec.md) | Viabilidad proveedores contexto y OAuth | `discovery` | Cerrar decisión o crear una spec aprobable | |
 <!-- spec-driven-development:index-end -->
 

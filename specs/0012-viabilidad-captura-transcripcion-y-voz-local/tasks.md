@@ -18,7 +18,7 @@ Estado: `superseded` por 0004 (captura) y 0005 (voz). La evidencia se conserva e
   - Verificación: dos audios sintéticos, locale explícito y `deny network-outbound`.
   - Evidencia:
     - Método: `say` + `sandbox-exec` + `transcribir.swift`.
-    - Resultado: frases correctas en ambos idiomas; 13 locales es/en instalados.
+    - Resultado: frases correctas en ambos idiomas; 13 locales es/en instalados. El locale incorrecto degrada español; `NLLanguageRecognizer` detecta el idioma del texto pero no garantiza elegir la mejor transcripción. Decisión de 0005.
     - Fecha: 2026-11-24.
     - Commit: `77e0351`.
 
@@ -28,7 +28,7 @@ Estado: `superseded` por 0004 (captura) y 0005 (voz). La evidencia se conserva e
   - Verificación: AMI-SDM ES2004a/b y comparación de centroides por hablante.
   - Evidencia:
     - Método: `fluidaudiocli diarization-benchmark --mode offline` y exportación de embeddings.
-    - Resultado: DER 10,25 %/5,8 %, 4/4 hablantes, RTFx 120,2×/116,2×; similitud misma voz 0,927–0,968.
+    - Resultado: DER 10,25 %/5,8 %, 4/4 hablantes, RTFx 120,2×/116,2×. Perfiles guardados en JSON y reutilizados: 4/4 aciertos, misma voz 0,927–0,968, distinta ≤0,339, margen mínimo 0,60.
     - Fecha: 2026-11-24.
     - Commit: `77e0351`.
 
@@ -38,7 +38,7 @@ Estado: `superseded` por 0004 (captura) y 0005 (voz). La evidencia se conserva e
   - Verificación: revisión de evidencia y límites declarados.
   - Evidencia:
     - Método: revisión de AC1 y de los experimentos.
-    - Resultado: SpeechAnalyzer para ASR; FluidAudio Offline VBx para diarización; detección automática de idioma y perfiles quedan en diseño de 0005.
+    - Resultado: SpeechAnalyzer para ASR; FluidAudio Offline VBx para diarización y embeddings; perfiles viables con umbral a calibrar; detección automática de idioma, nombres y Bluetooth pasan al diseño de 0005 como decisiones explícitas.
     - Fecha: 2026-11-24.
     - Commit: pendiente de este commit.
 
