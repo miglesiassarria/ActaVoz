@@ -8,7 +8,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | [0002](0002-aplicacion-instalacion-y-configuracion-inicial/spec.md) | Base de aplicación y configuración inicial | `done` | Mantener | Cerrada el 2026-11-23; macOS 26 no probado por falta de equipo |
 | [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `done` | Mantener | Cerrada el 2026-11-23 con pruebas y capturas en `docs/evidencia/0003` |
 | [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `done` | — | 89 pruebas; captura dual, sincronización 51 ms, cierre, TCC y recuperación de fuente verificados |
-| [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `build` | Verificación manual de AC pendientes | Implementación local; 116 pruebas; app firmada |
 | [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0007](0007-chat-de-sesion-y-consultas/spec.md) | Chat de sesión y consultas | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
