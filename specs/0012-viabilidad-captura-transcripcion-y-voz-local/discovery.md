@@ -28,8 +28,8 @@ Determinar la viabilidad de la capacidad y registrar evidencia para los diseños
 | --- | --- | --- | --- |
 | Probar captura dual y sincronización | Ambas señales llegan separadas con tiempos comparables | Datos sintéticos en Mac de prueba | Ejecutado en 0004: CAF separados, desfase +51,1 ms y recuperación tras pérdida de fuente |
 | Probar permisos, reconexión y Bluetooth | Identificar interrupciones y recuperación por versión de macOS | Sin datos personales | Parcial: TCC real y cambio USB↔integrado con recuperación; Bluetooth no probado |
-| Probar transcripción en español, inglés y detección automática sin red | Medir disponibilidad y resultados con modelos previamente instalados | Audio preparado y autorizado | Parcial: español e inglés exactos con red saliente denegada; Speech 27.2 no expone detección automática de idioma |
-| Probar diarización y perfiles entre reuniones, incluso tras borrar audio | Medir reconocimiento, solapamiento y condiciones de persistencia | Voces sintéticas o consentidas; almacenamiento temporal | Ejecutado con AMI-SDM real: DER 10,3 % y 5,8 %, 4/4 hablantes; embeddings del mismo hablante entre reuniones 0,93–0,97 |
+| Probar transcripción en español, inglés y detección automática sin red | Medir disponibilidad y resultados con modelos previamente instalados | Audio preparado y autorizado | Parcial: ES/EN exactos sin red; LID textual detecta el idioma, pero el locale incorrecto aún produce texto clasificable y no siempre se elige la mejor transcripción. Sin API de LID en Speech |
+| Probar diarización y perfiles entre reuniones, incluso tras borrar audio | Medir reconocimiento, solapamiento y condiciones de persistencia | Voces sintéticas o consentidas; almacenamiento temporal | Ejecutado: AMI-SDM DER 10,3 %/5,8 %, 4/4 hablantes; perfiles guardados y reutilizados 4/4, misma voz 0,93–0,97, margen mínimo 0,60 |
 | Verificar disponibilidad de SpeechAnalyzer y recursos por versión de macOS e idioma; evaluar alternativa si no encaja | Registrar versión mínima, recursos sin red y alternativa viable, incluida detección de idioma | Documentación oficial y pruebas en Mac de prueba | Parcial: disponible; 13 locales es/en admitidos y los 13 instalados en este equipo. Falta macOS 26 y alternativa si Speech no cubre diarización |
 | Comparar ScreenCaptureKit y Core Audio taps | Registrar permisos, disponibilidad, captura simultánea y necesidad de reinicio en macOS objetivo | Señales sintéticas y cuenta de prueba | Resuelto por ADR 0003 y 0004: Core Audio taps, sin captura de pantalla |
 | Verificar creación de ~/.ActaVoz sin App Sandbox | Confirmar acceso y ausencia de sobrescritura en macOS objetivo | Home de usuario de prueba con archivo centinela | Parcial: probado en home simulado y home real de la cuenta actual con ejecutable local sin sandbox; falta cuenta de prueba independiente y entorno de distribución |
@@ -106,6 +106,15 @@ Determinar la viabilidad de la capacidad y registrar evidencia para los diseños
 - **Resultado:** existe `OfflineDiarizerManager` (VBx, mejor calidad por lotes) y `DiarizerManager` (streaming, con `SpeakerManager` para identidades entre fragmentos). Los modelos se descargan de HuggingFace y se compilan para CoreML; la entrada se normaliza a 16 kHz mono. También hay alternativas Sortformer (máx. 4 hablantes) y LS-EEND (máx. 10). No se ejecutó ningún modelo ni se midió DER.
 - **Límite:** las reglas del proyecto FluidAudio prohíben crear audio sintético de prueba; no usé los tonos de ActaVoz para diarización. Falta un corpus real multi-voz autorizado (por ejemplo AMI-SDM) y medir calidad, latencia, memoria y reconocimiento entre sesiones.
 - **Siguiente experimento:** descargar un segmento real de AMI-SDM con el CLI de FluidAudio, ejecutar `OfflineDiarizerManager` y comprobar turnos, solapamientos y estabilidad de identidades; después evaluar si `SpeakerManager` permite reutilizar perfiles entre sesiones.
+- **Fecha:** 2026-11-24.
+- **Commit:** pendiente de este commit.
+
+### Evidencia: detección de idioma con NaturalLanguage (2026-11-24)
+
+- **Método:** transcribir el mismo audio con `es_ES` y `en_US`; aplicar `NLLanguageRecognizer` al texto de cada resultado.
+- **Resultado:** en español, el texto del locale español se detectó como `es` con confianza 0,998 y el del locale inglés también como `es` con 0,973; en inglés, ambos textos se detectaron como `en` con 0,998 (el modelo español transcribió inglés correctamente).
+- **Conclusión:** el detector textual identifica el idioma, pero un locale incorrecto puede seguir produciendo texto clasificable; hace falta una heurística de calidad/confianza o un detector sobre audio. La detección automática no queda resuelta y pasa al diseño de 0005.
+- **Límite:** dos frases sintéticas cortas, un solo hablante; no prueba reuniones bilingües ni ruido.
 - **Fecha:** 2026-11-24.
 - **Commit:** pendiente de este commit.
 
