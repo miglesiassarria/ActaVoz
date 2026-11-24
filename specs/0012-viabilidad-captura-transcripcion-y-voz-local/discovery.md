@@ -24,12 +24,12 @@ Determinar la viabilidad de la capacidad y registrar evidencia para los diseños
 
 | Experimento | Resultado esperado | Límite seguro | Evidencia |
 | --- | --- | --- | --- |
-| Probar captura dual y sincronización | Ambas señales llegan separadas con tiempos comparables | Datos sintéticos en Mac de prueba | No ejecutado |
-| Probar permisos, reconexión y Bluetooth | Identificar interrupciones y recuperación por versión de macOS | Sin datos personales | No ejecutado |
-| Probar transcripción en español, inglés y detección automática sin red | Medir disponibilidad y resultados con modelos previamente instalados | Audio preparado y autorizado | Parcial: frases sintéticas en ambos idiomas; red denegada al proceso cliente, no a los servicios del sistema. Falta verificar desconexión completa y detección automática |
-| Probar diarización y perfiles entre reuniones, incluso tras borrar audio | Medir reconocimiento, solapamiento y condiciones de persistencia | Voces sintéticas o consentidas; almacenamiento temporal | No ejecutado |
-| Verificar disponibilidad de SpeechAnalyzer y recursos por versión de macOS e idioma; evaluar alternativa si no encaja | Registrar versión mínima, recursos sin red y alternativa viable, incluida detección de idioma | Documentación oficial y pruebas en Mac de prueba | Parcial: disponibilidad e idiomas consultados; faltan transcripción, alternativa y validación en versiones objetivo |
-| Comparar ScreenCaptureKit y Core Audio taps | Registrar permisos, disponibilidad, captura simultánea y necesidad de reinicio en macOS objetivo | Señales sintéticas y cuenta de prueba | No ejecutado |
+| Probar captura dual y sincronización | Ambas señales llegan separadas con tiempos comparables | Datos sintéticos en Mac de prueba | Ejecutado en 0004: CAF separados, desfase +51,1 ms y recuperación tras pérdida de fuente |
+| Probar permisos, reconexión y Bluetooth | Identificar interrupciones y recuperación por versión de macOS | Sin datos personales | Parcial: TCC real y cambio USB↔integrado con recuperación; Bluetooth no probado |
+| Probar transcripción en español, inglés y detección automática sin red | Medir disponibilidad y resultados con modelos previamente instalados | Audio preparado y autorizado | Parcial: español e inglés exactos con red saliente denegada; Speech 27.2 no expone detección automática de idioma |
+| Probar diarización y perfiles entre reuniones, incluso tras borrar audio | Medir reconocimiento, solapamiento y condiciones de persistencia | Voces sintéticas o consentidas; almacenamiento temporal | No ejecutado; SpeechTranscriber no expone atributo de hablante. FluidAudio queda como candidato a evaluar |
+| Verificar disponibilidad de SpeechAnalyzer y recursos por versión de macOS e idioma; evaluar alternativa si no encaja | Registrar versión mínima, recursos sin red y alternativa viable, incluida detección de idioma | Documentación oficial y pruebas en Mac de prueba | Parcial: disponible; 13 locales es/en admitidos y los 13 instalados en este equipo. Falta macOS 26 y alternativa si Speech no cubre diarización |
+| Comparar ScreenCaptureKit y Core Audio taps | Registrar permisos, disponibilidad, captura simultánea y necesidad de reinicio en macOS objetivo | Señales sintéticas y cuenta de prueba | Resuelto por ADR 0003 y 0004: Core Audio taps, sin captura de pantalla |
 | Verificar creación de ~/.ActaVoz sin App Sandbox | Confirmar acceso y ausencia de sobrescritura en macOS objetivo | Home de usuario de prueba con archivo centinela | Parcial: probado en home simulado y home real de la cuenta actual con ejecutable local sin sandbox; falta cuenta de prueba independiente y entorno de distribución |
 | Evaluar deducción de nombres en local o con LLM | Documentar opciones y efectos sobre uso sin conexión | Transcripciones sintéticas; sin envío de audio | No ejecutado |
 
@@ -75,6 +75,29 @@ Determinar la viabilidad de la capacidad y registrar evidencia para los diseños
 - **Fecha:** 2026-11-22.
 - **Commit:** sin commit.
 
+### Evidencia: captura dual y reconexión (0004)
+
+- **Método:** la spec 0004 verificó captura simultánea de micrófono y audio del sistema, midió el desfase por correlación de un tono de 440 Hz y probó un cambio real de entrada USB↔integrado con recuperación.
+- **Resultado:** CAF separados; desfase +51,1 ms; audio combinado de 32,81 s tras pérdida y recuperación; permisos TCC reales. Evidencia completa en `docs/evidencia/0004/README.md`.
+- **Fecha:** 2026-11-24.
+- **Commit:** `d799552`.
+
+### Evidencia: transcripción local ES/EN con red saliente bloqueada (2026-11-24)
+
+- **Método:** generar dos audios sintéticos con `say -v Monica` (español) y `say -v Samantha` (inglés); compilar `experimentos/transcribir.swift` con Xcode 27.2; ejecutar ambos con `sandbox-exec -p '(version 1)(allow default)(deny network-outbound)'` y el locale explícito.
+- **Resultado:** salida 0. Español: «Hola, esta es una reunión de prueba. Mañana revisaremos las tareas del proyecto.» Inglés: dos resultados parciales que componen la frase completa. Los 13 locales es/en aparecen instalados en este equipo.
+- **Límite:** la restricción se aplica al proceso cliente, no a los servicios de macOS; no prueba desconexión total de la máquina, calidad en reuniones ni detección automática.
+- **Fecha:** 2026-11-24.
+- **Commit:** pendiente de este commit.
+
+### Evidencia: límites del SDK para detección y diarización (2026-11-24)
+
+- **Método:** inspeccionar `Speech.swiftinterface` del SDK macOS 27.2.
+- **Resultado:** `SpeechDetector` solo expone actividad de voz (`speechDetected`); `SpeechTranscriber` requiere un locale explícito y sus atributos son tiempo y confianza, sin identificador de hablante ni detección de idioma. Por tanto, la detección automática y la diarización no se cubren con SpeechAnalyzer tal cual.
+- **Consecuencia:** para 0005 habrá que diseñar la selección de idioma (ejecutar locales candidatos o detector externo) y evaluar FluidAudio para diarización/perfiles.
+- **Fecha:** 2026-11-24.
+- **Commit:** pendiente de este commit.
+
 ## Resultado y siguiente paso
 
 ### Dirección técnica provisional
@@ -88,5 +111,7 @@ Condiciona el acceso a carpetas de 0002 y los diseños de 0004 y 0005.
 - **Decidido por la persona usuaria:** el mínimo de la fase 1 es **macOS 26 o posterior en Apple Silicon**. No se declara soporte Intel.
 - **Consecuencia:** el proyecto Swift de 0002 se configura con despliegue macOS 26 y arquitectura arm64. La pregunta no se reabre salvo incompatibilidad demostrada de un componente.
 - **Límite aceptado (2026-11-23):** no hay un equipo con macOS 26 disponible, así que esa versión no se comprobará. El despliegue apunta a 26.0 y la evidencia se obtiene en macOS 27.2.1/arm64. Es un riesgo declarado, no una validación.
-- **Pendiente de evidencia:** uso sin conexión, captura dual, diarización y rendimiento. Se verifican en sus unidades y en 0011 con el artefacto real.
-- **Sigue sin elegirse** librería definitiva de transcripción ni de diarización: corresponde a los experimentos de esta investigación y a los diseños de 0004 y 0005.
+- **Evidencia ya disponible:** captura dual/reconexión (0004) y transcripción ES/EN con red saliente bloqueada.
+- **Pendiente de evidencia:** diarización, perfiles entre reuniones, detección automática de idioma, Bluetooth y rendimiento en reuniones.
+- **Siguiente experimento:** evaluar FluidAudio con voces sintéticas para diarización y representaciones de voz; después decidir si cubre 0005 o si hace falta otra alternativa.
+- **Sigue sin elegirse** librería definitiva de diarización ni estrategia de detección automática de idioma.
