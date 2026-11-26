@@ -24,3 +24,11 @@ Fecha: 2026-11-26. Hardware: Apple M5 Pro, 48 GB, macOS 27.2.1.
 - AC6: la notarización requiere Developer ID y credenciales de Apple, descartadas para el proyecto; el artefacto no es instalable como estable.
 - AC7: no se verificó el recorrido completo sin internet con un modelo local en la app; solo funciones locales y pruebas aisladas.
 - No se comparó una reunión nueva bilingüe con referencia etiquetada; se reutiliza 0012.
+
+## Prueba offline con Ollama (2026-11-26)
+
+- `sandbox-exec` con `deny network-outbound` y permiso solo para localhost.
+- `curl` a example.com falló; `/api/tags` de Ollama respondió.
+- La app cargó la biblioteca, abrió una sesión y respondió a una pregunta usando qwen3.6 local; no hubo red externa.
+- La respuesta tardó unos 15 s; no se usa como umbral.
+- Se corrigió el prompt de chat para una sola instrucción de sistema, compatible con la plantilla de Ollama.

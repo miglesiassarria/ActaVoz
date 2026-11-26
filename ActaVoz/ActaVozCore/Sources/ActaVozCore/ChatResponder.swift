@@ -28,8 +28,7 @@ public struct ProviderChatResponder: ChatResponding {
         }
         let client = try ProviderFactory.make(connection: connection, store: secrets, transport: transport)
         var messages: [ProviderMessage] = [
-            .system("Responde en el idioma de la pregunta usando solo la transcripción y el historial. Si no consta, dilo."),
-            .system("Transcripción completa hasta ahora:\n\(transcript)")
+            .system("Responde en el idioma de la pregunta usando solo la transcripción y el historial. Si no consta, dilo.\n\nTranscripción completa hasta ahora:\n\(transcript)")
         ]
         messages += history.map { message in
             ProviderMessage(role: message.role == .user ? "user" : "assistant", content: message.text)
