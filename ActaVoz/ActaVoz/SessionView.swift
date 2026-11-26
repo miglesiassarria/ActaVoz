@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import SwiftUI
 
@@ -6,6 +7,7 @@ import SwiftUI
 /// generación pertenecen a 0007–0009; aquí solo se conserva lo que existe.
 struct SessionView: View {
     @ObservedObject var model: SessionModel
+    @State private var chat: SessionChatModel?
 
     var body: some View {
         Group {
@@ -41,22 +43,45 @@ struct SessionView: View {
     }
 
     private func content(_ session: Session) -> some View {
-        VStack(spacing: 0) {
-            header(session)
-            Divider()
-            Picker("", selection: tabBinding) {
-                ForEach(SessionModel.Tab.allCases) { tab in
-                    Text(tab.rawValue).tag(tab)
+        ZStack(alignment: .bottomTrailing) {
+            VStack(spacing: 0) {
+                header(session)
+                Divider()
+                Picker("", selection: tabBinding) {
+                    ForEach(SessionModel.Tab.allCases) { tab in
+                        Text(tab.rawValue).tag(tab)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                Divider()
+                body(for: session)
+            }
+            .safeAreaInset(edge: .bottom) {
+                if let chat { ChatBar(model: chat) }
+            }
+
+            if let chat {
+                ChatOverlay(model: chat) {
+                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
                 }
             }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            Divider()
-            body(for: session)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .task { ensureChat() }
+    }
+
+    private func ensureChat() {
+        guard chat == nil else { return }
+        let store = ProviderConfigurationStore(fileURL: StorageLocations.production().providersFile)
+        let responder = ProviderChatResponder(configurationStore: store, secrets: KeychainSecretStore())
+        chat = SessionChatModel(
+            folderURL: model.folderURL,
+            responder: responder,
+            transcriptProvider: { [weak model] in model?.session?.transcript.plainText ?? "" }
+        )
     }
 
     private func header(_ session: Session) -> some View {
@@ -136,10 +161,11 @@ struct SessionView: View {
                 }
             }
         case .chat:
-            if session.chat.messages.isEmpty {
-                empty("Sin preguntas todavía", "El chat de la sesión llegará en la unidad 0007.")
+            let messages = chat?.messages ?? session.chat.messages
+            if messages.isEmpty {
+                empty("Sin preguntas todavía", "Usa Preguntar para consultar la transcripción.")
             } else {
-                List(session.chat.messages) { message in
+                List(messages) { message in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(message.role == .user ? "Pregunta" : "Respuesta")
                             .font(.caption.bold())

@@ -146,7 +146,7 @@ public enum ProviderConfigurationError: Error, LocalizedError, Equatable {
     }
 }
 
-public struct ProviderConfigurationStore {
+public struct ProviderConfigurationStore: @unchecked Sendable {
     public var fileURL: URL
     public var fileManager: FileManager
 
