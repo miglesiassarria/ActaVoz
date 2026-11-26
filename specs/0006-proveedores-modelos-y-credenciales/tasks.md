@@ -1,38 +1,32 @@
 # 0006 · Tareas: Proveedores, modelos y credenciales
 
-Estado: done.
+Estado: build. Reabierta el 2026-11-26 porque la verificación de UI y consumo no estaba completa.
 
 - [x] **T1. Configuración, conexiones y Llavero**
-  - Objetivo: AC1, AC2, AC3, AC6, AC8.
-  - Verificación: swift test (ProviderTests) y UI de Ajustes.
+  - Objetivo: AC1–AC3 y AC6.
   - Evidencia:
-    - Método: guardar dos conexiones, activar una, guardar clave en Llavero y comprobar éxito/errores con servidor local.
-    - Resultado: 11 pruebas de proveedores en verde; JSON sin secretos; Llavero con la clave; conexión simulada OK.
+    - Método: pruebas de configuración, Llavero, OpenAI/Claude/Ollama; UI con servidor local.
+    - Resultado: 11 pruebas de proveedores; JSON sin secretos; conexión simulada OK.
     - Fecha: 2026-11-24.
-    - Commit: 3ef4091 y cierre de 0006.
+    - Commit: c7c0e88.
 
 - [x] **T2. Modelos, contexto y errores**
-  - Objetivo: AC4, AC5, AC7, AC9, AC10, AC11, AC12.
-  - Verificación: swift test (selección, Claude/Ollama/OpenAI, contexto y errores).
+  - Objetivo: AC4, AC5, AC7 y AC11–AC12 en núcleo.
   - Evidencia:
-    - Método: transporte simulado, selección principal/preguntas/resúmenes y división tras rechazo.
-    - Resultado: 11 pruebas en verde; cobertura exacta en partes; errores sin secretos.
+    - Método: transporte simulado, selección y división tras rechazo.
+    - Resultado: cobertura exacta; errores sin secretos.
     - Fecha: 2026-11-24.
-    - Commit: 3ef4091 y cierre de 0006.
+    - Commit: c7c0e88.
 
-- [x] **T3. UI y evidencia**
-  - Objetivo: AC1–AC6 y AC8 visibles en Ajustes.
-  - Verificación: build firmado y prueba manual con servidor local.
-  - Evidencia:
-    - Método: app firmada, Ajustes → Proveedores, alta de Mock, comprobación y cierre.
-    - Resultado: catálogo, conexión activa, modelos y mensaje OK observados.
-    - Fecha: 2026-11-24.
-    - Commit: 3ef4091 y cierre de 0006.
+- [ ] **T3. Consumo en chat, resúmenes y nombres**
+  - Objetivo: cerrar AC8–AC10 y la UI de AC11–AC12 con 0007/0008/0009.
+  - Pendiente: integrar el proveedor en las funciones que consumen la transcripción.
 
-- [x] **T4. Cierre**
-  - Objetivo: actualizar resultados, índice, verificación y ADR.
-  - Evidencia:
-    - Método: validate_sdd --strict, audit_sdd y build.
-    - Resultado: instalación SDD válida; 127 pruebas.
-    - Fecha: 2026-11-24.
-    - Commit: 3ef4091 y cierre de 0006.
+- [ ] **T4. Verificación de extremo a extremo**
+  - Objetivo: probar dos conexiones y reapertura, modelo enviado desde UI, errores de credencial y reintento/cambio de modelo.
+  - Pendiente: repetir con la UI terminada.
+
+## Cierre
+
+- [ ] Completar T3 y T4.
+- [ ] Actualizar AC y estado solo con evidencia.
