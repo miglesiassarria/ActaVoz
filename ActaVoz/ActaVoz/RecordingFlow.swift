@@ -48,6 +48,7 @@ final class RecordingFlowModel: ObservableObject {
 
     var onOpenSession: ((URL) -> Void)?
     let liveTranscript = LiveTranscriptModel()
+    @Published var chat: SessionChatModel?
 
     private let repository: SessionRepository
     private let retentionPolicy: () -> AudioRetentionPolicy
@@ -88,6 +89,7 @@ final class RecordingFlowModel: ObservableObject {
         awaitingAudioDecision = false
         options = RecordingOptions()
         liveTranscript.close()
+        chat = nil
         pendingRecovery = findPendingRecording()
         refreshAvailability()
         isPresented = true
@@ -172,6 +174,12 @@ final class RecordingFlowModel: ObservableObject {
             let summary = try repository.createSession(in: .inbox, language: options.language)
             folder = summary.folderURL
             createdTitle = summary.title
+            let providerStore = ProviderConfigurationStore(fileURL: StorageLocations.production().providersFile)
+            chat = SessionChatModel(
+                folderURL: summary.folderURL,
+                responder: ProviderChatResponder(configurationStore: providerStore, secrets: KeychainSecretStore()),
+                transcriptProvider: { [weak self] in self?.liveTranscript.text ?? "" }
+            )
 
             let controller = RecordingController(
                 folder: summary.folderURL,
@@ -471,7 +479,7 @@ struct RecordingFlowView: View {
                 RecordingPanel(model: model)
             }
         }
-        .frame(width: 540)
+        .frame(width: 620, height: model.phase == .preparation ? nil : 620)
         .interactiveDismissDisabled(model.isStarting || model.phase == .recording || model.phase == .processing)
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             if model.phase == .preparation { model.refreshAvailability() }
@@ -666,17 +674,26 @@ struct RecordingPanel: View {
             case .preparation:
                 EmptyView()
             }
+            if let chat = model.chat { ChatBar(model: chat) }
         }
         .padding(26)
         .contentShape(Rectangle())
         .onTapGesture {
             if model.liveTranscript.isVisible { model.liveTranscript.close() }
+            model.chat?.close()
         }
         .overlay(alignment: .bottomLeading) {
             if model.liveTranscript.isVisible {
                 LiveTranscriptPanel(model: model.liveTranscript)
                     .padding(16)
                     .padding(.bottom, 90)
+            }
+        }
+        .overlay {
+            if let chat = model.chat {
+                ChatOverlay(model: chat) {
+                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                }
             }
         }
     }
