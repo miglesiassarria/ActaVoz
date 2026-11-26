@@ -111,6 +111,7 @@ final class SummaryController: ObservableObject {
 
 struct SummaryPanel: View {
     @ObservedObject var model: SummaryController
+    var onConfigureProvider: () -> Void = {}
     @State private var showingDeleteConfirmation = false
 
     var body: some View {
@@ -134,7 +135,13 @@ struct SummaryPanel: View {
             .padding(12)
             Divider()
             if let error = model.errorMessage {
-                Text(error).font(.callout).foregroundStyle(.orange).padding(.horizontal, 12).padding(.top, 8)
+                HStack {
+                    Text(error).font(.callout).foregroundStyle(.orange)
+                    Button("Cambiar modelo") { onConfigureProvider() }
+                    Button("Reintentar") { model.requestGenerate() }
+                }
+                .padding(.horizontal, 12)
+                .padding(.top, 8)
             }
             TextEditor(text: Binding(
                 get: { model.summaryText },

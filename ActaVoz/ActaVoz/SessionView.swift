@@ -11,6 +11,9 @@ struct SessionView: View {
     @State private var summary: SummaryController?
     @State private var synthesis: SynthesisController?
     @State private var audio: SessionAudioPlayer?
+    @State private var aiNames: [String: String] = [:]
+    @State private var suggestingNames = false
+    @State private var nameSuggestionError: String?
 
     var body: some View {
         Group {
@@ -87,6 +90,23 @@ struct SessionView: View {
             folderURL: model.folderURL,
             transcript: { [weak model] in model?.session?.transcript.plainText ?? "" }
         )
+    }
+
+    private func suggestNames(in session: Session) {
+        suggestingNames = true
+        nameSuggestionError = nil
+        let participants = session.summary.metadata.participants
+        let transcript = session.transcript.plainText
+        let store = ProviderConfigurationStore(fileURL: StorageLocations.production().providersFile)
+        let suggester = ProviderNameSuggester(configurationStore: store, secrets: KeychainSecretStore())
+        Task { @MainActor in
+            do {
+                aiNames = try await suggester.suggest(transcript: transcript, participants: participants)
+            } catch {
+                nameSuggestionError = error.localizedDescription
+            }
+            suggestingNames = false
+        }
     }
 
     private func ensureAudio() {
@@ -175,6 +195,20 @@ struct SessionView: View {
                             }
                             .font(.caption)
                         }
+                        if let suggested = aiNames[participant.id], !participant.isConfirmed {
+                            Button("IA: usar «\(suggested)»") {
+                                model.confirmParticipant(id: participant.id, name: suggested)
+                            }
+                            .font(.caption)
+                        }
+                    }
+                    Button(suggestingNames ? "Sugiriendo…" : "Sugerir nombres con IA") {
+                        suggestNames(in: session)
+                    }
+                    .font(.caption)
+                    .disabled(suggestingNames)
+                    if let nameSuggestionError {
+                        Text(nameSuggestionError).font(.caption).foregroundStyle(.orange)
                     }
                 }
             }
@@ -202,7 +236,9 @@ struct SessionView: View {
             }
         case .summary:
             if let summary {
-                SummaryPanel(model: summary)
+                SummaryPanel(model: summary) {
+                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                }
             } else {
                 ProgressView("Preparando el resumen…")
             }
