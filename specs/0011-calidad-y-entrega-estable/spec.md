@@ -24,7 +24,7 @@ La versión estable solo se declara después de verificar sus capacidades de ext
 | AC4 | **Latencia y resumen:** Medir tiempos de transcripción, respuesta y resumen; revisar decisiones y tareas frente a la fuente y detectar invenciones. | Registrar tiempos y revisión de ejemplos con referencia conocida. | parcial: build y pruebas correctos; latencia y revisión semántica de reuniones nuevas no completas |
 | AC5 | **Umbrales:** Acordar niveles mínimos tras revisar evidencia; no declarar estabilidad sin criterios aprobados y alcanzados. | Registrar umbrales acordados y comparación con mediciones. | bloqueado: umbrales no aprobados; no se declara estabilidad |
 | AC6 | **Entrega:** Verificar instalación, firma, notarización y ejecución del DMG en entorno seguro. | Instalar artefacto real firmado y notarizado en Mac de prueba y registrar resultados. | bloqueado: sin Developer ID/notarización; spctl rechaza el DMG ad-hoc |
-| AC7 | **Sin conexión:** con modelos locales previamente disponibles, grabar, transcribir, identificar y consultar sesiones; con un modelo local accesible, hacer preguntas y generar resúmenes. | Desconectar internet en un Mac de prueba, ejecutar el recorrido completo y registrar evidencia. | parcial: funciones locales sin red; recorrido completo con modelo local no verificado |
+| AC7 | **Sin conexión:** con modelos locales previamente disponibles, grabar, transcribir, identificar y consultar sesiones; con un modelo local accesible, hacer preguntas y generar resúmenes. | Desconectar internet en un Mac de prueba, ejecutar el recorrido completo y registrar evidencia. | cumplido: app con red externa denegada y loopback permitido; consulta a Ollama local respondida |
 
 ## Fuera de alcance
 
