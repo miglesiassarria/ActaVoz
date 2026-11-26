@@ -9,7 +9,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | [0003](0003-biblioteca-y-persistencia-de-sesiones/spec.md) | Biblioteca y persistencia de sesiones | `done` | Mantener | Cerrada el 2026-11-23 con pruebas y capturas en `docs/evidencia/0003` |
 | [0004](0004-grabacion-permisos-y-recuperacion/spec.md) | Grabación permisos y recuperación | `done` | — | 89 pruebas; captura dual, sincronización 51 ms, cierre, TCC y recuperación de fuente verificados |
 | [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `done` | — | Transcripción, diarización, perfiles y correcciones; 116 pruebas |
-| [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `build` | Completar consumo en 0007/0008/0009 y verificación UI | Catálogo y clientes listos; AC de consumo parciales |
+| [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `done` | — | Catálogo, Llavero, modelos, contexto y nombres; 147 pruebas |
 | [0007](0007-chat-de-sesion-y-consultas/spec.md) | Chat de sesión y consultas | `done` | — | Panel, cola, historial y contexto completo; 132 pruebas |
 | [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `done` | — | Plantillas, generación atómica y edición; pruebas |
 | [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `done` | — | Notas en directo, síntesis y fuentes; pruebas |

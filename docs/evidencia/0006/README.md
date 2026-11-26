@@ -30,3 +30,11 @@ Fecha: 2026-11-24. Entorno: macOS 27.2.1/arm64, Xcode 27.2.
 - OpenCode Go y genérico comparten el contrato OpenAI-compatible; solo se probó el contrato OpenAI con transporte simulado.
 - No se probó streaming ni equivalencia semántica de la división.
 - macOS 26 no se ha probado.
+
+## Cierre 2026-11-26
+
+- 147 pruebas, 0 fallos.
+- Chat, resumen y síntesis consumen el proveedor configurado.
+- NameSuggestionTests: propuesta con modelo principal y descarte de ids desconocidos.
+- Chat y resumen ofrecen reintento y cambio de modelo; errores sin secretos.
+- UI de errores de resumen añade Reintentar/Cambiar modelo.

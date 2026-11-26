@@ -8,7 +8,7 @@ Existe un proyecto Swift para la unidad 0002: app SwiftUI en `ActaVoz/ActaVoz.xc
 
 - **Compilar la app** (2026-11-23, salida 0):
   `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild -project ActaVoz/ActaVoz.xcodeproj -scheme ActaVoz -configuration Debug -derivedDataPath build/DerivedData -destination 'platform=macOS,arch=arm64' build`
-- **Probar el núcleo** (2026-11-26, 145 pruebas y 0 fallos):
+- **Probar el núcleo** (2026-11-26, 147 pruebas y 0 fallos):
   `./scripts/test-core.sh`, equivalente a `cd ActaVoz/ActaVozCore && swift test --disable-sandbox` con `TMPDIR` y `CLANG_MODULE_CACHE_PATH` dentro de `build/`.
 - **Biblioteca de ejemplo** para revisar la interfaz sin datos reales:
   `cd ActaVoz/ActaVozCore && swift run --disable-sandbox ActaVozFixtures ../../build/fixtures --reset`, y después `ActaVoz.app/Contents/MacOS/ActaVoz -ActaVozRoot <ruta>` (solo en compilaciones de depuración). Sin `--reset` se niega a escribir sobre una ruta con contenido.
