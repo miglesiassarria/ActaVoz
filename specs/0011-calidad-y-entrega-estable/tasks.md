@@ -1,40 +1,19 @@
-# 0011 · Tareas propuestas: Calidad y entrega
+# 0011 · Tareas: Calidad y entrega
 
-Dependencias: 0002–0010, 0012 y 0013. No se ha ejecutado ninguna tarea. Antes de build, resolver incógnitas técnicas pertinentes y reconciliar rutas y contratos con el proyecto existente.
+Estado: blocked.
 
-- [ ] **T1. Evaluación funcional y calidad**
-  - Objetivo: cumplir AC1–AC4 de la spec.
-  - Archivos: `docs/verification.md`, `scripts/quality/`, `docs/evidence/` y artefacto de distribución; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Ejecutar recorridos y corpus etiquetado en español e inglés, con solapamientos; registrar errores y latencias.
+- [x] **T1. Evaluación funcional y técnica**
+  - Objetivo: AC1–AC4.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: 145 pruebas, build Release, DMG, métricas de 0012.
+    - Resultado: build y pruebas correctos; cobertura funcional; latencia/semántica nueva parcial.
+    - Fecha: 2026-11-26.
+    - Commit: pendiente de este commit.
 
 - [ ] **T2. Umbrales**
-  - Objetivo: cumplir AC5 de la spec.
-  - Archivos: `docs/verification.md`, `scripts/quality/`, `docs/evidence/` y artefacto de distribución; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Documentar umbrales acordados tras mediciones y comparar resultados sin inventar evidencia.
-  - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+  - Objetivo: AC5.
+  - Bloqueado: no hay umbrales aprobados por la persona usuaria.
 
-- [ ] **T3. Entrega e integración offline**
-  - Objetivo: cumplir AC6–AC7 de la spec.
-  - Archivos: `docs/verification.md`, `scripts/quality/`, `docs/evidence/` y artefacto de distribución; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Verificar DMG firmado y notarizado en Mac limpio y repetir recorrido completo con red desconectada.
-  - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
-
-## Cierre
-
-- [ ] Ejecutar cada tarea y registrar evidencia reproducible.
-- [ ] Verificar cada criterio de aceptación individualmente y revisar el diff y alcance.
-- [ ] Ejecutar verificaciones completas, validador SDD estricto y auditoría; actualizar documentación y ADR aplicables.
-- [ ] Actualizar estado de spec e índice solo tras el cierre efectivo.
+- [ ] **T3. Entrega estable e integración offline**
+  - Objetivo: AC6–AC7.
+  - Bloqueado: no hay Developer ID ni credenciales de notarización; el DMG ad-hoc es rechazado por spctl. El recorrido offline completo con modelo local no está certificado.
