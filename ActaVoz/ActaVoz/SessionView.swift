@@ -8,6 +8,9 @@ import SwiftUI
 struct SessionView: View {
     @ObservedObject var model: SessionModel
     @State private var chat: SessionChatModel?
+    @State private var summary: SummaryController?
+    @State private var synthesis: SynthesisController?
+    @State private var audio: SessionAudioPlayer?
 
     var body: some View {
         Group {
@@ -70,7 +73,36 @@ struct SessionView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .task { ensureChat() }
+        .task {
+            ensureChat()
+            ensureSummary()
+            ensureSynthesis()
+            ensureAudio()
+        }
+    }
+
+    private func ensureSummary() {
+        guard summary == nil else { return }
+        summary = SummaryController(
+            folderURL: model.folderURL,
+            transcript: { [weak model] in model?.session?.transcript.plainText ?? "" }
+        )
+    }
+
+    private func ensureAudio() {
+        guard audio == nil else { return }
+        audio = SessionAudioPlayer(folderURL: model.folderURL)
+    }
+
+    private func ensureSynthesis() {
+        guard synthesis == nil else { return }
+        synthesis = SynthesisController(
+            folderURL: model.folderURL,
+            notes: { [weak model] in model?.session?.notes ?? "" },
+            summary: { [weak model] in
+                (try? String(contentsOf: model?.folderURL.appendingPathComponent("resumen.md") ?? URL(fileURLWithPath: "/"), encoding: .utf8)) ?? ""
+            }
+        )
     }
 
     private func ensureChat() {
@@ -102,6 +134,14 @@ struct SessionView: View {
             }
             .font(.callout)
             .foregroundStyle(.secondary)
+
+            HStack(spacing: 12) {
+                if let audio, audio.isAvailable {
+                    AudioPlayerView(model: audio)
+                }
+                Spacer()
+                ExportMenu(session: session)
+            }
 
             if !session.summary.metadata.participants.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
@@ -146,19 +186,25 @@ struct SessionView: View {
     private func body(for session: Session) -> some View {
         switch model.tab {
         case .notes:
-            TextEditor(text: notesBinding)
+            VStack(spacing: 0) {
+                TextEditor(text: Binding(
+                    get: { notesBinding.wrappedValue },
+                    set: { notesBinding.wrappedValue = $0; synthesis?.refreshState() }
+                ))
                 .font(.body)
                 .padding(8)
-        case .summary:
-            if session.summaryText.isEmpty {
-                empty("Aún no hay resumen", "Se generará en la unidad 0008.")
-            } else {
-                ScrollView {
-                    Text(session.summaryText)
-                        .textSelection(.enabled)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(20)
+                Divider()
+                if let synthesis {
+                    SynthesisPanel(model: synthesis)
+                        .padding(12)
+                        .onAppear { synthesis.refreshState() }
                 }
+            }
+        case .summary:
+            if let summary {
+                SummaryPanel(model: summary)
+            } else {
+                ProgressView("Preparando el resumen…")
             }
         case .chat:
             let messages = chat?.messages ?? session.chat.messages

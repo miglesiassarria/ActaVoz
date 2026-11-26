@@ -1,30 +1,19 @@
-# 0009 · Tareas propuestas: Notas y síntesis
+# 0009 · Tareas: Notas y síntesis
 
-Dependencias: 0003, 0006 y 0008. No se ha ejecutado ninguna tarea. Antes de build, resolver incógnitas técnicas pertinentes y reconciliar rutas y contratos con el proyecto existente.
+Estado: done.
 
-- [ ] **T1. Notas y persistencia**
-  - Objetivo: cumplir AC1–AC2, AC5 de la spec.
-  - Archivos: `Notes/NotesController.swift`, `Notes/NotesView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Editar durante y después, reabrir y borrar síntesis con cancelación/confirmación.
+- [x] **T1. Notas y persistencia**
+  - Objetivo: AC1, AC2 y AC5.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: edición en captura y sesión; notas.md; borrado de síntesis.
+    - Resultado: guardado automático; fuentes conservadas.
+    - Fecha: 2026-11-26.
+    - Commit: 0008-0010.
 
-- [ ] **T2. Síntesis**
-  - Objetivo: cumplir AC3–AC4, AC6–AC8 de la spec.
-  - Archivos: `Notes/NotesController.swift`, `Notes/NotesView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Proveedor simulado; comprobar entradas, modelo, aviso de actualización, edición y falta de resumen.
+- [x] **T2. Síntesis**
+  - Objetivo: AC3, AC4, AC6–AC8.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
-
-## Cierre
-
-- [ ] Ejecutar cada tarea y registrar evidencia reproducible.
-- [ ] Verificar cada criterio de aceptación individualmente y revisar el diff y alcance.
-- [ ] Ejecutar verificaciones completas, validador SDD estricto y auditoría; actualizar documentación y ADR aplicables.
-- [ ] Actualizar estado de spec e índice solo tras el cierre efectivo.
+    - Método: SynthesisTests con proveedor simulado, hash de fuentes y modelo de resúmenes.
+    - Resultado: requiere resumen; combina notas y resumen; aviso de actualización; sustitución.
+    - Fecha: 2026-11-26.
+    - Commit: 0008-0010.
