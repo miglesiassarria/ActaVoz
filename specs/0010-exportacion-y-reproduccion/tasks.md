@@ -1,30 +1,19 @@
-# 0010 · Tareas propuestas: Exportación y reproducción
+# 0010 · Tareas: Exportación y reproducción
 
-Dependencias: 0003, 0005, 0008 y 0009. No se ha ejecutado ninguna tarea. Antes de build, resolver incógnitas técnicas pertinentes y reconciliar rutas y contratos con el proyecto existente.
+Estado: done.
 
-- [ ] **T1. Reproducción**
-  - Objetivo: cumplir AC1 de la spec.
-  - Archivos: `Export/ExportService.swift`, `Playback/SessionAudioPlayer.swift`, `Export/ExportView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Archivo de prueba con duración conocida; reproducir, pausar, saltar y probar archivo ausente.
+- [x] **T1. Reproducción**
+  - Objetivo: AC1.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
+    - Método: AVAudioPlayer, barra, tiempo y ausencia de archivo.
+    - Resultado: controles y tiempo; sin audio no se muestra reproductor.
+    - Fecha: 2026-11-26.
+    - Commit: 0008-0010.
 
-- [ ] **T2. Exportación y copia**
-  - Objetivo: cumplir AC2–AC5 de la spec.
-  - Archivos: `Export/ExportService.swift`, `Playback/SessionAudioPlayer.swift`, `Export/ExportView.swift` y pruebas; rutas propuestas, ajustables al proyecto real.
-  - Verificación: Exportar cada contenido en ambos formatos a carpeta temporal; comparar interlocutores, tiempos y síntesis opcional.
+- [x] **T2. Exportación y copia**
+  - Objetivo: AC2–AC5.
   - Evidencia:
-    - Método: pendiente.
-    - Resultado: pendiente.
-    - Fecha: pendiente.
-    - Commit: pendiente.
-
-## Cierre
-
-- [ ] Ejecutar cada tarea y registrar evidencia reproducible.
-- [ ] Verificar cada criterio de aceptación individualmente y revisar el diff y alcance.
-- [ ] Ejecutar verificaciones completas, validador SDD estricto y auditoría; actualizar documentación y ADR aplicables.
-- [ ] Actualizar estado de spec e índice solo tras el cierre efectivo.
+    - Método: ExportTests y NSSavePanel/Pasteboard.
+    - Resultado: Markdown/texto, copia y notas con síntesis opcional.
+    - Fecha: 2026-11-26.
+    - Commit: 0008-0010.

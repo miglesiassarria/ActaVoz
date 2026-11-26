@@ -7,6 +7,8 @@ struct SettingsRootView: View {
                 .tabItem { Label("Perfiles", systemImage: "person.wave.2") }
             ProvidersSettingsView()
                 .tabItem { Label("Proveedores", systemImage: "network") }
+            TemplatesSettingsView()
+                .tabItem { Label("Plantillas", systemImage: "doc.text") }
         }
         .frame(width: 620, height: 520)
     }

@@ -49,6 +49,7 @@ final class RecordingFlowModel: ObservableObject {
     var onOpenSession: ((URL) -> Void)?
     let liveTranscript = LiveTranscriptModel()
     @Published var chat: SessionChatModel?
+    @Published var notesText = ""
 
     private let repository: SessionRepository
     private let retentionPolicy: () -> AudioRetentionPolicy
@@ -90,6 +91,7 @@ final class RecordingFlowModel: ObservableObject {
         options = RecordingOptions()
         liveTranscript.close()
         chat = nil
+        notesText = ""
         pendingRecovery = findPendingRecording()
         refreshAvailability()
         isPresented = true
@@ -174,6 +176,7 @@ final class RecordingFlowModel: ObservableObject {
             let summary = try repository.createSession(in: .inbox, language: options.language)
             folder = summary.folderURL
             createdTitle = summary.title
+            notesText = (try? String(contentsOf: summary.folderURL.appendingPathComponent("notas.md"), encoding: .utf8)) ?? ""
             let providerStore = ProviderConfigurationStore(fileURL: StorageLocations.production().providersFile)
             chat = SessionChatModel(
                 folderURL: summary.folderURL,
@@ -391,6 +394,11 @@ final class RecordingFlowModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
         phase = .finished
+    }
+
+    func saveNotes() {
+        guard let folder else { return }
+        try? notesText.write(to: folder.appendingPathComponent("notas.md"), atomically: true, encoding: .utf8)
     }
 
     func showSession() {
@@ -673,6 +681,18 @@ struct RecordingPanel: View {
                 }
             case .preparation:
                 EmptyView()
+            }
+            if model.phase == .recording {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Mis notas").font(.caption.bold()).foregroundStyle(.secondary)
+                    TextEditor(text: Binding(
+                        get: { model.notesText },
+                        set: { model.notesText = $0; model.saveNotes() }
+                    ))
+                    .frame(height: 70)
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.secondary.opacity(0.3)))
+                }
+                .frame(maxWidth: 520)
             }
             if let chat = model.chat { ChatBar(model: chat) }
         }

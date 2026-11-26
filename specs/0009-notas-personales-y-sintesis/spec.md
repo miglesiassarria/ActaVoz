@@ -1,6 +1,6 @@
 # 0009 · Notas personales y síntesis
 
-- **Estado:** design
+- **Estado:** done
 - **Creada:** 2026-11-22
 - **Aprobación:** aprobada
 - **Aprobada por:** persona usuaria
@@ -8,7 +8,7 @@
 
 ## Problema
 
-Conservar notas editables y generar una síntesis independiente que combine notas y reunión.
+Conservar notas editables y generar una síntesis separada que combine notas y reunión.
 
 ## Comportamiento esperado
 
@@ -18,14 +18,14 @@ La persona escribe notas durante o después de la sesión y puede generar una s�
 
 | # | Criterio observable | Verificación reproducible | Resultado final |
 | --- | --- | --- | --- |
-| AC1 | **Vistas:** Cada sesión ofrece Mis notas y Resumen separados; notas editables durante y después de la sesión. | Editar notas durante captura y tras finalizar; navegar entre vistas. | pendiente |
-| AC2 | **Guardado:** Guardar cambios de notas automáticamente y conservarlos tras reabrir. | Editar, cerrar y reabrir, verificando texto. | pendiente |
-| AC3 | **Síntesis:** Botón Generar síntesis combina notas y acta/resumen y muestra resultado al final de Mis notas, identificado como generado por IA. | Con notas y resumen ficticios generar con proveedor simulado e inspeccionar entradas y presentación. | pendiente |
-| AC4 | **Actualización:** Al cambiar notas o resumen indicar que síntesis puede actualizarse; acción Actualizar síntesis reemplaza anterior. | Generar, modificar cada fuente por separado y comprobar aviso y sustitución. | pendiente |
-| AC5 | **Separación:** Regenerar resumen principal no modifica notas; eliminar síntesis tras confirmación conserva notas, transcripción y resumen. | Realizar ambas operaciones y verificar contenidos restantes. | pendiente |
-| AC6 | **Resumen necesario:** si no existe el resumen principal, indicar que debe generarse antes de crear la síntesis. | Abrir una sesión sin resumen, solicitar la síntesis y comprobar el mensaje y que no se genera. | pendiente |
-| AC7 | **Edición de síntesis:** permitir editar la síntesis; al actualizarla, la nueva sustituye a la anterior, incluidas sus ediciones manuales. | Editar una síntesis, actualizarla con un proveedor simulado y comprobar la sustitución. | pendiente |
-| AC8 | **Modelo de síntesis:** usar el modelo asignado a resúmenes o, si no existe uno específico, el modelo principal. | Generar una síntesis con y sin modelo específico para resúmenes y verificar el modelo recibido por el proveedor simulado. | pendiente |
+| AC1 | **Vistas:** Cada sesión ofrece Mis notas y Resumen separados; notas editables durante y después de la sesión. | Editar notas durante captura y tras finalizar; navegar entre vistas. | cumplido: Mis notas editable en directo y después |
+| AC2 | **Guardado:** Guardar cambios de notas automáticamente y conservarlos tras reabrir. | Editar, cerrar y reabrir, verificando texto. | cumplido: guardado automático y reapertura |
+| AC3 | **Síntesis:** Botón Generar síntesis combina notas y acta/resumen y muestra resultado al final de Mis notas, identificado como generado por IA. | Con notas y resumen ficticios generar con proveedor simulado e inspeccionar entradas y presentación. | cumplido: síntesis combina notas y resumen, marcada como IA |
+| AC4 | **Actualización:** Al cambiar notas o resumen indicar que síntesis puede actualizarse; acción Actualizar síntesis reemplaza anterior. | Generar, modificar cada fuente por separado y comprobar aviso y sustitución. | cumplido: aviso de actualización y sustitución |
+| AC5 | **Separación:** Regenerar resumen principal no modifica notas; eliminar síntesis tras confirmación conserva notas, transcripción y resumen. | Realizar ambas operaciones y verificar contenidos restantes. | cumplido: regenerar resumen no toca notas; borrar síntesis conserva fuentes |
+| AC6 | **Resumen necesario:** si no existe el resumen principal, indicar que debe generarse antes de crear la síntesis. | Abrir una sesión sin resumen, solicitar la síntesis y comprobar el mensaje y que no se genera. | cumplido: sin resumen no genera y avisa |
+| AC7 | **Edición de síntesis:** permitir editar la síntesis; al actualizarla, la nueva sustituye a la anterior, incluidas sus ediciones manuales. | Editar una síntesis, actualizarla con un proveedor simulado y comprobar la sustitución. | cumplido: edición y sustitución de síntesis |
+| AC8 | **Modelo de síntesis:** usar el modelo asignado a resúmenes o, si no existe uno específico, el modelo principal. | Generar una síntesis con y sin modelo específico para resúmenes y verificar el modelo recibido por el proveedor simulado. | cumplido: modelo de resúmenes o principal |
 
 ## Decisiones previas a aprobación
 

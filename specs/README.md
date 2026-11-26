@@ -11,9 +11,9 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | [0005](0005-transcripcion-local-y-participantes/spec.md) | Transcripción local y participantes | `done` | — | Transcripción, diarización, perfiles y correcciones; 116 pruebas |
 | [0006](0006-proveedores-modelos-y-credenciales/spec.md) | Proveedores modelos y credenciales | `build` | Completar consumo en 0007/0008/0009 y verificación UI | Catálogo y clientes listos; AC de consumo parciales |
 | [0007](0007-chat-de-sesion-y-consultas/spec.md) | Chat de sesión y consultas | `done` | — | Panel, cola, historial y contexto completo; 132 pruebas |
-| [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
-| [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
-| [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
+| [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `done` | — | Plantillas, generación atómica y edición; pruebas |
+| [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `done` | — | Notas en directo, síntesis y fuentes; pruebas |
+| [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `done` | — | Reproducción, exportación y copia; pruebas |
 | [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `design` | Revisar diseño y resolver dependencias antes de build | Diseño y tareas propuestos |
 | [0012](0012-viabilidad-captura-transcripcion-y-voz-local/spec.md) | Viabilidad captura transcripción y voz local | `superseded` | — | Evidencia completa de captura, ASR, diarización y perfiles; límites de idioma/nombres pasan a 0005 |
 | [0013](0013-viabilidad-proveedores-contexto-y-oauth/spec.md) | Viabilidad proveedores contexto y OAuth | `superseded` | — | OAuth no disponible para terceros; 0006 usa claves, Ollama y genérico |
