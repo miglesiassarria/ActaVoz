@@ -1,0 +1,10 @@
+ActaVoz 0.1.0 beta 1 — instalación
+
+1. Abre el DMG y arrastra ActaVoz a Aplicaciones.
+2. Intenta abrir ActaVoz. macOS bloqueará la app porque no está notarizada.
+3. Ve a Ajustes del Sistema > Privacidad y seguridad y pulsa "Abrir igualmente".
+4. Alternativa de terminal, solo si confías en el archivo:
+   xattr -dr com.apple.quarantine /Applications/ActaVoz.app
+5. Abre ActaVoz y concede micrófono y audio del sistema.
+
+Esta es una beta firmada ad-hoc, no notarizada. No se garantiza estabilidad ni ausencia de cambios incompatibles. Comprueba el SHA256 publicado en la release.

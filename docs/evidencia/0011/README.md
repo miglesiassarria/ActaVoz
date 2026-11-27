@@ -32,3 +32,13 @@ Fecha: 2026-11-26. Hardware: Apple M5 Pro, 48 GB, macOS 27.2.1.
 - La app cargó la biblioteca, abrió una sesión y respondió a una pregunta usando qwen3.6 local; no hubo red externa.
 - La respuesta tardó unos 15 s; no se usa como umbral.
 - Se corrigió el prompt de chat para una sola instrucción de sistema, compatible con la plantilla de Ollama.
+
+## Beta ad-hoc B1 (2026-11-27)
+
+- Build Release ad-hoc: Signature=adhoc, TeamIdentifier=not set.
+- codesign --verify --deep --strict: correcto.
+- DMG: build/ActaVoz-0.1.0-beta.1.dmg; hdiutil verify correcto.
+- SHA256: 7bb3a1baf2063681d573dec0a216125b994559bc95fca26cca91e2f36a36c849.
+- spctl: rejected (esperado; no notarizado).
+- Contenido: ActaVoz.app + INSTALAR.txt.
+- Release GitHub: prerelease v0.1.0-beta.1.

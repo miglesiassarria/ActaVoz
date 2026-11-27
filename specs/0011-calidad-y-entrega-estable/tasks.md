@@ -1,19 +1,27 @@
-# 0011 · Tareas: Calidad y entrega
+# 0011 · Tareas: Calidad y entrega beta
 
-Estado: blocked.
+Estado: done. Vía B1 aprobada por la persona usuaria.
 
 - [x] **T1. Evaluación funcional y técnica**
-  - Objetivo: AC1–AC4.
+  - Objetivo: AC1–AC4 y AC7.
   - Evidencia:
-    - Método: 145 pruebas, build Release, DMG, métricas de 0012.
-    - Resultado: build y pruebas correctos; cobertura funcional; latencia/semántica nueva parcial.
-    - Fecha: 2026-11-26.
-    - Commit: pendiente de este commit.
+    - Método: 147 pruebas, build Release, métricas de 0012 y prueba offline con Ollama.
+    - Resultado: cobertura funcional, red externa denegada y consulta local respondida.
+    - Fecha: 2026-11-27.
+    - Commit: beta ad-hoc.
 
-- [ ] **T2. Umbrales**
+- [x] **T2. Métricas beta**
   - Objetivo: AC5.
-  - Bloqueado: no hay umbrales aprobados por la persona usuaria.
+  - Evidencia:
+    - Método: documentar métricas, límites y ausencia de SLA.
+    - Resultado: release beta; no se declara estabilidad.
+    - Fecha: 2026-11-27.
+    - Commit: beta ad-hoc.
 
-- [ ] **T3. Entrega estable e integración offline**
+- [x] **T3. Entrega ad-hoc e integración offline**
   - Objetivo: AC6–AC7.
-  - Bloqueado: no hay Developer ID ni credenciales de notarización; el DMG ad-hoc es rechazado por spctl. El recorrido offline completo con modelo local no está certificado.
+  - Evidencia:
+    - Método: DMG ad-hoc, codesign, hdiutil verify, spctl esperado, SHA256 y prerelease GitHub.
+    - Resultado: artefacto publicado como beta; Gatekeeper documentado.
+    - Fecha: 2026-11-27.
+    - Commit: beta ad-hoc.

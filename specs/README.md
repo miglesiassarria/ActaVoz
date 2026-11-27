@@ -14,7 +14,7 @@ Cada cambio sustancial vive en `specs/NNNN-slug/` y sigue el flujo de [docs/sdd.
 | [0008](0008-resumenes-y-plantillas/spec.md) | Resúmenes y plantillas | `done` | — | Plantillas, generación atómica y edición; pruebas |
 | [0009](0009-notas-personales-y-sintesis/spec.md) | Notas personales y síntesis | `done` | — | Notas en directo, síntesis y fuentes; pruebas |
 | [0010](0010-exportacion-y-reproduccion/spec.md) | Exportación y reproducción | `done` | — | Reproducción, exportación y copia; pruebas |
-| [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `blocked` | Requiere Developer ID/notarización y umbrales aprobados | DMG ad-hoc generado; spctl rechaza; 145 pruebas |
+| [0011](0011-calidad-y-entrega-estable/spec.md) | Calidad y entrega estable | `done` | — | Beta ad-hoc por GitHub aprobada (B1); DMG, SHA256 y límites documentados |
 | [0012](0012-viabilidad-captura-transcripcion-y-voz-local/spec.md) | Viabilidad captura transcripción y voz local | `superseded` | — | Evidencia completa de captura, ASR, diarización y perfiles; límites de idioma/nombres pasan a 0005 |
 | [0013](0013-viabilidad-proveedores-contexto-y-oauth/spec.md) | Viabilidad proveedores contexto y OAuth | `superseded` | — | OAuth no disponible para terceros; 0006 usa claves, Ollama y genérico |
 <!-- spec-driven-development:index-end -->
