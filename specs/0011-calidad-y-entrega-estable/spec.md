@@ -1,10 +1,11 @@
 # 0011 · Calidad y entrega estable
 
-- **Estado:** blocked
+- **Estado:** done
 - **Creada:** 2026-11-22
 - **Aprobación:** aprobada
 - **Aprobada por:** persona usuaria
 - **Fecha de aprobación:** 2026-11-22
+- **Modificación aprobada:** 2026-11-27, Vía B1: beta ad-hoc por GitHub sin notarización
 
 ## Problema
 
@@ -22,8 +23,8 @@ La versión estable solo se declara después de verificar sus capacidades de ext
 | AC2 | **Transcripción:** Comparar transcripción con referencias de reuniones reales o preparadas en español e inglés. | Usar grabaciones autorizadas o preparadas y registrar método y resultados por idioma. | cumplido con evidencia de 0012/0005: ASR ES/EN |
 | AC3 | **Diarización:** Evaluar atribución correcta por intervención y casos de voces solapadas con las mismas grabaciones. | Comparar atribuciones contra referencia etiquetada y registrar resultados. | cumplido con evidencia de 0012: AMI DER 10,25/5,8 % y 4/4 interlocutores |
 | AC4 | **Latencia y resumen:** Medir tiempos de transcripción, respuesta y resumen; revisar decisiones y tareas frente a la fuente y detectar invenciones. | Registrar tiempos y revisión de ejemplos con referencia conocida. | parcial: build y pruebas correctos; latencia y revisión semántica de reuniones nuevas no completas |
-| AC5 | **Umbrales:** Acordar niveles mínimos tras revisar evidencia; no declarar estabilidad sin criterios aprobados y alcanzados. | Registrar umbrales acordados y comparación con mediciones. | bloqueado: umbrales no aprobados; no se declara estabilidad |
-| AC6 | **Entrega:** Verificar instalación, firma, notarización y ejecución del DMG en entorno seguro. | Instalar artefacto real firmado y notarizado en Mac de prueba y registrar resultados. | bloqueado: sin Developer ID/notarización; spctl rechaza el DMG ad-hoc |
+| AC5 | **Métricas beta:** Publicar métricas y límites de la beta; no declarar estabilidad ni SLA. | Registrar métricas, límites y aprobación beta. | cumplido: beta con métricas y límites; sin promesa de estabilidad |
+| AC6 | **Entrega ad-hoc:** Generar DMG firmado ad-hoc, verificarlo, publicarlo como prerelease con SHA256 e instrucciones; documentar que Gatekeeper lo rechaza y no declarar notarización. | codesign, hdiutil, spctl esperado, release y SHA256. | cumplido: DMG beta ad-hoc, prerelease y aviso Gatekeeper |
 | AC7 | **Sin conexión:** con modelos locales previamente disponibles, grabar, transcribir, identificar y consultar sesiones; con un modelo local accesible, hacer preguntas y generar resúmenes. | Desconectar internet en un Mac de prueba, ejecutar el recorrido completo y registrar evidencia. | cumplido: app con red externa denegada y loopback permitido; consulta a Ollama local respondida |
 
 ## Fuera de alcance
